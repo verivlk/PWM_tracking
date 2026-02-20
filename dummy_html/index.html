@@ -6,6 +6,7 @@
   <meta name="keywords" content="HTML5, tracking">
   <title>Tracking app</title>
   <link rel="stylesheet" type="text/css" href="/dummy_html/styles/default.css">
+  <link rel="stylesheet" type="text/css" href="/dummy_html/styles/main_dashboard.css">
 </head>
 <body>
 <div id="wrapper">
@@ -23,47 +24,64 @@
       </button>
     </nav>
   </header>
-  <section id="main_section">
-    <article>
-      <header>
-        <hgroup>
-          <h1>Title of post One</h1>
-          <h2>subtitle of the post One</h2>
-        </hgroup>
-        <time datetime="2014-12-10" pubdate>posted 12-10-2014</time>
-      </header>
-      This is the text of my first post
+  <main>
+
+    <!-- LEFT: Workers Panel -->
+    <aside id="workers-panel">
+
+      <!-- Search -->
+      <search>
+        <input type="search" placeholder="Value" />
+        <button type="submit" aria-label="Search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+      </search>
+
+      <!-- Worker List -->
+      <section id="worker-list">
+
+        <article class="worker-row">
+          <h3>Lorem Ipsum</h3>
+          <mark class="status active" aria-label="Active">&#10003;</mark>
+          <button class="expand" aria-label="Expand">&#9660;</button>
+        </article>
+
+        <article class="worker-row">
+          <h3>Lorem Ipsum</h3>
+          <mark class="status inactive" aria-label="Inactive">&#10007;</mark>
+          <button class="expand" aria-label="Expand">&#9660;</button>
+        </article>
+
+        <article class="worker-row">
+          <h3>Lorem Ipsum</h3>
+          <mark class="status active" aria-label="Active">&#10003;</mark>
+          <button class="expand" aria-label="Expand">&#9660;</button>
+        </article>
+
+        <article class="worker-row">
+          <h3>Lorem Ipsum</h3>
+          <mark class="status active" aria-label="Active">&#10003;</mark>
+          <button class="expand" aria-label="Expand">&#9660;</button>
+        </article>
+
+      </section>
+
+    </aside>
+
+    <!-- RIGHT: Map -->
+    <section id="map-panel">
       <figure>
-        <img src="bosques-gallegos.jpg" width="400">
-        <figcaption>
-          this is the image of the first post
-        </figcaption>
+        <figcaption>Map</figcaption>
       </figure>
-      <footer>
-        <p>comments (0)</p>
-      </footer>
-    </article>
-    <article>
-      <header>
-        <hgroup>
-          <h1>Title of post Two</h1>
-          <h2>subtitle of the post Two</h2>
-        </hgroup>
-        <time datetime="2014-12-15" pubdate>posted 12-15-2014</time>
-      </header>
-      This is the text of my second post
-      <footer>
-        <p>comments (0)</p>
-      </footer>
-    </article>
-  </section>
-  <aside id="main_aside">
-    <blockquote>Quotation from article number one</blockquote>
-    <blockquote>Quotation from article number two</blockquote>
-  </aside>
-  <footer id="main_footer">
-    Copyright &copy; 2014
-  </footer>
+    </section>
+
+  </main>
+    <footer id="main_footer">
+        Copyright &copy; 2026
+        <button type="button">Button</button>
+    </footer>
 </div>
 </body>
 </html>
