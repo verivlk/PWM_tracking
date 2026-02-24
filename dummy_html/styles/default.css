@@ -67,10 +67,18 @@ body {
 }
 
 #main_footer {
-    clear: both;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* push items to edges */
     padding: 20px;
     border-top: 2px solid #999999;
+    clear: both;
+    text-align: center;
+    border-top: 2px solid #999999;
+}
+
+#copyright {
+    margin: 0 auto;
 }
 
 article {
@@ -90,7 +98,7 @@ figcaption {
 }
 
 div {
-    width: 100px;
+    /*width: 100px;*/
     margin: 20px;
     padding: 10px;
     /*border: 1px solid #000000;*/

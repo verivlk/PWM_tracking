@@ -74,7 +74,7 @@ article.worker-row h3 {
 }
 
 article.worker-row mark.status {
-    font-size: 1rem;
+    font-size: 1.25rem;
     width: 24px;
     text-align: center;
     background: none;
@@ -84,7 +84,7 @@ article.worker-row mark.active   { color: #27ae60; }
 article.worker-row mark.inactive { color: #e74c3c; }
 
 article.worker-row button.expand {
-    background: #bbb;
+    background: #e0e0e0;
     border: none;
     border-radius: 3px;
     width: 26px;
@@ -92,8 +92,11 @@ article.worker-row button.expand {
     cursor: pointer;
     display: grid;
     place-items: center;
+
     color: #333;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+    line-height: 1;         /* ensures vertical centering */
+    padding: 0;
 }
 
 article.worker-row button.expand:hover { background: #aaa; }
