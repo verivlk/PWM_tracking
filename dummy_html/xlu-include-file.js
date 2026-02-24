@@ -1,43 +1,67 @@
 // https://stackoverflow.com/questions/40162907/w3includehtml-sometimes-includes-twice
-/*
-function xLuIncludeFile() {
-    let z, i, a, file, xhttp;
-
-    z = document.getElementsByTagName("*");
-
-    for (i = 0; i < z.length; i++) {
-        if (z[i].getAttribute("xlu-include-file")) {
-            a = z[i].cloneNode(false);
-            file = z[i].getAttribute("xlu-include-file");
-            xhttp = new XMLHttpRequest();
-
-            xhttp.onreadystatechange = function () {
-                if (xhttp.readyState === 4 && xhttp.status === 200) {
-                    a.removeAttribute("xlu-include-file");
-                    a.innerHTML = xhttp.responseText;
-                    z[i].parentNode.replaceChild(a, z[i]);
-                    xLuIncludeFile();
-                }
-            }
-
-            // false makes the send operation synchronous, which solves a problem
-            // when using this function in short pages with Chrome. But it is
-            // deprecated on the main thread due to its impact on responsiveness.
-            // This call may end up throwing an exception someday.
-
-            xhttp.open("GET", file, false);
-            xhttp.send();
-
-            return;
-        }
-    }
-}
-*/
 
 async function xLuIncludeFile() {
-    let z = document.getElementsByTagName("*");
+    let elements = document.querySelectorAll("[xlu-include-file]");
+    while (elements.length > 0) {
+        // Process elements in order
+        for (const el of elements) {
+            const file = el.getAttribute("xlu-include-file");
+            try {
+                const res = await fetch(file);
+                if (!res.ok) throw new Error("File not found: " + file);
 
-    for (let i = 0; i < z.length; i++) {
+                el.innerHTML = await res.text();
+                el.removeAttribute("xlu-include-file");
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        // Re-query the DOM for any new nested includes
+        elements = document.querySelectorAll("[xlu-include-file]");
+    }
+/*
+    const el = document.querySelector("[xlu-include-file]");
+    if (!el) return; // no more includes
+
+    const file = el.getAttribute("xlu-include-file");
+    try {
+        const res = await fetch(file);
+        if (!res.ok) throw new Error("File not found: " + file);
+
+        el.innerHTML = await res.text();
+        el.removeAttribute("xlu-include-file");
+
+        // Recursive call to process nested includes
+        await xLuIncludeFile();
+    } catch (err) {
+        console.error(err);
+    }
+*/
+
+    // let z = document.getElementsByTagName("*");
+
+/*
+    const elements = document.querySelectorAll("[xlu-include-file]");
+    if (elements.length === 0) return; // nothing to include
+    for (const el of elements) {
+        const file = el.getAttribute("xlu-include-file");
+        try {
+            const response = await fetch(file);
+            if (!response.ok) throw new Error("File not found: " + file);
+
+            const html = await response.text();
+            el.innerHTML = html;
+            el.removeAttribute("xlu-include-file");
+        } catch (err) {
+            console.error(err);
+        }
+    }
+*/
+
+    // Recursively call to handle nested includes
+    // (wait a tiny bit to ensure DOM is updated)
+    // setTimeout(xLuIncludeFile, 0);
+    /*for (let i = 0; i < z.length; i++) {
         if (z[i].getAttribute("xlu-include-file")) {
             let a = z[i].cloneNode(false);
             let file = z[i].getAttribute("xlu-include-file");
@@ -54,7 +78,7 @@ async function xLuIncludeFile() {
 
                         content = replaceArticleTemplatePlaceholders(content, z[i]);
 
-                        /*
+                        /!*
                         let articleData = {
                             title: z[i].getAttribute("data-title"),
                             subtitle: z[i].getAttribute("data-subtitle"),
@@ -73,7 +97,7 @@ async function xLuIncludeFile() {
                             .replace(/{{image}}/g, articleData.image || '')
                             .replace(/{{imageCaption}}/g, articleData.imageCaption || '');
 
-                        */
+                        *!/
                     }
 
 
@@ -90,7 +114,8 @@ async function xLuIncludeFile() {
 
             return;
         }
-    }
+
+    }*/
 }
 
 
@@ -144,4 +169,4 @@ function redirectToArticle(event, element) {
     window.location.href = "article.html?" + params.toString();
 }
 
-
+document.addEventListener("DOMContentLoaded", xLuIncludeFile);
