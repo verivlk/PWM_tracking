@@ -1,24 +1,58 @@
 // https://stackoverflow.com/questions/40162907/w3includehtml-sometimes-includes-twice + ChatGPT
 
-async function xLuIncludeFile() {
-    let elements = document.querySelectorAll("[xlu-include-file]");
-    while (elements.length > 0) {
-        // Process elements in order
-        for (const el of elements) {
-            const file = el.getAttribute("xlu-include-file");
-            try {
-                const res = await fetch(file);
-                if (!res.ok) throw new Error("File not found: " + file);
+// Pomocnicza funkcja rekurencyjna obsługująca zagnieżdżenia i relatywne ścieżki
+async function processIncludes(parentElement, baseURL) {
+    const elements = parentElement.querySelectorAll("[xlu-include-file]");
+    
+    for (const el of elements) {
+        const file = el.getAttribute("xlu-include-file");
+        try {
+            const fetchUrl = new URL(file, baseURL).href;
+            
+            const res = await fetch(fetchUrl);
+            if (!res.ok) throw new Error("File not found: " + fetchUrl);
 
-                el.innerHTML = await res.text();
-                el.removeAttribute("xlu-include-file");
-            } catch (err) {
-                console.error(err);
+            let content = await res.text();
+
+            // --- MAGIA NAPRAWIANIA ŚCIEŻEK ---
+            // Tworzymy tymczasowy parser, żeby przejrzeć pobrany HTML
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(content, 'text/html');
+            
+            // Naprawiamy wszystkie href i src w pobranym fragmencie
+            // Używamy fetchUrl (folderu szablonu) jako bazy
+            const folderBase = fetchUrl.substring(0, fetchUrl.lastIndexOf("/") + 1);
+
+            doc.querySelectorAll("[href], [src]").forEach(link => {
+                const attr = link.hasAttribute("href") ? "href" : "src";
+                const oldVal = link.getAttribute(attr);
+
+                // Naprawiamy tylko ścieżki relatywne (nie dotykamy http:// ani /)
+                if (oldVal && !oldVal.startsWith("http") && !oldVal.startsWith("/") && !oldVal.startsWith("#")) {
+                    const absoluteUrl = new URL(oldVal, folderBase).pathname;
+                    link.setAttribute(attr, absoluteUrl);
+                }
+            });
+
+            // Podmieniamy placeholdery (Twoja funkcja)
+            content = doc.body.innerHTML;
+            if (el.hasAttribute("data-title")) { 
+                content = replaceArticleTemplatePlaceholders(content, el);
             }
+
+            el.innerHTML = content;
+            el.removeAttribute("xlu-include-file");
+
+            // Rekurencja dla zagnieżdżonych plików
+            await processIncludes(el, fetchUrl);
+            
+        } catch (err) {
+            console.error("Błąd wczytywania szablonu:", err);
         }
-        // Re-query the DOM for any new nested includes
-        elements = document.querySelectorAll("[xlu-include-file]");
     }
+}
+async function xLuIncludeFile() {
+    await processIncludes(document, document.baseURI);
 }
 
 

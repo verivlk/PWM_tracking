@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireframe Page Layout</title>
+    <script src="../xlu-include-file.js"></script>
+    <style>
+        /* CSS Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #ffffff;
+        }
+
+        /* Generic UI Elements */
+        .btn {
+            background-color: #333333;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #555555;
+        }
+
+        /* Wrapper */
+        #wrapper {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            border: 2px solid #333; /* Outer border to match the image canvas */
+        }
+
+        /* Header */
+        #main_header {
+            background-color: #d9d9d9;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #main_menu ul {
+            display: flex;
+            list-style: none;
+            gap: 60px;
+        }
+
+        #main_menu li {
+            font-size: 24px;
+            color: #000;
+        }
+
+        /* Main Content Area */
+        main {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Left Panel */
+        #left-panel {
+            flex: 1.2;
+            background-color: #ffffff;
+            padding: 60px 40px;
+        }
+
+        .settings-box {
+            border: 2px solid #0088ff; /* Blue border from the wireframe */
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .text-group .label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .text-group .description {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        /* CSS Toggle Switch */
+        .toggle {
+            width: 44px;
+            height: 22px;
+            background-color: #333;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            right: 2px;
+            top: 2px;
+            width: 18px;
+            height: 18px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        .setting-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            margin-top: 20px;
+        }
+        
+        .setting-footer span {
+            font-size: 14px;
+        }
+
+        /* Right Panel */
+        #right-panel {
+            flex: 1;
+            background-color: #d9d9d9;
+            padding: 60px 40px;
+        }
+
+        #right-panel h2 {
+            font-size: 16px;
+            font-weight: 900;
+            color: #000;
+            text-transform: uppercase;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<div id="wrapper">
+    <header id="main_header" xlu-include-file="../templates/header.html">
+    </header>
+
+    <main>
+        <section id="left-panel">
+            <div class="settings-box">
+                <div class="setting-item" xlu-include-file="../templates/setting-item.html"></div>
+                <div class="setting-item" xlu-include-file="../templates/setting-item.html"></div>
+                <div class="setting-item" xlu-include-file="../templates/setting-item.html"></div>
+                <div class="setting-button" xlu-include-file="../templates/setting-button.html"></div>
+            </div>
+        </section>
+
+        <aside id="right-panel">
+            <h2>LOREM IPSUM</h2>
+        </aside>
+    </main>
+
+    <footer id="main_footer" xlu-include-file="../templates/footer.html"></footer>
+</div>
+    <script>
+        xLuIncludeFile();
+    </script>
+</body>
+</html>
