@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="An app for tracking employees">
+    <meta name="keywords" content="HTML5, tracking">
+    <title>Tracking app</title>
+    <script src="/dummy_html/xlu-include-file.js"></script>
+    <link rel="stylesheet" type="text/css" href="/dummy_html/styles/default.css">
+    <link rel="stylesheet" type="text/css" href="/dummy_html/styles/dashboard.css">
+</head>
+<body>
+    <div id="wrapper">
+        <header id="main_header" xlu-include-file="templates/header.html">
+        </header>
+        <main>
+
+            <!-- LEFT: Workers Panel -->
+            <aside id="workers-panel" xlu-include-file="templates/workers-panel.html">
+            </aside>
+
+            <!-- RIGHT: Map -->
+            <section id="map-panel" xlu-include-file="templates/map.html">
+            </section>
+
+        </main>
+        <footer id="main_footer" xlu-include-file="templates/footer.html">
+        </footer>
+    </div>
+    <script>
+        xLuIncludeFile();
+    </script>
+
+</body>
+</html>
