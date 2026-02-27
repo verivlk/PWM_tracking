@@ -31,7 +31,7 @@ body {
     background: #FFFBB9;
     /*border: 1px solid #999999;*/
     padding: 0;
-
+    text-align: center;
 }
 
 #main_header h1 {
@@ -108,3 +108,21 @@ div {
     box-sizing: border-box;
 }
 
+button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Footer */
+footer#main_footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 16px 20px;
+    background-color: #e0e0e0;
+}

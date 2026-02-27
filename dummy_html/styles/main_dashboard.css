@@ -170,26 +170,6 @@ section#map-panel figcaption {
     z-index: 1;
 }
 
-/* Footer */
-footer#main_footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 16px 20px;
-    background-color: #e0e0e0;
-}
-
-/* Button */
-button {
-    background-color: #000;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 24px;
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-
 button.btn-primary:hover {
     background-color: #333;
 }

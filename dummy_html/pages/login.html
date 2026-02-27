@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="An app for tracking employees">
+    <meta name="keywords" content="HTML5, tracking">
+    <title>Login</title>
+    <script src="../xlu-include-file.js"></script>
+    <link rel="stylesheet" type="text/css" href="/dummy_html/styles/default.css">
+    <link rel="stylesheet" type="text/css" href="/dummy_html/styles/login.css">
+<!--    <link rel="stylesheet" type="text/css" href="/dummy_html/styles/main_dashboard.css">-->
+
+</head>
+<body>
+    <div id="wrapper">
+        <header id="main_header" xlu-include-file="/dummy_html/templates/header.html">
+        </header>
+        <main>
+            <div class="login-container">
+                <div class="login-box">
+                    <h2>Login</h2>
+                    <form>
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter username" required>
+
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter password" required>
+
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <footer id="main_footer" xlu-include-file="/dummy_html/templates/footer.html">
+        </footer>
+    </div>
+    <script>
+        xLuIncludeFile();
+    </script>
+
+</body>
+</html>
