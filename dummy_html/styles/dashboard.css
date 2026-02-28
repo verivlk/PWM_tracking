@@ -1,10 +1,8 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Arial, sans-serif; background: #f5f5f5; }
 
 /* ── MAIN LAYOUT ── */
 main {
     display: flex;
-    height: 100vh;
+    /* height: 100vh; */
 }
 
 /* ── LEFT: ASIDE (workers panel) ── */
@@ -92,6 +90,3 @@ section#map-panel figcaption {
     z-index: 1;
 }
 
-button.btn-primary:hover {
-    background-color: #333;
-}

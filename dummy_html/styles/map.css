@@ -9,3 +9,26 @@ section#map-panel {
     display: grid;
     place-items: center;
 }
+
+section#map-panel::before,
+section#map-panel::after {
+    content: '';
+    position: absolute;
+    background: #bbb;
+    width: 141%;
+    height: 1px;
+    top: 50%;
+    left: -20%;
+}
+
+section#map-panel::before { transform: rotate(34deg); }
+section#map-panel::after  { transform: rotate(-34deg); }
+
+section#map-panel figcaption {
+    color: #aaa;
+    font-size: 0.85rem;
+    background: #e0e0e0;
+    padding: 4px 10px;
+    position: relative;
+    z-index: 1;
+}
