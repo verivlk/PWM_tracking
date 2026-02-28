@@ -29,14 +29,30 @@
 }
 
 #main_header {
-    background: #FFFBB9;
+    background: var(--primary-background-color);
     /*border: 1px solid #999999;*/
     padding: 0;
     text-align: center;
 }
 
+
 #main_header h1 {
     padding: 20px;
 }
 
+.menu_item {
+    background-color: var(--primary-button-color);
+    color: var(--light-text-color);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
+}
+.menu_item:hover {
+    background: var(--primary-button-hover-color);
+}
 

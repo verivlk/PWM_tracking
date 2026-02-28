@@ -1,3 +1,10 @@
+:root {
+    --primary-background-color: #3C74DF;
+    --primary-button-color: #01239f;
+    --primary-button-hover-color: #95b2ed;
+    --light-text-color: #ffffff;
+    --border-radius: 6px;
+}
 
 * {
     margin: 0px;

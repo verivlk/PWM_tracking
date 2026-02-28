@@ -20,13 +20,13 @@ aside#workers-panel {
 .search-wrapper {
     display: flex;
     align-items: center;
-    gap: 5px;       /* mezera mezi label, input a button */
-    width: 100%;    /* wrapper zabírá celou šířku */
-    /*max-width: 500px; !* volitelné omezení *!*/
+    gap: 5px;       /* space between label, input and button */
+    width: 100%;
+    max-width: 500px;
 }
 
 .search-wrapper label {
-    flex: 0 0 auto;  /* label zůstane na své šířce vlevo */
+    flex: 0 0 auto;  /* label stays on the left */
 }
 
 .search-wrapper input {
@@ -43,13 +43,18 @@ aside#workers-panel {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000;           /* ← DŮLEŽITÉ */
+    color: #000;
     background: #bbb;
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    font-size: 42px;
+    vertical-align: center;
 }
 
+.icon-btn span {
+    transform: translateY(-5px); /* optical fix - search in the middle */
+}
 
 /* Worker list */
 section#worker-list {
