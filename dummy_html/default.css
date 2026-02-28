@@ -28,59 +28,6 @@ body {
     border: 1px solid #999999;
 }
 
-#main_header {
-    background: #FFFBB9;
-    /*border: 1px solid #999999;*/
-    padding: 0;
-    text-align: center;
-}
-
-#main_header h1 {
-    padding: 20px;
-}
-
-#main_menu {
-    background: #CCCCCC;
-    padding: 5px 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
-}
-#main_menu li {
-    display: inline-block;
-    list-style: none;
-    padding: 5px;
-    font: bold 14px verdana, sans-serif;
-}
-
-#main_section {
-    float: left;
-    width: 660px;
-    margin: 20px;
-}
-#main_aside {
-    float: left;
-    width: 220px;
-    margin: 20px 0px;
-    padding: 20px;
-    background: #CCCCCC;
-}
-
-#main_footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* push items to edges */
-    padding: 20px;
-    border-top: 2px solid #999999;
-    clear: both;
-    text-align: center;
-    border-top: 2px solid #999999;
-}
-
-#copyright {
-    margin: 0 auto;
-}
 
 article {
     background: #FFFBCC;
@@ -117,16 +64,12 @@ button, .btn {
     padding: 10px 24px;
     font-size: 0.9rem;
     cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
 }
 button:hover, .btn:hover {
     background: #555;
-}
-
-.btn {
-    display: inline-block;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
 }
 
 /* Footer */

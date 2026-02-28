@@ -1,0 +1,42 @@
+#main_menu {
+    background: #CCCCCC;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+}
+#main_menu li {
+    display: inline-block;
+    list-style: none;
+    padding: 5px;
+    font: bold 14px verdana, sans-serif;
+}
+
+#main_footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 20px;
+    border-top: 2px solid #999999;
+    clear: both;
+    text-align: center;
+    border-top: 2px solid #999999;
+}
+
+#copyright {
+    margin: 0 auto;
+}
+
+#main_header {
+    background: #FFFBB9;
+    /*border: 1px solid #999999;*/
+    padding: 0;
+    text-align: center;
+}
+
+#main_header h1 {
+    padding: 20px;
+}
+
+

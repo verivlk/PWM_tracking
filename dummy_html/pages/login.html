@@ -6,25 +6,25 @@
     <meta name="keywords" content="HTML5, tracking">
     <title>Login</title>
     <script src="../xlu-include-file.js"></script>
-    <link rel="stylesheet" type="text/css" href="../styles/default.css">
+    <link rel="stylesheet" type="text/css" href="../default.css">
     <link rel="stylesheet" type="text/css" href="../styles/login.css">
-<!--    <link rel="stylesheet" type="text/css" href="/dummy_html/styles/dashboard.css">-->
+    <link rel="stylesheet" type="text/css" href="../templates/common/common.css">
 
 </head>
 <body>
     <div id="wrapper">
-        <header id="main_header" xlu-include-file="../templates/header.html">
+        <header  xlu-include-file="../templates/common/header.html">
         </header>
         <main>
             <div class="login-container">
                 <div class="login-box">
                     <h2>Login</h2>
                     <form>
-                        <label for="username">Username</label>
-                        <input type="text" id="username" placeholder="Enter username" required>
+                        <div xlu-include-file="../templates/lists/input-space.html"></div>
 
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter password" required>
+                        <div xlu-include-file="../templates/lists/input-space.html"></div>
+                        <!-- <label for="password">Password</label> -->
+                        <!-- <input type="password" id="password" placeholder="Enter password" required> -->
 
 <!--                        <button type="submit">Login</button>-->
                         <a href="dashboard.html" class="btn">Login</a>
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </main>
-        <footer id="main_footer" xlu-include-file="../templates/footer.html">
+        <footer xlu-include-file="../templates/common/footer.html">
         </footer>
     </div>
     <script>
