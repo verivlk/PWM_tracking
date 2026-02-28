@@ -10,16 +10,23 @@
     <link rel="stylesheet" type="text/css" href="../styles/dashboard.css">
     <link rel="stylesheet" type="text/css" href="../styles/team-detail.css">
     <link rel="stylesheet" type="text/css" href="../templates/common/common.css">
-
+    <link rel="stylesheet" type="text/css" href="../templates/lists/lists.css">
 </head>
 <body>
     <div id="wrapper">
         <header  xlu-include-file="../templates/common/header.html">
         </header>
         <main>
-            <div xlu-include-file="../templates/lists/input-space.html"></div>
+            
             <!-- LEFT: Workers Panel -->
-            <aside id="workers-panel" xlu-include-file="../templates/lists/workers-panel.html">
+            <aside id="workers-panel">
+                <div xlu-include-file="../templates/lists/input-space.html"></div>
+                <section id="worker-list">
+                    <div xlu-include-file="../templates/lists/worker-row-active.html"></div>
+                    <div xlu-include-file="../templates/lists/worker-row-inactive.html"></div>
+                    <div xlu-include-file="../templates/lists/worker-row-inactive.html"></div>
+                    <div xlu-include-file="../templates/lists/worker-row-active.html"></div>
+                </section>
             </aside>
 
 

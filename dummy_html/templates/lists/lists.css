@@ -1,0 +1,78 @@
+article.worker-row {
+    display: flex;
+    align-items: center;
+    background: #e0e0e0;
+    border-radius: 4px;
+    padding: 14px 16px;
+    gap: 8px;
+}
+
+article.worker-row h3 {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: normal;
+    color: #333;
+}
+
+article.worker-row mark.status {
+    font-size: 1.25rem;
+    width: 24px;
+    text-align: center;
+    background: none;
+}
+
+article.worker-row mark.active   { color: #27ae60; }
+article.worker-row mark.inactive { color: #e74c3c; }
+
+article.worker-row button.expand {
+    background: #e0e0e0;
+    border: none;
+    border-radius: 3px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+
+    color: #333;
+    font-size: 0.8rem;
+    line-height: 1;     
+    padding: 0;
+}
+
+article.worker-row button.expand:hover { background: #aaa; }
+
+.worker-wrapper {
+    outline: none;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.worker-details {
+    max-height: 0;
+    overflow: hidden;
+    background: #d9d9d9;
+    transition: all 0.3s ease-in-out;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.details-content {
+    padding: 20px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+.worker-wrapper:focus-within .worker-details {
+    max-height: 300px;
+}
+
+.worker-wrapper:focus-within .worker-row {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.worker-wrapper:focus-within .expand {
+    transform: rotate(180deg);
+}

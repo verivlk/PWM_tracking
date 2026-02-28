@@ -9,3 +9,34 @@
     color: #333;
     font-weight: normal;
 }
+
+main > div:first-child {
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+}
+
+#worker-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+main {
+    display: flex;
+    min-height: 80vh;
+    background-color: #fff;
+}
+
+#workers-panel {
+    flex: 1; 
+    padding: 40px;
+    max-width: 600px; 
+}

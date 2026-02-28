@@ -2,7 +2,7 @@
 
 section#map-panel {
     flex: 1;
-    height: 500px;
+    min-height: 400px;
     background: #e0e0e0;
     position: relative;
     overflow: hidden;
