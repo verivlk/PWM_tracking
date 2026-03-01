@@ -110,29 +110,75 @@ The storyboard illustrates:
 
 ## Templates Overview
 
-### 1. Common Templates
-Location: `templates/common/`
+The project uses a modular template structure. Common components are dynamically included using `xlu-include-file.js`, allowing reuse across multiple pages.
 
-- `header.html` – Top navigation header
-- `nav.html` – Sidebar navigation
-- `footer.html` – Footer section
-- `common.css` – Shared layout styling
+---
 
-### 2. List Components
-Location: `templates/lists/`
+### Common Templates  
+**Location:** `templates/common/`  
+**Loaded in:** all pages  
 
-- `input-space.html` – Input/search area
-- `setting-button.html` – Reusable settings button
-- `setting-item.html` – Settings entry component
-- `worker-row-active.html` – Active worker row
-- `worker-row-inactive.html` – Inactive worker row
-- `lists.css` – List-specific styling
+These components define the global layout structure of the application.
 
-### 3. Map Template
-- `templates/map.html` – Reusable map component
+- `header.html` – Top navigation bar  
+- `nav.html` – Sidebar navigation menu  
+- `footer.html` – Footer section  
+- `common.css` – Shared layout and global styling  
 
-### 4. Search Component
-- `templates/search.html` – Search bar component
+---
+
+### List Components  
+**Location:** `templates/lists/`  
+
+Reusable UI components related to lists, workers, and settings.
+
+- `input-space.html`  
+  → Used in:  
+  - `pages/create-worker.html`  
+  - `pages/login.html`  
+  - `pages/team-detail.html`  
+  - `templates/search.html`  
+
+- `setting-button.html`  
+  → Used in:  
+  - `pages/settings.html`  
+
+- `setting-item.html`  
+  → Used in:  
+  - `pages/settings.html`  
+
+- `worker-row-active.html`  
+  → Used in:  
+  - `pages/dashboard.html`  
+  - `pages/team-detail.html`  
+
+- `worker-row-inactive.html`  
+  → Used in:  
+  - `pages/dashboard.html`  
+  - `pages/team-detail.html`  
+
+- `lists.css` – Styling specific to list components  
+
+---
+
+### Map Template  
+**Location:** `templates/map.html`  
+
+Reusable map component responsible for rendering the worker location view.
+
+→ Used in:  
+- `pages/dashboard.html`  
+- `pages/map.html`  
+
+---
+
+### Search Component  
+**Location:** `templates/search.html`  
+
+Reusable search bar component integrated within dashboard views.
+
+→ Used in:  
+- `pages/dashboard.html`  
 
 ---
 
