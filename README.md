@@ -67,6 +67,32 @@ The project focuses on delivering a functional prototype that allows operations 
 
 ---
 
+## Storyboard & Navigation Flow
+
+The complete navigation flow of the application is documented in:
+
+`mockups/storyboard/storyboard.png`
+
+Additional storyboard breakdowns are available in:
+
+- `dashboard_collapsing.png`
+- `dashboard_to_map_nav.png`
+- `login_to_dashboard.png`
+- `map_to_settings_nav.png`
+- `settings_to_team-detail_nav.png`
+- `team-detail_collapsing.png`
+- `team-detail_to_creation-page_footer.png`
+
+The storyboard illustrates:
+
+- Login → Dashboard transition
+- Dashboard collapsing behavior
+- Navigation between Dashboard, Map, Settings and Team Detail
+- Transition from Team Detail to Worker Creation
+- Sidebar and footer navigation flows
+
+---
+
 ## HTML Pages → Mockups Mapping
 
 | HTML Page | Corresponding Mockup |
@@ -79,11 +105,6 @@ The project focuses on delivering a functional prototype that allows operations 
 | `pages/team-detail.html` | `Team_detail_mockup.png` |
 | `pages/team-detail.html` | `Team_detail_worker_mockup.png` |
 | `pages/create-worker.html` | `Creation_Page_mockup.png` |
-
----
-
-## Project Structure
-
 
 ---
 
@@ -147,5 +168,13 @@ Each page imports:
 - Responsive dashboard layout
 - Collapsible sidebar behavior
 - Component reuse via template includes
+
+---
+
+## How to Run
+
+1. Use a local server (e.g., VSCode Live Server or python3 -m http.server 'port')
+
+No backend is required – this is a frontend prototype
 
 ---
