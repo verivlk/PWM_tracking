@@ -12,32 +12,30 @@
     <link rel="stylesheet" type="text/css" href="../templates/lists/lists.css">
 </head>
 <body>
-    <div id="wrapper">
-        <header  xlu-include-file="../templates/common/header.html">
-        </header>
-        <main>
-            <!-- LEFT: Workers Panel -->
-            <aside id="workers-panel">
-                <search xlu-include-file="../templates/search.html"></search>
-                <section id="worker-list">
-                    <div xlu-include-file="../templates/lists/worker-row-active.html"></div>
-                    <div xlu-include-file="../templates/lists/worker-row-inactive.html"></div>
-                    <div xlu-include-file="../templates/lists/worker-row-inactive.html"></div>
-                    <div xlu-include-file="../templates/lists/worker-row-active.html"></div>
-                </section>
-            </aside>
+<div id="wrapper">
+    <header xlu-include-file="../templates/common/header.html"></header>
 
-            <!-- RIGHT: Map -->
-            <section id="map-panel" xlu-include-file="../templates/map.html">
+    <main>
+        <!-- LEFT: Workers Panel -->
+        <aside id="workers-panel">
+            <search xlu-include-file="../templates/search.html"></search>
+            <section id="worker-list">
+                <!-- JavaScript fills this from data.json -->
             </section>
+        </aside>
 
-        </main>
-        <footer xlu-include-file="../templates/common/footer.html">
-        </footer>
-    </div>
-    <script>
-        xLuIncludeFile();
-    </script>
+        <!-- RIGHT: Map -->
+        <section id="map-panel" xlu-include-file="../templates/map.html">
+        </section>
+    </main>
 
+    <footer xlu-include-file="../templates/common/footer.html"></footer>
+</div>
+
+<script src="../templates/lists/workerRow.js"></script>
+<script src="../js/dashboard.js"></script>
+<script>
+    xLuIncludeFile();
+</script>
 </body>
 </html>
