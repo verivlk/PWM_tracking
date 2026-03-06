@@ -13,14 +13,13 @@
 </head>
 <body>
     <div id="wrapper">
-        <header  xlu-include-file="../templates/common/header.html">
-        </header>
         <main>
-            
+
             <!-- LEFT: Workers Panel -->
             <aside id="workers-panel">
                 <div xlu-include-file="../templates/lists/input-space.html"></div>
                 <section id="worker-list">
+<!--                    TODO-->
                     <div xlu-include-file="../templates/lists/worker-row-active.html"></div>
                     <div xlu-include-file="../templates/lists/worker-row-inactive.html"></div>
                     <div xlu-include-file="../templates/lists/worker-row-inactive.html"></div>
@@ -30,12 +29,10 @@
 
 
         </main>
-        <footer xlu-include-file="../templates/common/footer.html">
-        </footer>
     </div>
     <script>
         xLuIncludeFile();
     </script>
-
+    <script src="/load-content.js"></script>
 </body>
 </html>

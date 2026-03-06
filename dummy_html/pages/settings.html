@@ -12,29 +12,28 @@
 </head>
 <body>
 
-<div id="wrapper">
-    <header xlu-include-file="../templates/common/header.html">
-    </header>
+    <div id="wrapper">
+        <main>
+            <section id="left-panel">
+                <div class="settings-box">
+<!--                    TODO-->
+                    <div class="setting-item" xlu-include-file="../templates/lists/setting-item.html"></div>
+                    <div class="setting-item" xlu-include-file="../templates/lists/setting-item.html"></div>
+                    <div class="setting-item" xlu-include-file="../templates/lists/setting-item.html"></div>
+                    <div class="setting-button" xlu-include-file="../templates/lists/setting-button.html"></div>
+                </div>
+            </section>
 
-    <main>
-        <section id="left-panel">
-            <div class="settings-box">
-                <div class="setting-item" xlu-include-file="../templates/lists/setting-item.html"></div>
-                <div class="setting-item" xlu-include-file="../templates/lists/setting-item.html"></div>
-                <div class="setting-item" xlu-include-file="../templates/lists/setting-item.html"></div>
-                <div class="setting-button" xlu-include-file="../templates/lists/setting-button.html"></div>
-            </div>
-        </section>
+            <aside id="right-panel">
+                <h2>LOREM IPSUM</h2>
+            </aside>
+        </main>
 
-        <aside id="right-panel">
-            <h2>LOREM IPSUM</h2>
-        </aside>
-    </main>
-
-    <footer xlu-include-file="../templates/common/footer.html"></footer>
-</div>
+    </div>
     <script>
         xLuIncludeFile();
     </script>
+    <script src="/load-content.js"></script>
+
 </body>
 </html>
