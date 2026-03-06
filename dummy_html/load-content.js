@@ -149,12 +149,12 @@ async function cargarEstructura() {
     let pageWrapper = document.getElementById('wrapper');
 
     // Cargar estructura estática
-    let header = await cargarTemplate('templates/common/header.html');
+    let header = await cargarTemplate('/templates/common/header.html');
     pageWrapper.insertBefore(header, pageWrapper.firstChild);
     let headerEl = document.getElementById('main_header');
-    let nav = await cargarTemplate('templates/common/nav.html');
+    let nav = await cargarTemplate('/templates/common/nav.html');
     headerEl.appendChild(nav);
-    pageWrapper.appendChild(await cargarTemplate('templates/common/footer.html'));
+    pageWrapper.appendChild(await cargarTemplate('/templates/common/footer.html'));
 }
 
 async function cargarTemplate(url) {
