@@ -1,194 +1,247 @@
-//document-fragments.js
-//How to use documentFragment objects when dynamically
-//creating new webpage content
+// load-content.js
+// Loads shared structure (header, nav, footer) and injects dynamic content
+// from data.json into each page based on the current page's DOM.
 
-/*
-let movies = [
-    'Alien', 'Layer Cake', 'Star Wars', 'Star Trek', 'Jaws', 'Jurassic Park',
-    'Memento', 'Dog Soldiers', 'The Host', 'Gran Torino', 'Casino Royale',
-];
+// ─── 1. TEMPLATE LOADER ──────────────────────────────────────────────────────
+// Fetches an HTML file and returns it as a ready-to-insert DocumentFragment.
 
-//use the Array movies and create a list of movies on the page
-//inside of the <ul id="movies">
-let movieList;
-
-document.addEventListener('DOMContentLoaded', init);
-
-const supportsTemplate = function () {
-    //create a template element and make sure it has a 'content' property
-    return 'content' in document.createElement('template');
-}
-
-function loadTemplate(fileName, id, callback) {
-
-    fetch(fileName).then((res) => {
-        return res.text();
-    }).then((text) => {
-        document.getElementById(id).innerHTML = text;
-        //console.log(text)
-
-        if (callback) {
-            callback();
-        }
-    })
-}
-
-
-function init() {
-
-    loadTemplate('./header.html', 'header');
-    loadTemplate('./content.html', 'content');
-
-    loadTemplate('./sidebar_articles.html', 'articles');
-    loadTemplate('./sidebar_categories.html', 'categories');
-
-    loadTemplate('./sidebar_links.html', 'links', addMovies);
-
-    loadTemplate('./top_navlist.html', 'top_navlist');
-    loadTemplate('./footer_right.html', 'footerRight');
-    loadTemplate('./footer_left.html', 'footerLeft');
-
-    loadTemplate('./post_content.html', 'post_template', addPostContent);
-
-
-    addSideBarContent();
-
-}
-
-function addSideBarContent() {
-
-    fetch('users.json')
-        .then((response) => {
-            return response.json();
-        })
-        .then((users) => {
-            if ('content' in document.createElement('template')) {
-                const container = document.getElementById('users');
-
-                users.forEach((user) => {
-
-                    const tmpl = document
-                        .getElementById('user-card-template')
-                        .content.cloneNode(true);
-
-                    tmpl.querySelector('h2').innerText = user.fullname;
-                    tmpl.querySelector('.title').innerText = user.title;
-
-
-                    container.appendChild(tmpl);
-                });
-            } else {
-                console.error('Your browser does not support templates');
-            }
-        })
-        .catch((err) => console.error(err));
-
-
-}
-
-function addPostContent() {
-
-
-    if (supportsTemplate()) {
-        //We can use the template element in our HTML
-        console.log('Templates are supported.');
-
-        document.getElementById('post_1').remove();
-        document.getElementById('post_2').remove();
-
-        let temp = document.getElementById('post_content_template');
-        let content = temp.content;
-        console.log(content);
-        let target = document.getElementById('post_template');
-        target.appendChild(content.cloneNode(true))
-        target.appendChild(content.cloneNode(true));
-
-    } else {
-
-        //Use another method, like manually building the elements.
-        console.log('The else is running');
-
-        fetch('./post_content_support.html').then((res) => {
-            return res.text();
-        }).then((text) => {
-            document.getElementById('post_1').innerHTML = text;
-            document.getElementById('post_2').innerHTML = text;
-
-            console.log(text)
-        })
-
-    }
-
-
-}
-
-function addMovies() {
-    movieList = document.getElementById('movies');
-
-    //BAD APPROACH - add new content to DOM one at a time
-    //    movies.forEach(function(movie){
-    //        let li = document.createElement('li');
-    //        li.textContent = movie;
-    //        movieList.appendChild(li);
-    //    })
-
-
-    //GOOD APPROACH - use a documentFragment and update DOM once
-    let df = new DocumentFragment();
-    movies.forEach(movie => {
-        let li = document.createElement('li')
-        li.textContent = movie;
-        df.appendChild(li);
-    })
-    movieList.appendChild(df);
-
-}
-*/
-
-async function cargarEstructura() {
-    let pageWrapper = document.getElementById('wrapper');
-
-    // Cargar estructura estática
-    let header = await cargarTemplate('/templates/common/header.html');
-    pageWrapper.insertBefore(header, pageWrapper.firstChild);
-    let headerEl = document.getElementById('main_header');
-    let nav = await cargarTemplate('/templates/common/nav.html');
-    headerEl.appendChild(nav);
-    pageWrapper.appendChild(await cargarTemplate('/templates/common/footer.html'));
-}
-
-async function cargarTemplate(url) {
-    let response = await fetch(url);
-    let text = await response.text();
-
-    let template = document.createElement('template');
+async function loadTemplate(url) {
+    const response = await fetch(url);
+    const text = await response.text();
+    const template = document.createElement('template');
     template.innerHTML = text;
     return document.importNode(template.content, true);
 }
 
-function cargarContenidoDinamico() {
-    // Ahora esta función no recibe mainContent, ya que buscará en el DOM actualizado
-    fetch('data/content.json')
-        .then(response => response.json())
-        .then(data => {
-            let dynamicContentSection = document.querySelector('#dynamicContent');
-            if (!dynamicContentSection) {
-                console.error('No se encontró #dynamicContent en el DOM');
-                return;
-            }
-            data.forEach(item => {
-                let article = document.createElement('article');
-                article.innerHTML = `<h2>${item.title}</h2><p>${item.description}</p>`;
-                dynamicContentSection.appendChild(article);
-            });
-        })
-        .catch(error => console.error('Error:', error));
+
+// ─── 2. SHARED STRUCTURE ─────────────────────────────────────────────────────
+// Inserts header (with nav inside) and footer into #wrapper on every page.
+
+async function loadSharedStructure() {
+    const wrapper = document.getElementById('wrapper');
+    if (!wrapper) return;
+
+    // Header (contains <header id="main_header">)
+    const header = await loadTemplate('/templates/common/header.html');
+    wrapper.insertBefore(header, wrapper.firstChild);
+
+    // Nav injected inside the header
+    const headerEl = document.getElementById('main_header');
+    if (headerEl) {
+        const nav = await loadTemplate('/templates/common/nav.html');
+        headerEl.appendChild(nav);
+    }
+
+    // Footer
+    const footer = await loadTemplate('/templates/common/footer.html');
+    wrapper.appendChild(footer);
 }
 
 
+// ─── 3. DATA FETCHER ─────────────────────────────────────────────────────────
 
-document.addEventListener('DOMContentLoaded', async function() {
-    await cargarEstructura();
-    // Dado que cargarEstructura es async, ahora puedes asegurarte de que todo ha cargado
-    cargarContenidoDinamico();
+async function fetchData() {
+    const response = await fetch('/data.json');
+    return response.json();
+}
+
+
+// ─── 4. PAGE DETECTORS ───────────────────────────────────────────────────────
+// Identifies the current page by checking for unique DOM elements.
+
+const Pages = {
+    isLogin:         () => !!document.querySelector('.login-box'),
+    isDashboard:     () => !!document.getElementById('workers-panel') && !!document.getElementById('map-panel'),
+    isTeamDetail:    () => !!document.getElementById('workers-panel') && !document.getElementById('map-panel'),
+    isCreateWorker:  () => !!document.querySelector('.profile-form'),
+    isSettings:      () => !!document.querySelector('.settings-box'),
+};
+
+
+// ─── 5. PAGE RENDERERS ───────────────────────────────────────────────────────
+
+// LOGIN — builds username + password inputs and authenticates against data.json users
+function renderLogin(data) {
+    const form = document.querySelector('.login-box form');
+    if (!form) return;
+
+    // Remove all xlu placeholder divs
+    form.querySelectorAll('[xlu-include-file]').forEach(el => el.remove());
+    // Remove the old <a href> login link
+    form.querySelector('a.btn')?.remove();
+
+    const df = new DocumentFragment();
+
+    // Username
+    const userGroup = document.createElement('div');
+    userGroup.className = 'input-group';
+    userGroup.innerHTML = `
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter username" required>
+    `;
+    df.appendChild(userGroup);
+
+    // Password
+    const passGroup = document.createElement('div');
+    passGroup.className = 'input-group';
+    passGroup.innerHTML = `
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required>
+    `;
+    df.appendChild(passGroup);
+
+    // Submit button
+    const btn = document.createElement('button');
+    btn.type = 'submit';
+    btn.className = 'btn';
+    btn.textContent = 'Login';
+    df.appendChild(btn);
+
+    form.appendChild(df);
+
+    // Authentication: validate against users array in data.json
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const match = data.users.find(u => u.username === username && u.password === password);
+
+        if (match) {
+            sessionStorage.setItem('currentUser', JSON.stringify(match));
+            window.location.href = 'dashboard.html';
+        } else {
+            let errorMsg = form.querySelector('.error-msg');
+            if (!errorMsg) {
+                errorMsg = document.createElement('p');
+                errorMsg.className = 'error-msg';
+                form.appendChild(errorMsg);
+            }
+            errorMsg.textContent = 'Invalid username or password.';
+        }
+    });
+}
+
+
+// DASHBOARD & TEAM DETAIL — both use workerRow() from workerRow.js
+// Builds worker list using the exact same HTML structure as worker-row-active/inactive.html
+function renderWorkerList(data) {
+    const workerList = document.getElementById('worker-list');
+    if (!workerList) return;
+
+    // Clear any static xlu placeholder divs
+    workerList.querySelectorAll('[xlu-include-file]').forEach(el => el.remove());
+
+    // Use workerRow() from workerRow.js — same HTML as the .html templates
+    const df = new DocumentFragment();
+    data.workers.forEach(worker => {
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = workerRow(worker);
+        df.appendChild(wrapper.firstElementChild);
+    });
+
+    workerList.appendChild(df);
+}
+
+
+// DASHBOARD — loads search bar template + worker list
+async function renderDashboard(data) {
+    // Load search bar into <search> element
+    const searchEl = document.querySelector('search[xlu-include-file]');
+    if (searchEl) {
+        const searchFragment = await loadTemplate('/templates/search.html');
+        searchEl.removeAttribute('xlu-include-file');
+        searchEl.appendChild(searchFragment);
+    }
+
+    renderWorkerList(data);
+}
+
+
+// CREATE WORKER — builds form fields from pages.create_worker.fields in data.json
+function renderCreateWorker(data) {
+    const form = document.querySelector('.profile-form');
+    if (!form) return;
+
+    form.querySelectorAll('[xlu-include-file]').forEach(el => el.remove());
+
+    const fields = data.pages.create_worker.fields;
+    const df = new DocumentFragment();
+
+    fields.forEach(field => {
+        const div = document.createElement('div');
+        div.className = 'input-group';
+        div.innerHTML = `
+            <label for="${field.name}">${field.label}</label>
+            <input type="${field.type}" id="${field.name}" name="${field.name}"
+                   placeholder="Enter ${field.label.toLowerCase()}" required>
+        `;
+        df.appendChild(div);
+    });
+
+    const btn = document.createElement('button');
+    btn.type = 'submit';
+    btn.className = 'btn';
+    btn.textContent = 'Create Worker';
+    df.appendChild(btn);
+
+    form.appendChild(df);
+}
+
+
+// SETTINGS — builds setting items from pages.settings.items in data.json
+// Matches the structure of setting-item.html and setting-button.html
+function renderSettings(data) {
+    const settingsBox = document.querySelector('.settings-box');
+    if (!settingsBox) return;
+
+    settingsBox.querySelectorAll('[xlu-include-file]').forEach(el => el.remove());
+
+    const items = data.pages.settings.items;
+    const df = new DocumentFragment();
+
+    // Setting items — mirrors setting-item.html structure
+    items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'setting-item';
+        div.innerHTML = `
+            <div class="text-group">
+                <span class="label">${item.label}</span>
+                <span class="description">Manage your ${item.label.toLowerCase()} preferences</span>
+            </div>
+            <div class="toggle">
+                <input type="checkbox" id="setting-${item.id}">
+            </div>
+        `;
+        df.appendChild(div);
+    });
+
+    // Save button — mirrors setting-button.html structure
+    const btnWrapper = document.createElement('div');
+    btnWrapper.className = 'setting-button';
+    btnWrapper.innerHTML = `
+        <span>Settings</span>
+        <button type="button" class="btn">Save</button>
+    `;
+    df.appendChild(btnWrapper);
+
+    settingsBox.appendChild(df);
+}
+
+
+// ─── 6. MAIN ENTRY POINT ─────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', async function () {
+
+    await loadSharedStructure();
+
+    const data = await fetchData();
+
+    if      (Pages.isLogin())        renderLogin(data);
+    else if (Pages.isDashboard())    renderDashboard(data);
+    else if (Pages.isTeamDetail())   renderWorkerList(data);
+    else if (Pages.isCreateWorker()) renderCreateWorker(data);
+    else if (Pages.isSettings())     renderSettings(data);
+    // map.html — only shared structure needed, no dynamic content
+
 });
