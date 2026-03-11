@@ -7,6 +7,8 @@
 // ─── TEMPLATE LOADER ─────────────────────────────────────────────────────────
 // Fetches an HTML file and returns a cloneable <template> element.
 
+const BASE = '';
+
 async function loadTemplate(url) {
     const response = await fetch(url);
     const text = await response.text();
@@ -47,6 +49,10 @@ function fillClone(clone, item) {
         // Checkbox id field
         if (field === 'id' && el.tagName === 'INPUT') {
             el.id = `setting-${value}`;
+            const label = el.closest('label');
+            if (label) {
+                label.htmlFor = el.id;
+            }
             return;
         }
 
@@ -65,11 +71,14 @@ async function renderList(containerSelector, templateUrl, items) {
     if (!container) return;
 
     const tpl = await loadTemplate(templateUrl);
+    console.log('Template HTML:', tpl.innerHTML);
     const df = new DocumentFragment();
 
     items.forEach(item => {
         const clone = document.importNode(tpl.content, true);
+        console.log('Clone prima di fillClone:', clone.innerHTML);
         fillClone(clone, item);
+        console.log('Clone dopo fillClone:', clone.innerHTML);
         df.appendChild(clone);
     });
 
@@ -97,16 +106,18 @@ async function loadSharedStructure() {
     const wrapper = document.getElementById('wrapper');
     if (!wrapper) return;
 
-    const headerTpl = await loadTemplate('/templates/common/header.html');
+    console.log('Loading from:', `${BASE}/templates/common/header.html`);  // ← aggiungi questa riga
+    const headerTpl = await loadTemplate(`${BASE}/templates/common/header.html`);
+    console.log('headerTpl:', headerTpl);
     wrapper.insertBefore(document.importNode(headerTpl.content, true), wrapper.firstChild);
 
     const headerEl = document.getElementById('main_header');
     if (headerEl) {
-        const navTpl = await loadTemplate('/templates/common/nav.html');
+        const navTpl = await loadTemplate(`${BASE}/templates/common/nav.html`);
         headerEl.appendChild(document.importNode(navTpl.content, true));
     }
 
-    const footerTpl = await loadTemplate('/templates/common/footer.html');
+    const footerTpl = await loadTemplate(`${BASE}/templates/common/footer.html`);
     wrapper.appendChild(document.importNode(footerTpl.content, true));
 }
 
@@ -117,4 +128,5 @@ async function loadSharedStructure() {
 
 document.addEventListener('DOMContentLoaded', async function () {
     await loadSharedStructure();
+    document.dispatchEvent(new Event('sharedStructureReady'));
 });

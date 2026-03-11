@@ -29,6 +29,7 @@
             color: #333;
         }
 
+
         .text-group .description {
             display: block;
             font-size: 12px;
@@ -40,21 +41,41 @@
         .toggle {
             width: 44px;
             height: 22px;
-            background-color: #333;
+            background-color: #ccc;      /* grigio = OFF */
             border-radius: 12px;
             position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle input[type="checkbox"] {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
         }
 
         .toggle::after {
             content: '';
             position: absolute;
-            right: 2px;
+            left: 2px;          /* pallino a sinistra = OFF */
             top: 2px;
             width: 18px;
             height: 18px;
             background-color: white;
             border-radius: 50%;
+            transition: left 0.3s;
         }
+
+        /* Stato ON */
+        .toggle:has(input:checked) {
+            background-color: #333;
+        }
+
+        .toggle:has(input:checked)::after {
+            left: 24px;         /* pallino a destra = ON */
+        }
+
 
         /* Right Panel */
         #right-panel {
