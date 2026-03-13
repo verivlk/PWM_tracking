@@ -6,6 +6,12 @@
     --border-radius: 6px;
 }
 
+/* Breakpoints
+   phone  : 600px
+   tablet : 768px
+   laptop : 1024px
+*/
+
 * {
     margin: 0px;
     padding: 0px;
@@ -28,13 +34,20 @@ body {
 }
 
 #wrapper {
-    width: 960px;
+    max-width: 960px;
+    width: 100%;
     margin: 15px auto;
     text-align: left;
     padding: 0;
     border: 1px solid #999999;
 }
 
+@media (max-width: 600px) {
+    main {
+        height: auto;
+        padding: 8px;
+    }
+}
 
 article {
     background: #FFFBCC;
