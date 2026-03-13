@@ -1,11 +1,38 @@
-
-/* ── MAIN LAYOUT ── */
-main {
-    display: flex;
-    /* height: 100vh; */
+:root {
+    --primary-background-color: #3C74DF;
+    --primary-button-color: #01239f;
+    --primary-button-hover-color: #95b2ed;
+    --light-text-color: #ffffff;
+    --border-radius: 6px;
 }
 
-/* ── LEFT: ASIDE (workers panel) ── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    min-height: 0;
+}
+
 aside#workers-panel {
     width: 420px;
     min-width: 320px;
@@ -13,31 +40,33 @@ aside#workers-panel {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    overflow-y: auto;
+    height: 100%;
     background: #f5f5f5;
+    border-right: 1px solid #ddd;
 }
 
 search {
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
-    gap: 5px;       /* space between label, input and button */
+    gap: 5px;
     width: 100%;
-    max-width: 500px;
+    padding-bottom: 10px;
 }
 
 search label {
-    flex: 0 0 auto;  /* label stays on the left */
+    flex: 0 0 auto;
 }
 
 search input {
-    flex: 1;       /* input takes all available space between label and button */
-    margin: 0 10px; /* optional spacing on left/right */
-    min-width: 0;  /* important to allow shrinking in flex */
+    flex: 1;
+    margin: 0 10px;
+    min-width: 0;
     padding: 5px 10px;
 }
 
 search button {
-    margin-left: auto; /* pushes button to the far right */
+    margin-left: auto;
     width: 30px;
     height: 30px;
     display: flex;
@@ -49,18 +78,19 @@ search button {
     border-radius: 3px;
     cursor: pointer;
     font-size: 42px;
-    vertical-align: center;
 }
 
 .icon-btn span {
-    transform: translateY(-5px); /* optical fix - search in the middle */
+    transform: translateY(-5px);
 }
 
-/* Worker list */
 section#worker-list {
+    flex: 1;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 6px;
+    padding-right: 5px;
 }
 
 section#map-panel {
@@ -95,3 +125,41 @@ section#map-panel figcaption {
     z-index: 1;
 }
 
+footer#main_footer {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 16px 20px;
+    background-color: #e0e0e0;
+}
+
+button, .btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+button:hover, .btn:hover {
+    background: #555;
+}
+
+section#worker-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+section#worker-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+section#worker-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}

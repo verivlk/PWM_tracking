@@ -5,12 +5,28 @@ document.addEventListener('DOMContentLoaded', async function () {
     await renderDashboard(data);
 });
 
-
 async function renderDashboard(data) {
-    // Load search bar template into the <search> element
     await renderTemplate('#workers-panel search', '/templates/lists/input-space.html');
     await renderTemplate('#workers-panel search', '/templates/search.html');
 
-    // Render worker list from data.workers
-    await renderList('#worker-list', '/templates/lists/worker-row.html', data.workers);
+    await renderList(
+        '#worker-list', 
+        '/templates/lists/worker-row.html', 
+        data.workers, 
+        enableAccordion 
+    );
+}
+
+function enableAccordion(container) {
+    const wrappers = container.querySelectorAll('.worker-wrapper');
+    
+    wrappers.forEach(wrapper => {
+        const btn = wrapper.querySelector('.expand');
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                wrapper.classList.toggle('open');
+            });
+        }
+    });
 }

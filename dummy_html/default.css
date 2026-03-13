@@ -23,18 +23,35 @@ header, section, footer, aside, nav, article, figure, figcaption, hgroup{
     display: block;
 }
 
-body {
-    text-align: center;
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Zapobiega przewijaniu całej strony */
+}
+
+* {
+    box-sizing: border-box; /* To już masz dla div, ale lepiej dać dla wszystkiego */
 }
 
 #wrapper {
-    width: 960px;
-    margin: 15px auto;
-    text-align: left;
-    padding: 0;
-    border: 1px solid #999999;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Sztywne 100% wysokości okna - ani piksela więcej */
+    width: 100vw;
+    margin: 0;
+    overflow: hidden; /* Zakaz wychodzenia czegokolwiek poza ekran */
 }
 
+/* 2. Main musi wypełnić wolną przestrzeń między headerem a footerem */
+main {
+    flex: 1; /* To sprawia, że main "puchnie" i zajmuje całe wolne miejsce */
+    display: flex;
+    flex-direction: row; /* Aside obok Mapy */
+    overflow: hidden; /* Kluczowe: main nie może się powiększać przez dzieci */
+    min-height: 0;   /* Ważne dla Chrome/Firefox: pozwala dziecku (aside) na scroll */
+}
 
 article {
     background: #FFFBCC;

@@ -66,25 +66,27 @@ function fillClone(clone, item) {
 // Generic function to render a list of items into a container.
 // Fetches the template, clones it once per item, fills data-fields.
 
-async function renderList(containerSelector, templateUrl, items) {
+// load-content.js
+
+async function renderList(containerSelector, templateUrl, items, afterRender = null) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
 
     const tpl = await loadTemplate(templateUrl);
-    console.log('Template HTML:', tpl.innerHTML);
     const df = new DocumentFragment();
 
     items.forEach(item => {
         const clone = document.importNode(tpl.content, true);
-        console.log('Clone prima di fillClone:', clone.innerHTML);
         fillClone(clone, item);
-        console.log('Clone dopo fillClone:', clone.innerHTML);
         df.appendChild(clone);
     });
 
     container.appendChild(df);
-}
 
+    if (typeof afterRender === 'function') {
+        afterRender(container);
+    }
+}
 
 // ─── RENDER TEMPLATE ──────────────────────────────────────────────────────────
 // Generic function to render a single template (no data) into a container.
