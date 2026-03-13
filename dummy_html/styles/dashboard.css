@@ -1,8 +1,23 @@
+:root {
+    --primary-background-color: #3C74DF;
+    --primary-button-color: #01239f;
+    --primary-button-hover-color: #95b2ed;
+    --light-text-color: #ffffff;
+    --border-radius: 6px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 /* ── MAIN LAYOUT ── */
 main {
     display: flex;
-    /* height: 100vh; */
+    flex-direction: row;
+    overflow: hidden;
+    min-height: 0;
 }
 
 /* ── LEFT: ASIDE (workers panel) ── */
@@ -15,28 +30,30 @@ aside#workers-panel {
     gap: 12px;
     overflow-y: auto;
     background: #f5f5f5;
+    border-right: 1px solid #ddd;
 }
 
-.search-wrapper {
+search {
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     gap: 5px;       /* space between label, input and button */
     width: 100%;
-    max-width: 500px;
+    padding-bottom: 10px;
 }
 
-.search-wrapper label {
+search label {
     flex: 0 0 auto;  /* label stays on the left */
 }
 
-.search-wrapper input {
+search input {
     flex: 1;       /* input takes all available space between label and button */
     margin: 0 10px; /* optional spacing on left/right */
     min-width: 0;  /* important to allow shrinking in flex */
     padding: 5px 10px;
 }
 
-.search-wrapper button {
+search button {
     margin-left: auto; /* pushes button to the far right */
     width: 30px;
     height: 30px;
@@ -49,7 +66,6 @@ aside#workers-panel {
     border-radius: 3px;
     cursor: pointer;
     font-size: 42px;
-    vertical-align: center;
 }
 
 .icon-btn span {

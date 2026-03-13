@@ -29,19 +29,34 @@ header, section, footer, aside, nav, article, figure, figcaption, hgroup{
     display: block;
 }
 
-body {
-    text-align: center;
-}
-
-#wrapper {
-    max-width: 960px;
+html, body {
+    height: 100%;
     width: 100%;
     margin: 15px auto;
     text-align: left;
     padding: 0;
+    overflow: hidden; /* makes scrollbar */
+}
+
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* 100% */
+    width: 100vw;
+    max-width: 960px;
+    margin: 0;
+    overflow: hidden;
     border: 1px solid #999999;
 }
 
+main {
+    flex: 1; /* To sprawia, że main "puchnie" i zajmuje całe wolne miejsce */
+    display: flex;
+    flex-direction: row; /* Aside obok Mapy */
+    overflow: hidden; /* Kluczowe: main nie może się powiększać przez dzieci */
+    min-height: 0;   /* Ważne dla Chrome/Firefox: pozwala dziecku (aside) na scroll */
+}
 @media (max-width: 600px) {
     main {
         height: auto;
