@@ -13,20 +13,32 @@ async function renderDashboard(data) {
         '#worker-list', 
         '/templates/lists/worker-row.html', 
         data.workers, 
-        enableAccordion 
+        enableSmartView 
     );
 }
 
-function enableAccordion(container) {
+function enableSmartView(container) {
     const wrappers = container.querySelectorAll('.worker-wrapper');
-    
-    wrappers.forEach(wrapper => {
-        const btn = wrapper.querySelector('.expand');
-        if (btn) {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                wrapper.classList.toggle('open');
-            });
+    const detailsView = document.getElementById('details-view');
+    if (detailsView && window.innerWidth >= 900) {
+        const first = wrappers[0];
+        if (first) {
+            first.classList.add('open');
+            updateBigDisplay(first);
         }
+    }
+
+    wrappers.forEach(wrapper => {
+        wrapper.addEventListener('click', () => {
+            const isMobile = window.innerWidth < 900;
+            
+            if (isMobile || !detailsView) {
+                wrapper.classList.toggle('open');
+            } else {
+                wrappers.forEach(w => w.classList.remove('open'));
+                wrapper.classList.add('open');
+                updateBigDisplay(wrapper);
+            }
+        });
     });
 }
