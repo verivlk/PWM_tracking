@@ -17,7 +17,7 @@ aside#workers-panel {
     background: #f5f5f5;
 }
 
-.search-wrapper {
+search {
     display: flex;
     align-items: center;
     gap: 5px;       /* space between label, input and button */
@@ -25,18 +25,18 @@ aside#workers-panel {
     max-width: 500px;
 }
 
-.search-wrapper label {
+search label {
     flex: 0 0 auto;  /* label stays on the left */
 }
 
-.search-wrapper input {
+search input {
     flex: 1;       /* input takes all available space between label and button */
     margin: 0 10px; /* optional spacing on left/right */
     min-width: 0;  /* important to allow shrinking in flex */
     padding: 5px 10px;
 }
 
-.search-wrapper button {
+search button {
     margin-left: auto; /* pushes button to the far right */
     width: 30px;
     height: 30px;
