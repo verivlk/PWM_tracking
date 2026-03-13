@@ -1,6 +1,7 @@
 .worker-wrapper {
     width: 100%;
     margin-bottom: 4px;
+    cursor: pointer;
 }
 
 article.worker-row {
@@ -10,37 +11,43 @@ article.worker-row {
     border-radius: 4px;
     padding: 14px 16px;
     gap: 8px;
-    transition: border-radius 0.2s;
+    transition: background 0.2s, border-radius 0.2s;
 }
 
-article.worker-row h3 { flex: 1; font-size: 0.95rem; font-weight: normal; color: #333; }
+article.worker-row h3 {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: normal;
+    color: #333;
+}
 
-mark.status { font-size: 1.25rem; width: 24px; text-align: center; background: none; }
+mark.status {
+    font-size: 1.25rem;
+    width: 24px;
+    text-align: center;
+    background: none;
+}
+
 mark.active { color: #27ae60; }
 mark.inactive { color: #e74c3c; }
 
 button.expand {
-    background: transparent; 
+    background: transparent;
     border: none;
     outline: none;
     padding: 0;
     appearance: none;
     -webkit-appearance: none;
-
     width: 26px;
     height: 26px;
     cursor: pointer;
-    
     display: grid;
     place-items: center;
-    
     color: #333;
     font-size: 0.8rem;
     line-height: 1;
-
     transition: transform 0.3s ease;
 }
-
 
 .worker-details {
     max-height: 0;
@@ -51,8 +58,43 @@ button.expand {
     border-bottom-right-radius: 4px;
 }
 
-.details-content { padding: 20px; font-size: 0.9rem; color: #333; }
+.details-content {
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #333;
+}
 
-.worker-wrapper.open .worker-details { max-height: 300px; }
-.worker-wrapper.open .worker-row { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-.worker-wrapper.open .expand { transform: rotate(180deg); }
+@media (max-width: 899px) {
+    .worker-wrapper.open .worker-details {
+        max-height: 300px;
+    }
+
+    .worker-wrapper.open .worker-row {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .worker-wrapper.open .expand {
+        transform: rotate(180deg);
+    }
+}
+
+@media (min-width: 900px) {
+    .worker-wrapper.open .worker-details {
+        max-height: 0 !important;
+    }
+
+    .worker-wrapper.open article.worker-row {
+        background: #3C74DF;
+        border-radius: 4px !important;
+    }
+
+    .worker-wrapper.open article.worker-row h3,
+    .worker-wrapper.open .expand {
+        color: #ffffff;
+    }
+
+    .worker-wrapper.open mark.status {
+        filter: brightness(0) invert(1); 
+    }
+}

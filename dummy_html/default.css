@@ -32,7 +32,7 @@ header, section, footer, aside, nav, article, figure, figcaption, hgroup{
 html, body {
     height: 100%;
     width: 100%;
-    margin: 15px auto;
+    /* margin: 15px auto; */
     text-align: left;
     padding: 0;
     overflow: hidden; /* makes scrollbar */
@@ -44,7 +44,6 @@ html, body {
     flex-direction: column;
     height: 100vh; /* 100% */
     width: 100vw;
-    max-width: 960px;
     margin: 0;
     overflow: hidden;
     border: 1px solid #999999;
