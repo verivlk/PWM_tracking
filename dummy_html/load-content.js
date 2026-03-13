@@ -17,6 +17,24 @@ async function loadTemplate(url) {
     return template;
 }
 
+// load-content.js
+
+const Auth = {
+    getUser: () => JSON.parse(sessionStorage.getItem('currentUser')),
+    
+    isLoggedIn: () => !!sessionStorage.getItem('currentUser'),
+    
+    isAdmin: () => {
+        const user = Auth.getUser();
+        return user && user.role === 'admin';
+    },
+
+    logout: () => {
+        sessionStorage.removeItem('currentUser');
+        window.location.href = '/login.html';
+    }
+};
+
 
 // ─── DATA FETCHER ─────────────────────────────────────────────────────────────
 // Fetches and returns the parsed data.json file.
@@ -27,66 +45,54 @@ async function fetchData() {
 }
 
 
-// ─── FILL CLONE ───────────────────────────────────────────────────────────────
-// Given a cloned template fragment and a data item,
-// fills every [data-field] element with the matching value.
 
-function fillClone(clone, item) {
+function basicFill(clone, item) {
     clone.querySelectorAll('[data-field]').forEach(el => {
         const field = el.getAttribute('data-field');
-        const value = typeof item === 'object' ? item[field] : item;
-
+        const value = item[field];
         if (value === undefined) return;
 
-        // Status field: add CSS class + symbol
         if (field === 'status') {
             el.classList.add(value);
-            el.setAttribute('aria-label', value);
             el.innerHTML = value === 'active' ? '&#10003;' : '&#10007;';
-            return;
+        } else {
+            el.textContent = value;
         }
-
-        // Checkbox id field
-        if (field === 'id' && el.tagName === 'INPUT') {
-            el.id = `setting-${value}`;
-            const label = el.closest('label');
-            if (label) {
-                label.htmlFor = el.id;
-            }
-            return;
-        }
-
-        // Default: set text content
-        el.textContent = value;
     });
 }
 
-
-// ─── RENDER LIST ──────────────────────────────────────────────────────────────
-// Generic function to render a list of items into a container.
-// Fetches the template, clones it once per item, fills data-fields.
-
-// load-content.js
-
-async function renderList(containerSelector, templateUrl, items, afterRender = null) {
+async function renderList(containerSelector, templateUrl, items, customFiller, afterRender = null) {
     const container = document.querySelector(containerSelector);
-    if (!container) return;
+    if (!container || !items) return;
 
     const tpl = await loadTemplate(templateUrl);
     const df = new DocumentFragment();
 
     items.forEach(item => {
         const clone = document.importNode(tpl.content, true);
-        fillClone(clone, item);
+        
+        basicFill(clone, item);
+        
+        if (typeof customFiller === 'function') {
+            customFiller(clone, item);
+        }
+        
         df.appendChild(clone);
     });
 
+    container.innerHTML = ''; 
     container.appendChild(df);
 
     if (typeof afterRender === 'function') {
         afterRender(container);
     }
 }
+// ─── RENDER LIST ──────────────────────────────────────────────────────────────
+// Generic function to render a list of items into a container.
+// Fetches the template, clones it once per item, fills data-fields.
+
+// load-content.js
+
 
 // ─── RENDER TEMPLATE ──────────────────────────────────────────────────────────
 // Generic function to render a single template (no data) into a container.
@@ -128,7 +134,22 @@ async function loadSharedStructure() {
 // Loads shared structure on every page automatically.
 // Each page JS file handles its own dynamic content on top of this.
 
+// document.addEventListener('DOMContentLoaded', async function () {
+    // await loadSharedStructure();
+    // document.dispatchEvent(new Event('sharedStructureReady'));
+// });
+
 document.addEventListener('DOMContentLoaded', async function () {
+    const protectedPages = ['dashboard.html', 'team-detail.html'];
+    const currentPage = window.location.pathname.split('/').pop();
+
+    if (protectedPages.includes(currentPage) && !Auth.isLoggedIn()) {
+        window.location.href = 'login.html';
+        return;
+    }
+
     await loadSharedStructure();
+    // updateAuthUI();
+    
     document.dispatchEvent(new Event('sharedStructureReady'));
 });

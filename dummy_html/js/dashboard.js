@@ -12,7 +12,8 @@ async function renderDashboard(data) {
     await renderList(
         '#worker-list', 
         '/templates/lists/worker-row.html', 
-        data.workers, 
+        data.teams, 
+        fillTeamRow, 
         enableSmartView 
     );
 }
@@ -41,4 +42,17 @@ function enableSmartView(container) {
             }
         });
     });
+}
+
+function fillTeamRow(clone, team) {
+    const details = clone.querySelector('.details-content');
+    if (details && team.members) {
+        details.innerHTML = `
+            <strong>Projekt:</strong> ${team.project || 'Brak'}<br>
+            <div class="sub-list">
+                <strong>Członkowie:</strong>
+                ${team.members.map(m => `<div>• ${m.name}</div>`).join('')}
+            </div>
+        `;
+    }
 }

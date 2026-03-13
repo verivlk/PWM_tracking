@@ -7,7 +7,13 @@ async function renderTeamDetail(data) {
     await renderTemplate('#workers-panel search', '/templates/lists/input-space.html');
     await renderTemplate('#workers-panel search', '/templates/search.html');
 
-    await renderList('#worker-list', '/templates/lists/worker-row.html', data.workers, enableSmartView);
+    await renderList(
+        '#worker-list', 
+        '/templates/lists/worker-row.html', 
+        data.workers, 
+        fillWorkerRow, 
+        enableSmartView 
+    );
 }
 
 function enableSmartView(container) {
@@ -30,20 +36,41 @@ function enableSmartView(container) {
 
 function updateBigDisplay(wrapper) {
     const display = document.getElementById('details-view');
-    const name = wrapper.querySelector('[data-field="name"]').textContent;
-    const statusHtml = wrapper.querySelector('.status').innerHTML;
+    if (!display) return;
+    const worker = JSON.parse(wrapper.dataset.info);
 
     display.innerHTML = `
         <div class="big-card">
-            <div class="big-avatar"></div>
-            <h1>${name}</h1>
-            <p>Status: ${statusHtml}</p>
+            <div class="big-avatar">
+                ${worker.photo ? `<img src="${worker.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : ''}
+            </div>
+            <h1>${worker.name}</h1>
+            <p>Status: ${worker.status === 'active' ? 'Active' : 'Not active'}</p>
+            
             <div class="info-grid">
-                <div><strong>Role:</strong><br>Team Member</div>
-                <div><strong>Email:</strong><br>${name.toLowerCase().replace(' ', '.')}@app.com</div>
-                <div><strong>Phone:</strong><br>+48 000 000 000</div>
-                <div><strong>Location:</strong><br>Main Office</div>
+                <div><strong>Rola:</strong><br>${worker.role || 'Pracownik'}</div>
+                <div><strong>Email:</strong><br>${worker.email || 'brak@maila.pl'}</div>
+                <div><strong>Telefon:</strong><br>${worker.phone || 'Nie podano'}</div>
+                <div><strong>Lokalizacja:</strong><br>${worker.location || 'Biuro Główne'}</div>
             </div>
         </div>
     `;
+}
+
+function fillWorkerRow(clone, worker) {
+    const wrapper = clone.querySelector('.worker-wrapper');
+    wrapper.dataset.info = JSON.stringify(worker);
+
+    const details = clone.querySelector('.details-content');
+    if (details) {
+        details.innerHTML = `
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <img src="${worker.photo}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
+                <div>
+                    <p><strong>Email:</strong> ${worker.email}</p>
+                    <p><strong>Rola:</strong> ${worker.role}</p>
+                </div>
+            </div>
+        `;
+    }
 }

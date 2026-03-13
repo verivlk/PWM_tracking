@@ -7,7 +7,16 @@
 
     <div class="worker-details">
         <div class="details-content">
-            <p><strong data-field="name"></strong></p>
+            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 10px;">
+                <img data-field="photo" src="" alt="" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                <div>
+                    <p><strong>Rola:</strong> <span data-field="role"></span></p>
+                    <p><strong>Email:</strong> <span data-field="email"></span></p>
+                </div>
+            </div>
+            
+            <p><strong>Projekt:</strong> <span data-field="project"></span></p>
+            <div class="sub-list" data-list="members"></div>
         </div>
     </div>
 </div>

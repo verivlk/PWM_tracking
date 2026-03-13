@@ -6,15 +6,47 @@
   ],
 
   "workers": [
-    { "id": 1, "name": "John Smith",   "status": "active"   },
-    { "id": 2, "name": "Emily Clark",  "status": "inactive" },
-    { "id": 3, "name": "James Brown",  "status": "inactive" },
-    { "id": 4, "name": "Sarah White",  "status": "active"   },
-    { "id": 5, "name": "Sarah White",  "status": "active"   },
-    { "id": 6, "name": "Sarah White",  "status": "active"   },
-    { "id": 7, "name": "Sarah White",  "status": "active"   },
-    { "id": 8, "name": "Sarah White",  "status": "active"   },
-    { "id": 9, "name": "Sarah White",  "status": "active"   }
+    { 
+      "id": 1, 
+      "name": "John Smith", 
+      "status": "active", 
+      "role": "Lead Driver", 
+      "email": "john@smith.com", 
+      "phone": "+48 111 222 333",
+      "photo": "https://randomuser.me/api/portraits/men/1.jpg" 
+    },
+    { 
+      "id": 2, 
+      "name": "Emily Clark", 
+      "status": "inactive", 
+      "role": "Logistics Manager", 
+      "email": "emily@clark.com", 
+      "phone": "+48 555 666 777",
+      "photo": "https://randomuser.me/api/portraits/women/2.jpg" 
+    }
+  ],
+
+  "teams": [
+    {
+      "id": 1,
+      "name": "Logistics Alpha",
+      "status": "active",
+      "project": "Sth",
+      "members": [
+        { "name": "John Smith", "role": "Lead Driver" },
+        { "name": "Emily Clark", "role": "Logistics Manager" }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Warehouse Bravo",
+      "status": "inactive",
+      "project": "invetarization",
+      "members": [
+        { "name": "James Brown", "role": "Bodyguard" },
+        { "name": "Sarah White", "role": "Prostitute" }
+      ]
+    }
   ],
 
 
