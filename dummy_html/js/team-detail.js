@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 async function renderTeamDetail(data) {
+    await renderTemplate('#workers-panel search', '/templates/lists/input-space.html');
+    await renderTemplate('#workers-panel search', '/templates/search.html');
+
     await renderList('#worker-list', '/templates/lists/worker-row.html', data.workers, enableSmartView);
 }
 

@@ -33,6 +33,13 @@ aside#workers-panel {
     border-right: 1px solid #ddd;
 }
 
+@media (max-width: 600px) {
+
+    aside#workers-panel {
+    width: 100%;
+}
+}
+
 search {
     flex: 0 0 auto;
     display: flex;
