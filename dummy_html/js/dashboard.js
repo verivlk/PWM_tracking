@@ -9,13 +9,38 @@ async function renderDashboard(data) {
     await renderTemplate('#workers-panel search', '/templates/lists/input-space.html');
     await renderTemplate('#workers-panel search', '/templates/search.html');
 
-    await renderList(
-        '#worker-list', 
-        '/templates/lists/worker-row.html', 
-        data.teams, 
-        fillTeamRow, 
-        enableSmartView 
-    );
+    const searchInput = document.querySelector('#workers-panel search input');
+
+    const refreshList = (filteredTeams) => {
+        renderList(
+            '#worker-list', 
+            '/templates/lists/worker-row.html', 
+            filteredTeams, 
+            fillTeamRow, 
+            enableSmartView
+        );
+    };
+
+    refreshList(data.teams);
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            
+            const filtered = data.teams.filter(team => {
+                
+                const matchName = team.name.toLowerCase().includes(term);
+                
+                const matchProject = team.project?.toLowerCase().includes(term);
+                
+                const matchMember = team.members?.some(m => m.name.toLowerCase().includes(term));
+                
+                return matchName || matchProject || matchMember;
+            });
+
+            refreshList(filtered);
+        });
+    }
 }
 
 function enableSmartView(container) {
@@ -48,9 +73,9 @@ function fillTeamRow(clone, team) {
     const details = clone.querySelector('.details-content');
     if (details && team.members) {
         details.innerHTML = `
-            <strong>Projekt:</strong> ${team.project || 'Brak'}<br>
+            <strong>Project:</strong> ${team.project || 'Brak'}<br>
             <div class="sub-list">
-                <strong>Członkowie:</strong>
+                <strong>Members:</strong>
                 ${team.members.map(m => `<div>• ${m.name}</div>`).join('')}
             </div>
         `;

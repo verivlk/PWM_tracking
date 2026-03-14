@@ -48,10 +48,10 @@ function updateBigDisplay(wrapper) {
             <p>Status: ${worker.status === 'active' ? 'Active' : 'Not active'}</p>
             
             <div class="info-grid">
-                <div><strong>Rola:</strong><br>${worker.role || 'Pracownik'}</div>
-                <div><strong>Email:</strong><br>${worker.email || 'brak@maila.pl'}</div>
-                <div><strong>Telefon:</strong><br>${worker.phone || 'Nie podano'}</div>
-                <div><strong>Lokalizacja:</strong><br>${worker.location || 'Biuro Główne'}</div>
+                <div><strong>Role:</strong><br>${worker.role || 'Worker'}</div>
+                <div><strong>Mail:</strong><br>${worker.email || 'brak@maila.pl'}</div>
+                <div><strong>Phone number:</strong><br>${worker.phone || 'Not given'}</div>
+                <div><strong>Localization:</strong><br>${worker.location || 'Main office'}</div>
             </div>
         </div>
     `;
@@ -67,8 +67,8 @@ function fillWorkerRow(clone, worker) {
             <div style="display: flex; gap: 15px; align-items: center;">
                 <img src="${worker.photo}" style="width:50px; height:50px; border-radius:50%; object-fit:cover;">
                 <div>
-                    <p><strong>Email:</strong> ${worker.email}</p>
-                    <p><strong>Rola:</strong> ${worker.role}</p>
+                    <p><strong>Mail:</strong> ${worker.email}</p>
+                    <p><strong>Role:</strong> ${worker.role}</p>
                 </div>
             </div>
         `;

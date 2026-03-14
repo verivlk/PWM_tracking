@@ -31,7 +31,7 @@ const Auth = {
 
     logout: () => {
         sessionStorage.removeItem('currentUser');
-        window.location.href = '/login.html';
+        window.location.href = 'login.html';
     }
 };
 
@@ -140,7 +140,8 @@ async function loadSharedStructure() {
 // });
 
 document.addEventListener('DOMContentLoaded', async function () {
-    const protectedPages = ['dashboard.html', 'team-detail.html'];
+    const protectedPages = [];
+    // 'dashboard.html', 'team-detail.html'
     const currentPage = window.location.pathname.split('/').pop();
 
     if (protectedPages.includes(currentPage) && !Auth.isLoggedIn()) {
@@ -149,7 +150,29 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
     await loadSharedStructure();
-    // updateAuthUI();
+    updateAuthUI();
     
     document.dispatchEvent(new Event('sharedStructureReady'));
 });
+
+// load-content.js
+
+function updateAuthUI() {
+    const authLink = document.querySelector('a[href*="login"]');
+    
+    if (!authLink) console.log("Kurwaaaaaaaaaaaa");
+
+    if (Auth.isLoggedIn()) {
+        const user = Auth.getUser();
+        authLink.textContent = `Logout (${user.username})`;
+        authLink.href = '#'; // Blokujemy przeładowanie strony
+        
+        authLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            Auth.logout();
+        });
+    } else {
+        authLink.textContent = 'Login';
+        authLink.href = 'login.html';
+    }
+}

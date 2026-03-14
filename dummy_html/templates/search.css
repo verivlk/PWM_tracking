@@ -1,0 +1,64 @@
+.icon-btn span {
+    transform: translateY(-5px); /* optical fix - search in the middle */
+}
+
+
+aside#workers-panel {
+    width: 420px;
+    min-width: 320px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    background: #f5f5f5;
+    border-right: 1px solid #ddd;
+}
+
+@media (max-width: 600px) {
+
+    aside#workers-panel {
+    width: 100%;
+}
+}
+
+search {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;       /* space between label, input and button */
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+search label {
+    flex: 0 0 auto;  /* label stays on the left */
+}
+
+search input {
+    flex: 1;       /* input takes all available space between label and button */
+    margin: 0 10px; /* optional spacing on left/right */
+    min-width: 0;  /* important to allow shrinking in flex */
+    padding: 5px 10px;
+}
+
+search button {
+    margin-left: auto; /* pushes button to the far right */
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    background: #bbb;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 42px;
+}
+
+section#worker-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
