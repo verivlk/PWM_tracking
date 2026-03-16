@@ -10,7 +10,7 @@ async function renderDashboard(data) {
     await renderTemplate('#workers-panel search', '/templates/search.html');
 
     const searchInput = document.querySelector('#workers-panel search input');
-
+    const map = await initMap('#map-panel');
     const refreshList = (filteredTeams) => {
         renderList(
             '#worker-list', 

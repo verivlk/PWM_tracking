@@ -3,6 +3,9 @@
 // Handles: shared structure (header, nav, footer) + utility functions.
 // Each page has its own JS file that calls these utilities.
 
+const AppConfig = {
+    interactiveMap: true, 
+};
 
 // ─── TEMPLATE LOADER ─────────────────────────────────────────────────────────
 // Fetches an HTML file and returns a cloneable <template> element.
