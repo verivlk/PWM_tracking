@@ -5,6 +5,7 @@
 
 const AppConfig = {
     interactiveMap: true, 
+    protectedPages: ['dashboard.html', 'team-detail.html'],
 };
 
 // ─── TEMPLATE LOADER ─────────────────────────────────────────────────────────
@@ -143,8 +144,7 @@ async function loadSharedStructure() {
 // });
 
 document.addEventListener('DOMContentLoaded', async function () {
-    const protectedPages = [];
-    // 'dashboard.html', 'team-detail.html'
+    const protectedPages = AppConfig.protectedPages;
     const currentPage = window.location.pathname.split('/').pop();
 
     if (protectedPages.includes(currentPage) && !Auth.isLoggedIn()) {
