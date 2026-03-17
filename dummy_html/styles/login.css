@@ -1,5 +1,5 @@
 .login-container {
-    flex: 1; /* login into the middle */
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,7 +7,7 @@
 }
 
 .login-box {
-    background: #e0e0e0;
+    background: var(--bg-secondary);
     padding: 40px 30px;
     border-radius: 10px;
     width: 100%;
@@ -19,21 +19,23 @@
     text-align: center;
     margin-bottom: 30px;
     font-size: 24px;
-    color: #333;
+    color: var(--text-main);
 }
 
 .login-box label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #333;
+    color: var(--text-main);
 }
 
 .login-box input {
     width: 100%;
     padding: 10px 12px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-main);
+    color: var(--text-main);
     border-radius: 6px;
     font-size: 14px;
     box-sizing: border-box;
@@ -43,8 +45,8 @@
     width: 100%;
     padding: 10px;
     border: none;
-    background: #333;
-    color: #fff;
+    background: var(--btn-bg);
+    color: var(--btn-text);
     font-size: 16px;
     border-radius: 6px;
     cursor: pointer;
@@ -52,5 +54,5 @@
 }
 
 .login-box button:hover {
-    background: #555;
+    background: var(--btn-hover);
 }

@@ -3,6 +3,12 @@
 // Handles: shared structure (header, nav, footer) + utility functions.
 // Each page has its own JS file that calls these utilities.
 
+// --- DARK MODE INIT ---
+// Check local storage immediately and apply class if enabled
+if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+}
+
 const AppConfig = {
     interactiveMap: true, 
     protectedPages: ['dashboard.html', 'team-detail.html'],

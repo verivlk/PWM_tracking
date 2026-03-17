@@ -1,114 +1,190 @@
+/* Main Content Area */
+main {
+    display: flex;
+    flex: 1;
+}
 
+/* Left Panel */
+#left-panel {
+    flex: 1.2;
+    background-color: var(--bg-main);
+    padding: 60px 40px;
+}
 
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
 
-        /* Main Content Area */
-        main {
-            display: flex;
-            flex: 1;
-        }
+.setting-item:hover {
+    background-color: var(--bg-tertiary);
+}
 
-        /* Left Panel */
-        #left-panel {
-            flex: 1.2;
-            background-color: #ffffff;
-            padding: 60px 40px;
-        }
+.setting-item.active {
+    background-color: var(--bg-tertiary);
+    border-left: 3px solid var(--text-main);
+}
 
+.text-group .label {
+    display: block;
+    font-size: 14px;
+    color: var(--text-main);
+}
 
+.text-group .description {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
 
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-        }
+/* CSS Toggle Switch */
+.toggle {
+    width: 44px;
+    height: 22px;
+    background-color: var(--border-color);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-        .text-group .label {
-            display: block;
-            font-size: 14px;
-            color: #333;
-        }
+.toggle input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
 
+.toggle::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--bg-main);
+    border-radius: 50%;
+    transition: left 0.3s;
+}
 
-        .text-group .description {
-            display: block;
-            font-size: 12px;
-            color: #888;
-            margin-top: 4px;
-        }
+/* Stato ON */
+.toggle:has(input:checked) {
+    background-color: var(--text-main);
+}
 
-        /* CSS Toggle Switch */
-        .toggle {
-            width: 44px;
-            height: 22px;
-            background-color: #ccc;      /* grigio = OFF */
-            border-radius: 12px;
-            position: relative;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+.toggle:has(input:checked)::after {
+    left: 24px;
+    background-color: var(--bg-main);
+}
 
-        .toggle input[type="checkbox"] {
-            opacity: 0;
-            width: 0;
-            height: 0;
-            position: absolute;
-        }
+/* Right Panel */
+#right-panel {
+    flex: 1;
+    background-color: var(--bg-secondary);
+    padding: 60px 40px;
+}
 
-        .toggle::after {
-            content: '';
-            position: absolute;
-            left: 2px;          /* pallino a sinistra = OFF */
-            top: 2px;
-            width: 18px;
-            height: 18px;
-            background-color: white;
-            border-radius: 50%;
-            transition: left 0.3s;
-        }
+#right-panel h2 {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--text-main);
+    text-transform: uppercase;
+    margin-top: 30px;
+    margin-bottom: 4px;
+}
 
-        /* Stato ON */
-        .toggle:has(input:checked) {
-            background-color: #333;
-        }
+.settings-box {
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+}
 
-        .toggle:has(input:checked)::after {
-            left: 24px;         /* pallino a destra = ON */
-        }
-
-
-        /* Right Panel */
-        #right-panel {
-            flex: 1;
-            background-color: #d9d9d9;
-            padding: 60px 40px;
-        }
-
-        #right-panel h2 {
-            font-size: 16px;
-            font-weight: 900;
-            color: #000;
-            text-transform: uppercase;
-        }
-
-    .settings-box {
-        max-width: 450px;          
-        display: flex;
-        flex-direction: column;
-    }
+.setting-button, .setting-button-alternate {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
 
 .setting-button {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;         
-    padding: 15px 20px;
-    /* border-top: 1px solid #eee;      */
-    margin-top: auto;     
+    margin-top: auto;
 }
-    
-    .setting-button-alternate {
-        display: flex;
-        justify-content: space-between; 
-        align-items: center;
-        padding: 15px 20px;
-    }
+
+/* Divider between setting items */
+.settings-box .setting-item + .setting-item {
+    border-top: 1px solid var(--border-color);
+}
+
+/* Arrow button */
+.arrow-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text-muted);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Right panel form */
+.right-panel-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+    max-width: 340px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.form-group input {
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--text-main);
+}
+
+/* Buttons */
+.panel-btn {
+    padding: 10px 20px;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background-color 0.2s;
+}
+
+.panel-btn:hover {
+    background-color: var(--btn-hover);
+}

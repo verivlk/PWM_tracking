@@ -7,7 +7,7 @@
 article.worker-row {
     display: flex;
     align-items: center;
-    background: #e0e0e0;
+    background: var(--bg-secondary);
     border-radius: 4px;
     padding: 14px 16px;
     gap: 8px;
@@ -18,7 +18,7 @@ article.worker-row h3 {
     flex: 1;
     font-size: 0.95rem;
     font-weight: normal;
-    color: #333;
+    color: var(--text-main);
 }
 
 mark.status {
@@ -43,7 +43,7 @@ button.expand {
     cursor: pointer;
     display: grid;
     place-items: center;
-    color: #333;
+    color: var(--text-main);
     font-size: 0.8rem;
     line-height: 1;
     transition: transform 0.3s ease;
@@ -52,7 +52,7 @@ button.expand {
 .worker-details {
     max-height: 0;
     overflow: hidden;
-    background: #d9d9d9;
+    background: var(--bg-tertiary);
     transition: max-height 0.3s ease-in-out;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
@@ -61,11 +61,11 @@ button.expand {
 .details-content {
     padding: 20px;
     font-size: 0.9rem;
-    color: #333;
+    color: var(--text-main);
 }
 
 .worker-wrapper.open .worker-details {
-    max-height: 500px; 
+    max-height: 500px;
 }
 
 .worker-wrapper.open .worker-row {
@@ -78,27 +78,26 @@ button.expand {
 }
 
 @media (min-width: 900px) {
-    
     main:has(#details-view) .worker-wrapper.open .worker-details {
         max-height: 0 !important;
     }
 
     main:has(#details-view) .worker-wrapper.open article.worker-row {
-        background: #3C74DF;
+        background: var(--primary-background-color);
         border-radius: 4px !important;
-        color: white;
+        color: var(--text-light);
     }
 
     main:has(#details-view) .worker-wrapper.open h3,
     main:has(#details-view) .worker-wrapper.open .expand {
-        color: white;
+        color: var(--text-light);
     }
 
     main:has(#details-view) .worker-wrapper.open mark.status {
-        filter: brightness(0) invert(1); 
+        filter: brightness(0) invert(1);
     }
 
     main:not(:has(#details-view)) .worker-wrapper.open article.worker-row {
-        background: #d0d0d0; 
+        background: var(--bg-tertiary);
     }
 }

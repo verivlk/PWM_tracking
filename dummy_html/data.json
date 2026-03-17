@@ -79,11 +79,36 @@
     },
 
     "settings": {
-      "title": "Settings",
-      "items": [
-        { "id": 1, "label": "Notifications" },
-        { "id": 2, "label": "Privacy"       },
-        { "id": 3, "label": "Language"      }
+      "account": [
+        {
+          "label": "Change Password",
+          "description": "Update your current password",
+          "href": "/settings/change-password"
+        },
+        {
+          "label": "Change Email",
+          "description": "Update your login email address",
+          "href": "/settings/change-email"
+        }
+      ],
+      "appearance": [
+        {
+          "label": "Dark Mode",
+          "description": "Switch between light and dark theme",
+          "checked": false
+        }
+      ],
+      "management": [
+        {
+          "label": "Add a Worker",
+          "description": "Register a new worker to the platform",
+          "href": "/settings/add-worker"
+        },
+        {
+          "label": "Register an Admin",
+          "description": "Create a new admin or manager account",
+          "href": "/settings/register-admin"
+        }
       ]
     }
 

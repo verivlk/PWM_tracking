@@ -13,14 +13,14 @@ aside#workers-panel {
 
     #workers-panel {
         flex: 0 0 400px;
-        border-right: 1px solid #ddd;
+        border-right: 1px solid var(--border-color);
         overflow-y: auto;
     }
 
     #details-view {
         display: flex;
         flex: 1;
-        background: #fdffdf;
+        background: var(--bg-article);
         padding: 60px;
         flex-direction: column;
         align-items: center;
@@ -37,7 +37,7 @@ aside#workers-panel {
 .big-avatar {
     width: 150px;
     height: 150px;
-    background: #ccc;
+    background: var(--border-color);
     border-radius: 50%;
     margin: 0 auto 20px;
 }

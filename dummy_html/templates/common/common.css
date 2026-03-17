@@ -1,9 +1,9 @@
 /*HEADER*/
 #main_header {
     background: var(--primary-background-color);
-    /*border: 1px solid #999999;*/
     padding: 0;
     text-align: center;
+    color: var(--text-light); /* Keeps text visible on primary blue */
 }
 
 #main_header h1 {
@@ -25,7 +25,7 @@
 
 /*MENU*/
 #main_menu {
-    background: #CCCCCC;
+    background: var(--bg-secondary);
     padding: 5px 15px;
     display: flex;
     align-items: center;
@@ -41,7 +41,7 @@
 
 .menu_item {
     background-color: var(--primary-button-color);
-    color: var(--light-text-color);
+    color: var(--text-light);
     border: none;
     border-radius: 20px;
     padding: 6px 12px;
@@ -55,17 +55,17 @@
     background: var(--primary-button-hover-color);
 }
 
-/*----------------------*/
 /*FOOTER*/
 #main_footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    border-top: 2px solid #999999;
+    border-top: 2px solid var(--border-dark);
     clear: both;
     text-align: center;
-    border-top: 2px solid #999999;
+    background-color: var(--bg-secondary);
+    color: var(--text-main);
 }
 
 #copyright {
