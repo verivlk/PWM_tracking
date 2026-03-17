@@ -7,7 +7,13 @@
 }
 
 #main_header h1 {
-    padding: 20px;
+    padding: 20px; /* width of the "line" with the title */
+}
+
+#main_title {
+    color: var(--dark-text-color);
+    text-decoration: none; /* remove underline */
+
 }
 
 @media (max-width: 600px) {
