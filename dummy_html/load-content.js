@@ -35,7 +35,7 @@ const Auth = {
 
     logout: () => {
         sessionStorage.removeItem('currentUser');
-        window.location.href = 'login.html';
+        window.location.href = '/pages/login.html';
     }
 };
 
@@ -168,7 +168,7 @@ function updateAuthUI() {
     if (Auth.isLoggedIn()) {
         const user = Auth.getUser();
         authLink.textContent = `Logout (${user.username})`;
-        authLink.href = '#'; // Blokujemy przeładowanie strony
+        authLink.href = '#'; // block page reload
         
         authLink.addEventListener('click', (e) => {
             e.preventDefault();
@@ -176,6 +176,6 @@ function updateAuthUI() {
         });
     } else {
         authLink.textContent = 'Login';
-        authLink.href = 'login.html';
+        authLink.href = '/pages/login.html';
     }
 }
