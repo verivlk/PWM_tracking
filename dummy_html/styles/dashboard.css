@@ -22,9 +22,16 @@ section#map-panel::after {
 section#map-panel::before { transform: rotate(34deg); }
 section#map-panel::after  { transform: rotate(-34deg); }
 
-@media (max-width: 600px) {
+
+@media (max-width: 768px) {
     #map-panel {
-        display: none;
+        display: none ;
+    }
+
+    #workers-panel {
+        width: 100% ;
+        flex: 1 1 100% ;
+        max-width: none ;
     }
 }
 

@@ -1,6 +1,5 @@
 #map-panel, section#map-panel {
     flex: 1;
-    min-height: 400px;
     background: var(--bg-secondary);
     position: relative;
     overflow: hidden;
@@ -21,12 +20,6 @@ section#map-panel::after {
 
 section#map-panel::before { transform: rotate(34deg); }
 section#map-panel::after  { transform: rotate(-34deg); }
-
-@media (max-width: 600px) {
-    #map-panel {
-        display: none;
-    }
-}
 
 section#map-panel figcaption {
     color: var(--text-muted);

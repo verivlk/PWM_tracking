@@ -43,7 +43,7 @@ document.addEventListener('sharedStructureReady', async function () {
 
     // Auto-click the first available setting to populate the right panel immediately
     const firstSetting = document.querySelector('.setting-item');
-    if (firstSetting) {
+    if (firstSetting && window.innerWidth > 768) { 
         firstSetting.click();
     }
 });
@@ -56,15 +56,15 @@ const settingPanels = {
         <form class="right-panel-form" onsubmit="return false">
             <div class="form-group">
                 <label>Current Password</label>
-                <input type="password" placeholder="Enter current password" />
+                <input type="password" required placeholder="Enter current password" />
             </div>
             <div class="form-group">
                 <label>New Password</label>
-                <input type="password" placeholder="Enter new password" />
+                <input type="password" required minlength="8" placeholder="At least 8 characters" />
             </div>
             <div class="form-group">
                 <label>Confirm New Password</label>
-                <input type="password" placeholder="Confirm new password" />
+                <input type="password" required minlength="8" placeholder="Confirm new password" />
             </div>
             <button type="submit" class="panel-btn">Save</button>
         </form>`,
@@ -74,35 +74,29 @@ const settingPanels = {
         <form class="right-panel-form" onsubmit="return false">
             <div class="form-group">
                 <label>New Email Address</label>
-                <input type="email" placeholder="Enter new email" />
+                <input type="email" required placeholder="Enter new email" />
             </div>
             <div class="form-group">
                 <label>Confirm Password</label>
-                <input type="password" placeholder="Confirm your password" />
+                <input type="password" required placeholder="Confirm your password" />
             </div>
             <button type="submit" class="panel-btn">Save</button>
         </form>`,
-
-    'Dark Mode': null, // toggle handles itself
 
     'Add a Worker': `
         <h2>ADD A WORKER</h2>
         <form class="right-panel-form" onsubmit="return false">
             <div class="form-group">
                 <label>First Name</label>
-                <input type="text" placeholder="First name" />
+                <input type="text" required placeholder="First name" />
             </div>
             <div class="form-group">
                 <label>Last Name</label>
-                <input type="text" placeholder="Last name" />
+                <input type="text" required placeholder="Last name" />
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" placeholder="Worker email" />
-            </div>
-            <div class="form-group">
-                <label>Role</label>
-                <input type="text" placeholder="e.g. Lead Driver" />
+                <input type="email" required placeholder="Worker email" />
             </div>
             <button type="submit" class="panel-btn">Register Worker</button>
         </form>`,
@@ -112,15 +106,15 @@ const settingPanels = {
         <form class="right-panel-form" onsubmit="return false">
             <div class="form-group">
                 <label>Full Name</label>
-                <input type="text" placeholder="Admin full name" />
+                <input type="text" required placeholder="Admin full name" />
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input type="email" placeholder="Admin email" />
+                <input type="email" required placeholder="Admin email" />
             </div>
             <div class="form-group">
                 <label>Temporary Password</label>
-                <input type="password" placeholder="Set a temporary password" />
+                <input type="password" required placeholder="Set a temporary password" />
             </div>
             <button type="submit" class="panel-btn">Create Admin</button>
         </form>`
@@ -172,15 +166,23 @@ function updateRightPanel(label) {
     const panel = document.getElementById('right-panel');
     const content = settingPanels[label];
 
-    if (content === null) {
-        // For toggles like Dark Mode where we don't change the right panel
-        return;
-    }
+    if (content === null) return;
+
+    const backButton = `<button class="back-btn" onclick="closeSettingsPanel()">← Back to List</button>`;
 
     if (content === undefined) {
-        panel.innerHTML = `<h2>${label.toUpperCase()}</h2><p class="right-panel-hint">No details available yet.</p>`;
-        return;
+        panel.innerHTML = `${backButton}<h2>${label.toUpperCase()}</h2><p class="right-panel-hint">No details available yet.</p>`;
+    } else {
+        panel.innerHTML = backButton + content;
     }
 
-    panel.innerHTML = content;
+    // Jeśli jesteśmy na mobile, pokaż panel
+    if (window.innerWidth <= 768) {
+        panel.classList.add('show');
+    }
+}
+
+function closeSettingsPanel() {
+    document.getElementById('right-panel').classList.remove('show');
+    document.querySelectorAll('.setting-item').forEach(i => i.classList.remove('active'));
 }

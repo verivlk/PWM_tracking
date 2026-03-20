@@ -167,21 +167,22 @@ document.addEventListener('DOMContentLoaded', async function () {
 // load-content.js
 
 function updateAuthUI() {
-    const authLink = document.querySelector('a[href*="login"]');
-    
-    if (!authLink) console.log("Kurwaaaaaaaaaaaa");
+    const authLinks = document.querySelectorAll('a[href*="login"]');
 
-    if (Auth.isLoggedIn()) {
-        const user = Auth.getUser();
-        authLink.textContent = `Logout (${user.username})`;
-        authLink.href = '#'; // block page reload
-        
-        authLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            Auth.logout();
-        });
-    } else {
-        authLink.textContent = 'Login';
-        authLink.href = '/pages/login.html';
-    }
+    authLinks.forEach(authLink => {
+        if (Auth.isLoggedIn()) {
+            const user = Auth.getUser();
+            
+            authLink.textContent = `Logout (${user.username})`;
+            authLink.href = '#'; 
+            
+            authLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                Auth.logout();
+            });
+        } else {
+            authLink.textContent = 'Login';
+            authLink.href = '/pages/login.html';
+        }
+    });
 }

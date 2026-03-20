@@ -4,11 +4,11 @@ main {
     flex: 1;
 }
 
-/* Left Panel */
 #left-panel {
     flex: 1.2;
     background-color: var(--bg-main);
     padding: 60px 40px;
+    overflow-y: auto;
 }
 
 .setting-item {
@@ -87,6 +87,7 @@ main {
     flex: 1;
     background-color: var(--bg-secondary);
     padding: 60px 40px;
+    overflow-y: auto;
 }
 
 #right-panel h2 {
@@ -134,7 +135,6 @@ main {
     display: none;
 }
 
-/* Right panel form */
 .right-panel-form {
     display: flex;
     flex-direction: column;
@@ -187,4 +187,84 @@ main {
 
 .panel-btn:hover {
     background-color: var(--btn-hover);
+}
+
+@media (max-width: 1024px) {
+    main {
+        flex-direction: row;
+    }
+    
+    #left-panel, #right-panel {
+        padding: 40px 20px;
+        
+    }
+
+    .settings-box {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        position: relative;
+    }
+
+    #right-panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: -webkit-fill-available;
+        height: 100%;
+        z-index: 1000;
+        display: none; 
+        background-color: var(--bg-main);
+        padding: 60px 40px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; 
+    }
+
+    #right-panel.show {
+        display: block;
+    }
+
+    .back-btn {
+        display: block;
+        padding: 10px;
+        margin-bottom: 20px;
+        background: var(--btn-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    
+
+    .right-panel-form {
+        max-width: 100%; 
+        padding-bottom: 40px 20px; 
+    }
+
+    #right-panel h2 {
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 769px) {
+    .back-btn { display: none; }
+}
+
+@media (max-width: 480px) {
+    .setting-item {
+        padding: 12px 15px;
+    }
+
+    .text-group .label {
+        font-size: 13px;
+    }
+
+    .panel-btn {
+        width: 100%;
+        text-align: center;
+    }
 }

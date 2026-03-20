@@ -59,7 +59,7 @@ button.expand {
 }
 
 .details-content {
-    padding: 20px;
+    padding: 0px 20px;
     font-size: 0.9rem;
     color: var(--text-main);
 }
