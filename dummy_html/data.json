@@ -79,38 +79,57 @@
     },
 
     "settings": {
-      "account": [
-        {
-          "label": "Change Password",
-          "description": "Update your current password",
-          "href": "/settings/change-password"
-        },
-        {
-          "label": "Change Email",
-          "description": "Update your login email address",
-          "href": "/settings/change-email"
-        }
-      ],
-      "appearance": [
-        {
-          "label": "Dark Mode",
-          "description": "Switch between light and dark theme",
-          "checked": false
-        }
-      ],
-      "management": [
-        {
-          "label": "Add a Worker",
-          "description": "Register a new worker to the platform",
-          "href": "/settings/add-worker"
-        },
-        {
-          "label": "Register an Admin",
-          "description": "Create a new admin or manager account",
-          "href": "/settings/register-admin"
-        }
+  "account": [
+    {
+      "label": "Change Password",
+      "description": "Update your current password",
+      "submitText": "Save",
+      "fields": [
+        { "label": "Current Password", "type": "password", "placeholder": "Enter current password", "required": true },
+        { "label": "New Password", "type": "password", "placeholder": "At least 8 characters", "required": true, "minlength": "8" },
+        { "label": "Confirm New Password", "type": "password", "placeholder": "Confirm new password", "required": true, "minlength": "8" }
+      ]
+    },
+    {
+      "label": "Change Email",
+      "description": "Update your login email address",
+      "submitText": "Save",
+      "fields": [
+        { "label": "New Email Address", "type": "email", "placeholder": "Enter new email", "required": true },
+        { "label": "Confirm Password", "type": "password", "placeholder": "Confirm your password", "required": true }
       ]
     }
+  ],
+  "appearance": [
+    {
+      "label": "Dark Mode",
+      "description": "Switch between light and dark theme",
+      "checked": false
+    }
+  ],
+  "management": [
+    {
+      "label": "Add a Worker",
+      "description": "Register a new worker to the platform",
+      "submitText": "Register Worker",
+      "fields": [
+        { "label": "First Name", "type": "text", "placeholder": "First name", "required": true },
+        { "label": "Last Name", "type": "text", "placeholder": "Last name", "required": true },
+        { "label": "Email", "type": "email", "placeholder": "Worker email", "required": true }
+      ]
+    },
+    {
+      "label": "Register an Admin",
+      "description": "Create a new admin or manager account",
+      "submitText": "Create Admin",
+      "fields": [
+        { "label": "Full Name", "type": "text", "placeholder": "Admin full name", "required": true },
+        { "label": "Email", "type": "email", "placeholder": "Admin email", "required": true },
+        { "label": "Temporary Password", "type": "password", "placeholder": "Set a temporary password", "required": true }
+      ]
+    }
+  ]
+}
 
 
 
