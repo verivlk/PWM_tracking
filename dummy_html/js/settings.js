@@ -63,7 +63,7 @@ function fillSettingItem(clone, item, sectionKey) {
         }
     }
 
-    el.addEventListener('click', function (e) {
+    el.addEventListener('click', async function (e) {
         if (e.target.tagName.toLowerCase() === 'input' || e.target.classList.contains('toggle')) {
             return;
         }
@@ -75,7 +75,7 @@ function fillSettingItem(clone, item, sectionKey) {
     });
 }
 
-function updateRightPanel(item) {
+async function updateRightPanel(item) {
     const panel = document.getElementById('right-panel');
     const backButton = `<button class="btn back-btn" onclick="closeSettingsPanel()">← Back to List</button>`;
 
@@ -86,38 +86,24 @@ function updateRightPanel(item) {
             <p class="right-panel-hint">${item.description || 'No additional settings for this option.'}</p>
         `;
     } else {
-        let formHtml = `<form class="right-panel-form" onsubmit="handleFormSubmit(event)">`;
-        
-        item.fields.forEach(field => {
-            const requiredAttr = field.required ? 'required' : '';
-            const minLengthAttr = field.minlength ? `minlength="${field.minlength}"` : '';
-            const patternAttr = field.pattern ? `pattern="${field.pattern}"` : '';
-            const type = field.type || 'text';
-
-            formHtml += `
-                <div class="input-space" style="margin-bottom: 15px;">
-                    <label >${field.label}</label>
-                    <input 
-                        name="${field.name || field.label.toLowerCase().replace(/\s/g, '_')}"
-                        type="${type}" 
-                        placeholder="${field.placeholder || ''}" 
-                        ${requiredAttr} 
-                        ${minLengthAttr} 
-                        ${patternAttr}
-                    />
-                </div>
-            `;
-        });
-
-        const btnText = item.submitText || 'Save Changes';
-        formHtml += `<button type="submit" class="btn panel-btn">${btnText}</button></form>`;
-
         panel.innerHTML = `
             ${backButton}
             <h2>${item.label.toUpperCase()}</h2>
-            <p style="margin-bottom:20px; color:var(--text-muted);">${item.description}</p>
-            ${formHtml}
+            <p>${item.description}</p>
+            <form class="right-panel-form" id="settings-form" onsubmit="handleFormSubmit(event)">
+            </form>
         `;
+
+        await renderList('#settings-form', '/templates/lists/input-space.html', item.fields, fillInputSpace);
+
+        const form = document.getElementById('settings-form');
+        const btnText = item.submitText || 'Save Changes';
+        
+        const btn = document.createElement('button');
+        btn.type = 'submit';
+        btn.className = 'btn panel-btn';
+        btn.textContent = btnText;
+        form.appendChild(btn);
     }
 
     if (window.innerWidth <= 768) {

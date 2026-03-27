@@ -186,3 +186,29 @@ function updateAuthUI() {
         }
     });
 }
+
+function fillInputSpace(clone, field) {
+    const label = clone.querySelector('[data-field="label"]');
+    const input = clone.querySelector('[data-field="input"]');
+
+    const safeName = field.name || field.label.toLowerCase().replace(/\s/g, '_');
+
+    if (label) {
+        label.textContent = field.label;
+        label.setAttribute('for', safeName);
+        label.removeAttribute('data-field');
+    }
+
+    if (input) {
+        input.type = field.type || 'text';
+        input.id = safeName;
+        input.name = safeName;
+        input.placeholder = field.placeholder || `Enter ${field.label.toLowerCase()}`;
+        
+        if (field.required) input.required = true;
+        if (field.minlength) input.setAttribute('minlength', field.minlength);
+        if (field.pattern) input.setAttribute('pattern', field.pattern);
+        
+        input.removeAttribute('data-field');
+    }
+}

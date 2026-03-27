@@ -10,46 +10,19 @@ async function renderLogin(data) {
     const form = document.querySelector('.login-box form');
     if (!form) return;
 
-    // Login fields defined locally since they are always fixed (username + password)
     const fields = [
-        { name: 'username', type: 'text',     label: 'Username' },
-        { name: 'password', type: 'password', label: 'Password' }
+        { name: 'username', type: 'text',     label: 'Username', required: true },
+        { name: 'password', type: 'password', label: 'Password', required: true }
     ];
 
-    // Render input fields using the same input-space.html template
-    await renderList('.login-box form', '/templates/lists/input-space.html', fields);
+    await renderList('.login-box form', '/templates/lists/input-space.html', fields, fillInputSpace);
 
-    // After renderList, find each input and set its correct type and id
-    // (fillClone sets textContent/label, but type and id need extra handling)
-    fields.forEach(field => {
-        const label = form.querySelector(`[data-field="label"]`);
-        const input = form.querySelector(`[data-field="input"]`);
-        if (label) {
-            label.textContent = field.label;
-            label.setAttribute('for', field.name);
-            label.removeAttribute('data-field');
-        }
-        if (input) {
-            input.type = field.type;
-            input.id = field.name;
-            input.name = field.name;
-            input.placeholder = `Enter ${field.label.toLowerCase()}`;
-            input.required = true;
-            input.removeAttribute('data-field');
-        }
-    });
-
-    // Remove old placeholder link
-    form.querySelector('a.btn')?.remove();
-
-    // Submit button
     const btn = document.createElement('button');
     btn.type = 'submit';
     btn.className = 'btn';
     btn.textContent = 'Login';
     form.appendChild(btn);
 
-    // Authentication against data.users
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         const username = document.getElementById('username').value.trim();
