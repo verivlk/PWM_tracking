@@ -95,7 +95,7 @@ function updateRightPanel(item) {
             const type = field.type || 'text';
 
             formHtml += `
-                <div class="form-group" style="margin-bottom: 15px;">
+                <div class="input-space" style="margin-bottom: 15px;">
                     <label >${field.label}</label>
                     <input 
                         name="${field.name || field.label.toLowerCase().replace(/\s/g, '_')}"

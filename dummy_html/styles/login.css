@@ -22,37 +22,7 @@
     color: var(--text-main);
 }
 
-.login-box label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: var(--text-main);
-}
-
-.login-box input {
-    width: 100%;
-    padding: 10px 12px;
-    margin-bottom: 20px;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    border-radius: 6px;
-    font-size: 14px;
-    box-sizing: border-box;
-}
 
 .login-box button {
     width: 100%;
-    padding: 10px;
-    border: none;
-    background: var(--btn-bg);
-    color: var(--btn-text);
-    font-size: 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.login-box button:hover {
-    background: var(--btn-hover);
 }

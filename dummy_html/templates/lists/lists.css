@@ -141,3 +141,34 @@ button.expand {
     cursor: pointer;
     line-height: 1;
 }
+
+.input-space {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.input-space label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+.input-space input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.input-space input:focus {
+    outline: none;
+    border-color: var(--primary-background-color);
+}
+
