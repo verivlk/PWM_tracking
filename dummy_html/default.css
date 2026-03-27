@@ -155,6 +155,7 @@ button, .btn {
     display: inline-block;
     text-decoration: none;
     font-weight: bold;
+    transition: background-color 0.2s;
 }
 
 button:hover, .btn:hover {
@@ -168,4 +169,48 @@ footer#main_footer {
     justify-content: flex-end;
     padding: 16px 20px;
     background-color: var(--bg-secondary);
+}
+
+.hidden {
+    display: none;
+}
+
+/* CSS Toggle Switch */
+.toggle {
+    width: 44px;
+    height: 22px;
+    background-color: var(--border-color);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.toggle input[type="checkbox"] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.toggle::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 18px;
+    height: 18px;
+    background-color: var(--bg-main);
+    border-radius: 50%;
+    transition: left 0.3s;
+}
+
+/* Stato ON */
+.toggle:has(input:checked) {
+    background-color: var(--text-main);
+}
+
+.toggle:has(input:checked)::after {
+    left: 24px;
+    background-color: var(--bg-main);
 }

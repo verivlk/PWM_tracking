@@ -77,7 +77,7 @@ function fillSettingItem(clone, item, sectionKey) {
 
 function updateRightPanel(item) {
     const panel = document.getElementById('right-panel');
-    const backButton = `<button class="back-btn" onclick="closeSettingsPanel()">← Back to List</button>`;
+    const backButton = `<button class="btn back-btn" onclick="closeSettingsPanel()">← Back to List</button>`;
 
     if (!item.fields || item.fields.length === 0) {
         panel.innerHTML = `
@@ -104,14 +104,13 @@ function updateRightPanel(item) {
                         ${requiredAttr} 
                         ${minLengthAttr} 
                         ${patternAttr}
-                        style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:4px;"
                     />
                 </div>
             `;
         });
 
         const btnText = item.submitText || 'Save Changes';
-        formHtml += `<button type="submit" class="panel-btn">${btnText}</button></form>`;
+        formHtml += `<button type="submit" class="btn panel-btn">${btnText}</button></form>`;
 
         panel.innerHTML = `
             ${backButton}
