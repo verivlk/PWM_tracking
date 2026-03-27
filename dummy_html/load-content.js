@@ -11,7 +11,7 @@ if (localStorage.getItem('darkMode') === 'enabled') {
 
 const AppConfig = {
     interactiveMap: true, 
-    protectedPages: ['dashboard.html', 'team-detail.html'],
+    protectedPages: ['dashboard.html', 'team-detail.html', 'map.html', 'settings.html'],
 };
 
 // ─── TEMPLATE LOADER ─────────────────────────────────────────────────────────
