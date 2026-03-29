@@ -1,9 +1,8 @@
 # Employee Tracking App - Sprint 2
 
 ## 1. Project Information
-* **Project Name:** [Your Project Name]
-* **Group Members:** [Names of group members]
-* **GitHub Repository:** [Link to your repo]
+* **Project Group:** 44
+* **Group Members:** Kacper, Francesco, Verka 
 * **Sprint Branch:** `sprint-2`
 
 ---
