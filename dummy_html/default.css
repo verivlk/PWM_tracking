@@ -56,16 +56,6 @@ body.dark-mode {
     --btn-hover: #ffffff;
 }
 
-/* =========================================
-   BASE STYLES
-========================================= */
-
-/* Breakpoints
-   phone  : 600px
-   tablet : 768px
-   laptop : 1024px
-*/
-
 * {
     margin: 0px;
     padding: 0px;
