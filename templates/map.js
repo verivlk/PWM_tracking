@@ -38,6 +38,6 @@ async function initMap(containerSelector) {
 
         return map;
     } else {
-        await renderTemplate(containerSelector, '/templates/map.html');
+        await renderTemplate(containerSelector, '/PWM_tracking-master/templates/map.html');
     }
 }

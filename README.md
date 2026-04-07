@@ -6,7 +6,7 @@ The system allows safety supervisors to monitor the location and activity status
 # Employee Tracking App - Sprint 2
 
 ## 1. Project Information
-* **Project Group:** 44
+* **Project Group:** 44.2
 * **Group Members:** Kacper, Francesco, Veronika 
 * **Sprint Branch:** `sprint-2`
 
@@ -18,6 +18,7 @@ The system allows safety supervisors to monitor the location and activity status
 
 ---
 
+## 3. CSS
 * **`styles/default.css`**: Defines the global layout core. It uses a `flex-column` wrapper to ensure the footer stays at the bottom.
 * **`styles/common.css`**: Manages shared UI components like the Header and Navigation. It features a **Mobile-First/Adaptive** menu: on screens below `768px`, the navigation links transform into a 2-column `display: grid` layout to provide large, touch-friendly tap targets.
 * **`templates/lists/lists.css`**: Contains the "Smart View" logic. It uses `@media (min-width: 900px)` to toggle between an accordion-style list (mobile) and a split-pane side-panel view (desktop).
@@ -59,16 +60,14 @@ The `fillInputSpace` function automatically configures form fields based on the 
 
 
 ## 6. Data Source
-* **Current Location:** Local JSON file (`/dummy_html/data.json`).
+* **Current Location:** Local JSON file (`data.json`).
 * **Future Compatibility:** The `fetchData()` utility is prepared to connect to a **Json-server** or **Strapi** by simply changing the `BASE_URL` constant.
 
 ---
 
 ## 7. How to run
 
-- Change directory to dummy_html
-- Use a local server (e.g., VSCode Live Server or **python3 -m http.server 'port'**)
-
+- We suppose the directory of this project is named `PWM_tracking-master`, if not, please rename it.
 
 No backend is required – this is a frontend prototype
 

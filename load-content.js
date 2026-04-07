@@ -17,7 +17,7 @@ const AppConfig = {
 // ─── TEMPLATE LOADER ─────────────────────────────────────────────────────────
 // Fetches an HTML file and returns a cloneable <template> element.
 
-const BASE = '/tracking_project/';
+const BASE = '/PWM_tracking-master';
 
 async function loadTemplate(url) {
     const response = await fetch(url);
@@ -41,7 +41,7 @@ const Auth = {
 
     logout: () => {
         sessionStorage.removeItem('currentUser');
-        window.location.href = '/pages/login.html';
+        window.location.href = '/PWM_tracking-master/pages/login.html';
     }
 };
 
@@ -50,7 +50,7 @@ const Auth = {
 // Fetches and returns the parsed data.json file.
 
 async function fetchData() {
-    const response = await fetch('/data.json');
+    const response = await fetch('/PWM_tracking-master/data.json');
     return response.json();
 }
 
@@ -182,7 +182,7 @@ function updateAuthUI() {
             });
         } else {
             authLink.textContent = 'Login';
-            authLink.href = '/pages/login.html';
+            authLink.href = '/PWM_tracking-master/pages/login.html';
         }
     });
 }
