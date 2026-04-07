@@ -17,7 +17,7 @@ const AppConfig = {
 // ─── TEMPLATE LOADER ─────────────────────────────────────────────────────────
 // Fetches an HTML file and returns a cloneable <template> element.
 
-const BASE = '';
+const BASE = '/tracking_project/';
 
 async function loadTemplate(url) {
     const response = await fetch(url);
