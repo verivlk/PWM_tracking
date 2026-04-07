@@ -1,0 +1,118 @@
+/*HEADER*/
+#main_header {
+    background: var(--primary-background-color);
+    padding: 0;
+    text-align: center;
+    color: var(--text-light); /* Keeps text visible on primary blue */
+}
+
+#main_header h1 {
+    padding: 20px; /* width of the "line" with the title */
+}
+
+#main_title {
+    color: var(--dark-text-color);
+    text-decoration: none; /* remove underline */
+
+}
+
+@media (max-width: 600px) {
+    #main_header h1 {
+        font-size: 18px;
+        padding: 6px;
+    }
+}
+
+/*MENU*/
+#main_menu {
+    background: var(--bg-secondary);
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+}
+#main_menu li {
+    display: inline-block;
+    list-style: none;
+    padding: 5px;
+    font: bold 14px verdana, sans-serif;
+}
+
+.menu_item {
+    background-color: var(--primary-button-color);
+    color: var(--text-light);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
+}
+.menu_item:hover {
+    background: var(--primary-button-hover-color);
+}
+
+/*FOOTER*/
+#main_footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-top: 2px solid var(--border-dark);
+    clear: both;
+    text-align: center;
+    background-color: var(--bg-secondary);
+    color: var(--text-main);
+}
+
+#copyright {
+    margin: 0 auto;
+}
+
+.login-button-footer{
+    display: none;
+}
+
+@media (max-width: 768px) {
+    #main_menu{
+        padding: 1px;
+    }
+
+    .page-change-menu {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr; 
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        gap: 2px;
+    }
+
+    #main_menu li {
+        display: block;
+        padding: 0;
+    }
+
+    .menu_item {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 30px;               
+        border-radius: 0px !important;
+        font-size: 13px !important;
+        text-align: center;
+        padding: 0 !important;
+        box-sizing: border-box;
+    }
+    .login-button{
+        display: none;
+    }
+    
+    .login-button-footer{
+        display: block;
+    }
+}

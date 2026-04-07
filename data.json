@@ -1,0 +1,138 @@
+{
+  "users": [
+    { "id": 1, "username": "admin",        "password": "1234",   "role": "admin"  },
+    { "id": 2, "username": "user",   "password": "1234","role": "worker" },
+    { "id": 3, "username": "emily.clark",  "password": "pass456","role": "worker" }
+  ],
+
+  "workers": [
+    { 
+      "id": 1, 
+      "name": "John Smith", 
+      "status": "active", 
+      "role": "Lead Driver", 
+      "email": "john@smith.com", 
+      "phone": "+48 111 222 333",
+      "photo": "https://randomuser.me/api/portraits/men/1.jpg" 
+    },
+    { 
+      "id": 2, 
+      "name": "Emily Clark", 
+      "status": "inactive", 
+      "role": "Logistics Manager", 
+      "email": "emily@clark.com", 
+      "phone": "+48 555 666 777",
+      "photo": "https://randomuser.me/api/portraits/women/2.jpg" 
+    }
+  ],
+
+  "teams": [
+    {
+      "id": 1,
+      "name": "Logistics Alpha",
+      "status": "active",
+      "project": "Sth",
+      "members": [
+        { "name": "John Smith", "role": "Lead Driver" },
+        { "name": "Emily Clark", "role": "Logistics Manager" }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Warehouse Bravo",
+      "status": "inactive",
+      "project": "invetarization",
+      "members": [
+        { "name": "James Brown", "role": "Bodyguard" },
+        { "name": "Sarah White", "role": "Prostitute" }
+      ]
+    }
+  ],
+
+
+  "pages": {
+
+    "login": {
+      "title": "Login"
+    },
+
+    "dashboard": {
+      "title": "Dashboard"
+    },
+
+    "map": {
+      "title": "Map"
+    },
+
+    "team_detail": {
+      "title": "Team Detail"
+    },
+
+    "create_worker": {
+      "title": "Create Worker",
+      "fields": [
+        { "name": "firstname", "type": "text",  "label": "First Name" },
+        { "name": "lastname",  "type": "text",  "label": "Last Name"  },
+        { "name": "email",     "type": "email", "label": "Email"      },
+        { "name": "role",      "type": "text",  "label": "Role"       }
+      ]
+    },
+
+    "settings": {
+  "account": [
+    {
+      "label": "Change Password",
+      "description": "Update your current password",
+      "submitText": "Save",
+      "fields": [
+        { "label": "Current Password", "type": "password", "placeholder": "Enter current password", "required": true },
+        { "label": "New Password", "type": "password", "placeholder": "At least 8 characters", "required": true, "minlength": "8" },
+        { "label": "Confirm New Password", "type": "password", "placeholder": "Confirm new password", "required": true, "minlength": "8" }
+      ]
+    },
+    {
+      "label": "Change Email",
+      "description": "Update your login email address",
+      "submitText": "Save",
+      "fields": [
+        { "label": "New Email Address", "type": "email", "placeholder": "Enter new email", "required": true },
+        { "label": "Confirm Password", "type": "password", "placeholder": "Confirm your password", "required": true }
+      ]
+    }
+  ],
+  "appearance": [
+    {
+      "label": "Dark Mode",
+      "description": "Switch between light and dark theme",
+      "checked": false
+    }
+  ],
+  "management": [
+    {
+      "label": "Add a Worker",
+      "description": "Register a new worker to the platform",
+      "submitText": "Register Worker",
+      "fields": [
+        { "label": "First Name", "type": "text", "placeholder": "First name", "required": true },
+        { "label": "Last Name", "type": "text", "placeholder": "Last name", "required": true },
+        { "label": "Email", "type": "email", "placeholder": "Worker email", "required": true }
+      ]
+    },
+    {
+      "label": "Register an Admin",
+      "description": "Create a new admin or manager account",
+      "submitText": "Create Admin",
+      "fields": [
+        { "label": "Full Name", "type": "text", "placeholder": "Admin full name", "required": true },
+        { "label": "Email", "type": "email", "placeholder": "Admin email", "required": true },
+        { "label": "Temporary Password", "type": "password", "placeholder": "Set a temporary password", "required": true }
+      ]
+    }
+  ]
+}
+
+
+
+
+  }
+}

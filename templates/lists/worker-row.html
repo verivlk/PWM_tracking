@@ -1,0 +1,22 @@
+<div class="worker-wrapper" tabindex="0">
+    <article class="worker-row">
+        <h3 data-field="name"></h3>
+        <mark class="status" data-field="status" aria-label=""></mark>
+        <button class="expand" aria-label="Expand">&#9660;</button>
+    </article>
+
+    <div class="worker-details">
+        <div class="details-content">
+            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 10px;">
+                <img data-field="photo" src="" alt="" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                <div>
+                    <p><strong>Rola:</strong> <span data-field="role"></span></p>
+                    <p><strong>Email:</strong> <span data-field="email"></span></p>
+                </div>
+            </div>
+            
+            <p><strong>Projekt:</strong> <span data-field="project"></span></p>
+            <div class="sub-list" data-list="members"></div>
+        </div>
+    </div>
+</div>
