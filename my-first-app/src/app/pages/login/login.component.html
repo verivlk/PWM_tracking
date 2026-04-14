@@ -1,0 +1,27 @@
+<div class="login-container">
+  <div class="login-box">
+    <h2>Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      
+      <app-input-field 
+        label="Email"
+        type="email"
+        placeholder="Enter email"
+        [control]="getEmailControl()"
+        errorMsg="Valid email is required.">
+      </app-input-field>
+
+      <app-input-field 
+        label="Password"
+        type="password"
+        placeholder="Enter password"
+        [control]="getPasswordControl()"
+        errorMsg="Password is required (min 6 chars).">
+      </app-input-field>
+
+      <button type="submit" class="btn" [disabled]="loginForm.invalid">
+        Submit
+      </button>
+    </form>
+  </div>
+</div>

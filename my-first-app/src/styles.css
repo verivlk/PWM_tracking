@@ -108,6 +108,8 @@ main {
     min-height: 0;
 }
 
+
+
 @media (max-width: 600px) {
     main {
         height: auto;
