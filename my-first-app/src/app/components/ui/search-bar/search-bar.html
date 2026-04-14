@@ -1,1 +1,12 @@
-<p>search-bar works!</p>
+<div class="search-container">
+    <label for="search-input">Search</label>
+    <input 
+      type="text" 
+      id="search-input" 
+      placeholder="Type to filter..." 
+      (input)="onInput($event)"
+    >
+    <button class="icon-btn" type="submit" aria-label="Search">
+        <span>⌕</span>
+    </button>
+</div>

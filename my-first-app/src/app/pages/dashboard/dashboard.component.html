@@ -1,0 +1,27 @@
+<div id="dashboard-layout">
+    <aside id="workers-panel">
+      <div class="search-wrapper">
+        <app-search-bar (searchChange)="onSearch($event)"></app-search-bar>
+      </div>
+
+      <div class="worker-list">
+        <div *ngFor="let team of filteredTeams" class="worker-wrapper">
+           <app-worker-row [workerData]="{ name: team.name, status: 'active' }"></app-worker-row>
+           <div class="details-content">
+              <p><strong>Projekt:</strong> {{ team.project }}</p>
+              <ul>
+                 <li *ngFor="let m of team.members">• {{ m.name }}</li>
+              </ul>
+           </div>
+        </div>
+        
+        <div *ngIf="filteredTeams.length === 0" class="no-results">
+          No teams found for this criteria.
+        </div>
+      </div>
+    </aside>
+
+    <section id="map-container">
+      <app-map-view></app-map-view>
+    </section>
+</div>

@@ -1,1 +1,4 @@
-<p>toggle-switch works!</p>
+<label class="toggle">
+    <input type="checkbox" [checked]="checked" (change)="onToggle($event)" />
+    <span class="slider"></span>
+</label>

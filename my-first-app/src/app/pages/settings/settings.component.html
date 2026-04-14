@@ -1,0 +1,55 @@
+<div id="wrapper">
+    <main>
+        <section id="left-panel">
+            <div id="settings-container">
+                <div *ngFor="let section of sections()">
+                    <h2 class="section-title">{{ section.title }}</h2>
+                    <div class="settings-box">
+                        <app-setting-item 
+                            *ngFor="let item of section.items"
+                            [label]="item.label"
+                            [description]="item.description"
+                            [type]="item.type"
+                            [isActive]="selectedItem()?.id === item.id"
+                            [toggleValue]="item.label === 'Dark Mode' ? isDarkMode() : false"
+                            (itemClick)="selectItem(item)"
+                            (toggleChange)="handleToggle(item, $event)">
+                        </app-setting-item>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <aside id="right-panel" [class.show]="isMobileMenuOpen()">
+            <button class="btn back-btn" (click)="closePanel()">← Back to List</button>
+            
+            <ng-container *ngIf="selectedItem(); else hint">
+                <div class="panel-header">
+                    <h2>{{ selectedItem().label | uppercase }}</h2>
+                    <p>{{ selectedItem().description }}</p>
+                </div>
+                
+                <form [formGroup]="settingsForm" class="right-panel-form" (ngSubmit)="saveSettings()">
+                    <div *ngFor="let field of selectedItem().fields">
+                        <app-input-field 
+                            [label]="field.label" 
+                            [type]="field.type" 
+                            [placeholder]="field.placeholder"
+                            [control]="getControl(field.label)">
+                        </app-input-field>
+                    </div>
+                    <button type="submit" class="btn panel-btn" *ngIf="selectedItem().fields">
+                        {{ selectedItem().submitText || 'Save Changes' }}
+                    </button>
+                </form>
+            </ng-container>
+
+            <ng-template #hint>
+                <div class="panel-header">
+                    <h2>SETTINGS</h2>
+                    <p class="right-panel-hint">Select a setting to configure it.</p>
+                </div>
+            </ng-template>
+        </aside>
+    </main>
+</div>

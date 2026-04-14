@@ -1,30 +1,41 @@
-<section class="team-container">
-  <h2>Team Members</h2>
-  
-  <div class="worker-wrapper" *ngFor="let worker of employees" 
-       [class.open]="worker.isOpen" 
-       (click)="toggleWorker(worker)" 
-       tabindex="0">
-      
-      <article class="worker-row">
-          <h3>{{ worker.name }}</h3>
-          <mark class="status" [ngClass]="worker.status">
-              {{ worker.status === 'active' ? '✓' : '✗' }}
-          </mark>
-          <button class="expand" aria-label="Expand">▼</button>
-      </article>
+<div class="team-layout">
+    <aside id="workers-panel">
+        <div class="search-wrapper">
+            <app-search-bar (searchChange)="onSearch($event)"></app-search-bar>
+        </div>
 
-      <div class="worker-details" *ngIf="worker.isOpen">
-          <div class="details-content">
-              <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 10px;">
-                  <img [src]="worker.photo" alt="Photo of {{ worker.name }}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
-                  <div>
-                      <p><strong>Role:</strong> {{ worker.role }}</p>
-                      <p><strong>Email:</strong> {{ worker.email }}</p>
-                  </div>
-              </div>
-              <p><strong>Project:</strong> {{ worker.project }}</p>
-          </div>
-      </div>
-  </div>
-</section>
+        <div class="worker-list">
+            <div *ngFor="let person of filteredWorkers" 
+                 (click)="selectedWorker = person"
+                 class="worker-clickable"
+                 [class.active-row]="selectedWorker?.id === person.id">
+                <app-worker-row [workerData]="person"></app-worker-row>
+            </div>
+
+            <div *ngIf="filteredWorkers.length === 0" class="no-results">
+                Nie znaleziono pracowników.
+            </div>
+        </div>
+    </aside>
+
+    <section id="details-view">
+        <div *ngIf="selectedWorker" class="big-card">
+            <div class="big-avatar">
+                <img [src]="selectedWorker.photo" *ngIf="selectedWorker.photo" alt="Avatar">
+            </div>
+            <h1>{{ selectedWorker.name }}</h1>
+            <p class="status-label">Status: {{ selectedWorker.status === 'active' ? 'Active' : 'Inactive' }}</p>
+            
+            <div class="info-grid">
+                <div class="info-item"><strong>Role:</strong><br>{{ selectedWorker.role }}</div>
+                <div class="info-item"><strong>Mail:</strong><br>{{ selectedWorker.email }}</div>
+                <div class="info-item"><strong>Phone:</strong><br>{{ selectedWorker.phone || 'Not provided' }}</div>
+                <div class="info-item"><strong>Location:</strong><br>{{ selectedWorker.location || 'Main office' }}</div>
+            </div>
+        </div>
+        
+        <div *ngIf="!selectedWorker" class="placeholder">
+            <p>Wybierz pracownika z listy, aby zobaczyć szczegóły</p>
+        </div>
+    </section>
+</div>

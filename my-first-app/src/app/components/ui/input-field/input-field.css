@@ -7,28 +7,32 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 16px; /* Odstęp między polami */
     text-align: left;
 }
 
 .input-group label {
+    display: block;
     font-size: 14px;
     color: var(--text-main);
     font-weight: 500;
 }
 
 .input-group input {
+    width: 100%;
     padding: 12px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background: var(--bg-main);
     color: var(--text-main);
-    transition: border-color 0.2s;
+    font-size: 14px;
+    box-sizing: border-box; /* Kluczowe: input nie wyjdzie poza panel */
+    transition: border-color 0.2s, box-shadow 0.2s;
     outline: none;
 }
 
 .input-group input:focus {
-    border-color: var(--primary-background-color);
+    border-color: var(--text-main);
 }
 
 .input-group input.invalid {
@@ -37,6 +41,6 @@
 
 .error-msg {
     color: #e74c3c;
-    font-size: 12px;
-    margin-top: -4px;
+    font-size: 11px;
+    margin-top: 2px;
 }

@@ -1,0 +1,133 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.team-layout {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100vh - 160px);
+    align-items: stretch;
+}
+
+#workers-panel {
+    width: 400px;
+    min-width: 400px;
+    background: var(--bg-tertiary);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column; /* Układ pionowy dla search + list */
+}
+
+.search-wrapper {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+}
+
+.worker-list {
+    flex: 1;
+    overflow-y: auto; /* Tylko lista ma scrollbar */
+}
+
+#details-view {
+    flex: 1;
+    background: var(--bg-article);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px;
+    overflow-y: auto;
+}
+
+.no-results {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+/* KARTA SZCZEGÓŁÓW */
+.big-card {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    background: var(--bg-main);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.big-avatar {
+    width: 150px;
+    height: 150px;
+    background: var(--border-color);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    overflow: hidden;
+    border: 3px solid var(--primary-background-color);
+}
+
+.big-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 30px;
+    text-align: left;
+}
+
+.info-item {
+    padding: 10px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    color: var(--text-main);
+}
+
+.status-label {
+    font-weight: bold;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+/* STYL DLA LISTY */
+.worker-clickable {
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.2s;
+}
+
+.worker-clickable:hover {
+    background: var(--bg-secondary);
+}
+
+.active-row {
+    background: var(--primary-background-color) !important;
+}
+
+/* Zmiana koloru tekstu wewnątrz app-worker-row gdy wiersz jest aktywny */
+.active-row ::ng-deep h3, 
+.active-row ::ng-deep p,
+.active-row ::ng-deep span {
+    color: white !important;
+}
+
+@media (max-width: 900px) {
+    .team-layout {
+        flex-direction: column;
+    }
+    #workers-panel {
+        width: 100%;
+        min-width: 100%;
+        height: 50%;
+    }
+    #details-view {
+        height: 50%;
+    }
+}

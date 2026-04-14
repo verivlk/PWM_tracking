@@ -7,12 +7,11 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './input-field.html',
-  styleUrl: './input-field.css'
+  styleUrls: ['./input-field.css']
 })
 export class InputFieldComponent {
   @Input() label: string = '';
   @Input() type: string = 'text';
   @Input() placeholder: string = '';
-  @Input() control!: FormControl; // Przekazujemy kontrolkę z formularza nadrzędnego
-  @Input() errorMsg: string = 'To pole jest wymagane';
+  @Input() control!: FormControl; // Kluczowe dla naprawy błędów NG8002
 }

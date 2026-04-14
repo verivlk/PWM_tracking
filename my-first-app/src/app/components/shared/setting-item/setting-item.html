@@ -1,1 +1,15 @@
-<p>setting-item works!</p>
+<div class="setting-item" [class.active]="isActive" (click)="handleContainerClick()">
+    <div class="text-group">
+        <span class="label">{{ label }}</span>
+        <span class="description" *ngIf="description">{{ description }}</span>
+    </div>
+
+    <ng-container [ngSwitch]="type">
+        <button *ngSwitchCase="'button'" type="button" class="arrow-btn">›</button>
+        <app-toggle-switch 
+            *ngSwitchCase="'toggle'" 
+            [checked]="toggleValue" 
+            (changed)="toggleChange.emit($event)">
+        </app-toggle-switch>
+    </ng-container>
+</div>

@@ -1,0 +1,58 @@
+/* Kontener wyszukiwarki - dopasowuje się do szerokości rodzica */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+}
+
+.search-container label {
+    font-weight: bold;
+    color: var(--text-main);
+    white-space: nowrap;
+}
+
+/* Styl inputa - elastyczny */
+.search-container input {
+    flex: 1;
+    padding: 8px 12px;
+    background: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-container input:focus {
+    border-color: var(--primary-background-color);
+}
+
+/* Przycisk lupy */
+.icon-btn {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    background: var(--primary-button-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.icon-btn:hover {
+    background: var(--primary-button-hover-color);
+}
+
+.icon-btn span {
+    font-size: 20px;
+    /* Korekta pozycji symbolu lupy */
+    line-height: 1;
+    display: block;
+}
