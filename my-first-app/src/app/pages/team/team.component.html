@@ -1,0 +1,30 @@
+<section class="team-container">
+  <h2>Team Members</h2>
+  
+  <div class="worker-wrapper" *ngFor="let worker of employees" 
+       [class.open]="worker.isOpen" 
+       (click)="toggleWorker(worker)" 
+       tabindex="0">
+      
+      <article class="worker-row">
+          <h3>{{ worker.name }}</h3>
+          <mark class="status" [ngClass]="worker.status">
+              {{ worker.status === 'active' ? '✓' : '✗' }}
+          </mark>
+          <button class="expand" aria-label="Expand">▼</button>
+      </article>
+
+      <div class="worker-details" *ngIf="worker.isOpen">
+          <div class="details-content">
+              <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 10px;">
+                  <img [src]="worker.photo" alt="Photo of {{ worker.name }}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                  <div>
+                      <p><strong>Role:</strong> {{ worker.role }}</p>
+                      <p><strong>Email:</strong> {{ worker.email }}</p>
+                  </div>
+              </div>
+              <p><strong>Project:</strong> {{ worker.project }}</p>
+          </div>
+      </div>
+  </div>
+</section>
