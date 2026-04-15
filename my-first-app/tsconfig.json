@@ -11,9 +11,10 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+  "moduleResolution": "node",
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
