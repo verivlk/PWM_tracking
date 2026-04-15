@@ -11,7 +11,7 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 
 // Definiujemy tablicę providerów Firebase tylko jeśli flaga jest aktywna
 const firebaseProviders = environment.useFirebase ? [
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth())
 ] : [];
