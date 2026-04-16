@@ -1,19 +1,27 @@
-/* map-view.component.css */
-
+/* Target the Angular component wrapper itself */
 :host {
-    display: block;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  width: 100%;
+  height: 100%;
 }
 
-#map-panel {
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 100% !important;
+.map-panel {
+  position: relative; /* Crucial for positioning the figcaption overlay */
+  width: 100%;
+  height: 100%;
+  min-height: 400px; /* Fallback height so it NEVER collapses to 0 */
+  background: var(--bg-secondary, #e5e5e5); /* Uses your CSS variable with a fallback */
 }
 
-/* To wymusza na samej bibliotece wypełnienie całego diva */
-.leaflet-container {
-    width: 100% !important;
-    height: 100% !important;
+/* Float the figure on top of the map */
+.map-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000; /* Leaflet tiles have z-index < 1000 */
+  margin: 0;
+  background: var(--bg-secondary, rgba(255, 255, 255, 0.9));
+  padding: 5px 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
