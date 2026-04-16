@@ -1,26 +1,37 @@
 <div id="wrapper" [class.dark-mode]="isDarkMode">
   <header id="main_header">
-      <h1><a id="main_title" routerLink="/">Employees tracking app</a></h1>
-      
-      <nav id="main_menu">
-          <ul class="page-change-menu">
-              <li><a class="menu_item" routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
-              <li><a class="menu_item" routerLink="/map" routerLinkActive="active">Map</a></li>
-              <li><a class="menu_item" routerLink="/team" routerLinkActive="active">Team</a></li>
-              <li><a class="menu_item" routerLink="/settings" routerLinkActive="active">Settings</a></li>
-          </ul>
-          <div class="login-button-space">
-              <a *ngIf="!isLoggedIn" routerLink="/login" class="btn login-button">Login</a>
-              <button *ngIf="isLoggedIn" (click)="logout()" class="btn login-button">Logout ({{ username }})</button>
-          </div>
-      </nav>
+    <h1><a id="main_title" routerLink="/">Employees tracking app</a></h1>
+
+    <nav id="main_menu">
+      <ul class="page-change-menu">
+        <li><a class="menu_item" routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+        <li><a class="menu_item" routerLink="/map" routerLinkActive="active">Map</a></li>
+        <li><a class="menu_item" routerLink="/team" routerLinkActive="active">Team</a></li>
+        <li><a class="menu_item" routerLink="/settings" routerLinkActive="active">Settings</a></li>
+      </ul>
+      <div class="login-button-space">
+        <ng-container *ngIf="user$ | async as user; else loginBtn">
+          <button (click)="logout()" class="btn login-button">Logout ({{ user.email }})</button>
+        </ng-container>
+        <ng-template #loginBtn>
+          <a routerLink="/login" class="btn login-button">Login</a>
+        </ng-template>
+      </div>
+    </nav>
   </header>
-    <main>
-        <router-outlet></router-outlet>
-    </main>
+
+  <main>
+    <div style="text-align: center; background: #ffebee; padding: 10px; border-bottom: 1px solid #ffcdd2; margin-bottom: 20px;">
+      <span style="margin-right: 15px; color: #c62828; font-weight: bold;">Developer Tool:</span>
+      <button (click)="testFirebaseConnection()" style="padding: 5px 15px; background: #d32f2f; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s;">
+        Test Firebase Connection
+      </button>
+    </div>
+    <router-outlet></router-outlet>
+  </main>
 
   <footer id="main_footer">
-      <div id="copyright"> Copyright &copy; 2026 </div>        
-      <a routerLink="/login" class="btn login-button-footer">Login</a>
+    <div id="copyright"> Copyright &copy; 2026 </div>
+    <a *ngIf="!(user$ | async)" routerLink="/login" class="btn login-button-footer">Login</a>
   </footer>
 </div>
