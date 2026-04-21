@@ -9,11 +9,12 @@
                  (click)="selectedWorker = person"
                  class="worker-clickable"
                  [class.active-row]="selectedWorker?.id === person.id">
-                <app-worker-row [workerData]="person"></app-worker-row>
-            </div>
-
-            <div *ngIf="filteredWorkers.length === 0" class="no-results">
-                Nie znaleziono pracowników.
+                    
+                <app-worker-row 
+                    [workerData]="person" 
+                    [isActive]="selectedWorker?.id === person.id"> 
+                </app-worker-row>
+            
             </div>
         </div>
     </aside>

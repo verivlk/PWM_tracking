@@ -20,10 +20,18 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.dataService.getTeams().subscribe(data => {
-      this.teams = data;
-      this.filteredTeams = data; // Na start pokazujemy wszystko
-    });
+  // Dodajemy właściwość isExpanded: false do każdego zespołu
+  this.teams = data.map(team => ({ ...team, isExpanded: false }));
+  this.filteredTeams = this.teams;
+});
+
+
   }
+
+  // Dodaj funkcję przełączającą stan
+toggleDetails(team: any) {
+  team.isExpanded = !team.isExpanded;
+}
 
   // Funkcja obsługująca wpisywanie w wyszukiwarkę
   onSearch(query: string) {

@@ -9,6 +9,7 @@ import {
   collection, 
   collectionData, 
   doc, 
+  docData,
   setDoc, 
   addDoc,
   query // <-- Dodaj ten import
@@ -65,6 +66,24 @@ getSettings(): Observable<any[]> {
   return this.http.get<any>(this.dataUrl).pipe(
     map(data => this.mapJsonToSettings(data.pages.settings))
   );
+}
+
+// --- URZĄDZENIA LOKALIZACYJNE ---
+getLocalizationDevices(): Observable<any[]> {
+  if (environment.useFirebase && this.firestore) {
+    const ref = collection(this.firestore, 'localization_devices');
+    return collectionData(ref, { idField: 'id' });
+  }
+  // Fallback dla lokalnego JSON, jeśli potrzebny
+  return of([]); 
+}
+
+getWorkerById(workerId: string): Observable<any> {
+  if (this.firestore) {
+    const ref = doc(this.firestore, 'workers', workerId);
+    return docData(ref, { idField: 'id' });
+  }
+  return of(null);
 }
 
 // ... reszta serwisu

@@ -1,4 +1,4 @@
-<div class="worker-wrapper">
+<div class="worker-wrapper" [class.open]="isActive">
     <article class="worker-row">
         <h3>{{ workerData.name }}</h3>
         <mark class="status" [class.active]="workerData.status === 'active'">

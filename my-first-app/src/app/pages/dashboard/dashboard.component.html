@@ -5,20 +5,20 @@
       </div>
 
       <div class="worker-list">
-        <div *ngFor="let team of filteredTeams" class="worker-wrapper">
-           <app-worker-row [workerData]="{ name: team.name, status: 'active' }"></app-worker-row>
-           <div class="details-content">
-              <p><strong>Projekt:</strong> {{ team.project }}</p>
-              <ul>
-                 <li *ngFor="let m of team.members">• {{ m.name }}</li>
-              </ul>
-           </div>
-        </div>
-        
-        <div *ngIf="filteredTeams.length === 0" class="no-results">
-          No teams found for this criteria.
-        </div>
-      </div>
+  <div *ngFor="let team of filteredTeams" class="worker-wrapper">
+     
+     <div (click)="toggleDetails(team)" style="cursor: pointer;">
+        <app-worker-row [workerData]="{ name: team.name, status: 'active' }"></app-worker-row>
+     </div>
+
+     <div class="details-content" *ngIf="team.isExpanded">
+        <p><strong>Projekt:</strong> {{ team.project }}</p>
+        <ul>
+           <li *ngFor="let m of team.members">• {{ m.name }}</li>
+        </ul>
+     </div>
+  </div>
+</div>
     </aside>
 
     <section id="map-container">
