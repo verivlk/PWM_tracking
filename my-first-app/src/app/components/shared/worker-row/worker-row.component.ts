@@ -10,6 +10,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./worker-row.component.css']
 })
 export class WorkerRowComponent {
-  @Input() workerData: any; // Tu wpadną dane z pętli let person of workers
+  @Input() workerData: any; // Tu wpadną dane z pętli let person of teams
   @Input() isActive: boolean = false; // Dodaj to
 }

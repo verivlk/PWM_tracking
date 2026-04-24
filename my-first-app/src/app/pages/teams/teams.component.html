@@ -1,0 +1,32 @@
+<h1>Teams</h1>
+
+<div class="teams-container">
+
+  <div class="team-card" *ngFor="let team of teamsWithWorkers">
+
+    <!-- Team header -->
+    <h2>{{ team.name }}</h2>
+    <p>{{ team.notes }}</p>
+
+    <!-- Info -->
+    <p>
+      👷 Workers: {{ getWorkerCount(team) }}
+    </p>
+
+    <!-- Workers preview -->
+    <div class="workers-list">
+
+      <div *ngFor="let worker of team.workers" class="worker-item">
+        {{ worker.name }}
+      </div>
+
+    </div>
+
+    <!-- Open team detail -->
+    <a [routerLink]="['/team', team.id]">
+      Open team →
+    </a>
+
+  </div>
+
+</div>

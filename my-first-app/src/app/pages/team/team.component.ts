@@ -12,6 +12,7 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./team.component.css']
 })
 export class TeamDetailComponent implements OnInit {
+  team: any;
   workers: any[] = [];
   filteredWorkers: any[] = []; // Tablica na wyniki wyszukiwania
   selectedWorker: any = null;
@@ -19,10 +20,11 @@ export class TeamDetailComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
+    // const id = this.route.snapshot.paramMap.get('id');
     this.dataService.getWorkers().subscribe(data => {
       this.workers = data;
       this.filteredWorkers = data;
-      
+
       // Opcjonalnie: zaznacz pierwszego pracownika na starcie
       if (this.workers.length > 0) {
         this.selectedWorker = this.workers[0];
@@ -37,8 +39,8 @@ export class TeamDetailComponent implements OnInit {
       return;
     }
 
-    this.filteredWorkers = this.workers.filter(worker => 
-      worker.name.toLowerCase().includes(term) || 
+    this.filteredWorkers = this.workers.filter(worker =>
+      worker.name.toLowerCase().includes(term) ||
       worker.role?.toLowerCase().includes(term) ||
       worker.email?.toLowerCase().includes(term)
     );
