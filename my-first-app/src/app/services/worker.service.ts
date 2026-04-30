@@ -20,27 +20,22 @@ export class WorkerService {
     return collectionData(workersRef, { idField: 'id' });
   }
 
-  /**
-   * 2. RECUPERA UN SINGOLO WORKER TRAMITE ID
-   */
+  // 2. Get one single worker by Id
   getWorkerById(workerId: string): Observable<any> {
     const workerDocRef = doc(this.firestore, `${this.collectionName}/${workerId}`);
     return docData(workerDocRef, { idField: 'id' });
   }
 
-  /**
-   * 3. AGGIUNGI UN NUOVO WORKER (Es. dalla pagina Settings/Admin)
-   */
+  // 3. Adds a new worker
   addWorker(workerData: any): Observable<any> {
     const workersRef = collection(this.firestore, this.collectionName);
 
-    // Mappatura dei dati in base al tuo schema DB
     const newWorker = {
       name: workerData.name || '',
       email: workerData.email || '',
       role: workerData.role || '',
-      working: workerData.status === 'active', // Converte la stringa in booleano
-      emergency_contact: workerData.phone || '', // Mappa phone su emergency_contact
+      working: workerData.status === 'active',
+      emergency_contact: workerData.phone || '',
       info: workerData.location || '',
       team_id: workerData.team_id || null
     };
@@ -49,7 +44,7 @@ export class WorkerService {
   }
 
   /**
-   * 4. AGGIORNA UN WORKER ESISTENTE (Es. dal modulo di modifica Team)
+   * 4. Update an existing worker
    */
   updateWorker(workerId: string, formValues: any): Observable<void> {
     const workerDocRef = doc(this.firestore, `${this.collectionName}/${workerId}`);
