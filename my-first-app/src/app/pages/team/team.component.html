@@ -26,12 +26,16 @@
             </div>
             <h1>{{ selectedWorker.name }}</h1>
             <p class="status-label">Status: {{ selectedWorker.status === 'active' ? 'Active' : 'Inactive' }}</p>
-            
+
             <div class="info-grid">
                 <div class="info-item"><strong>Role:</strong><br>{{ selectedWorker.role }}</div>
                 <div class="info-item"><strong>Mail:</strong><br>{{ selectedWorker.email }}</div>
                 <div class="info-item"><strong>Phone:</strong><br>{{ selectedWorker.phone || 'Not provided' }}</div>
                 <div class="info-item"><strong>Location:</strong><br>{{ selectedWorker.location || 'Main office' }}</div>
+            </div>
+
+            <div class="actions-area">
+                <button class="map-btn" (click)="goToWorkerOnMap(selectedWorker.id)">Show on Map</button>
             </div>
         </div>
         

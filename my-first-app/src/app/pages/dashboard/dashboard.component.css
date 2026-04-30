@@ -22,6 +22,30 @@
     flex-direction: column; /* Ustawienie pionowe: search na górze, lista pod spodem */
 }
 
+.details-content {
+  padding: 10px 15px;
+  background: #f9f9f9;
+  border-left: 3px solid #007bff;
+}
+
+.members-title {
+  font-size: 0.85em;
+  font-weight: bold;
+  color: #666;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+ul {
+  list-style: none;
+  padding-left: 5px;
+}
+
+.member-dot {
+  color: #007bff;
+  margin-right: 5px;
+}
+
 .search-wrapper {
     padding: 15px 20px;
     border-bottom: 1px solid var(--border-color);

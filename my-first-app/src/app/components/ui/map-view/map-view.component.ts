@@ -1,15 +1,8 @@
 import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild, inject } from '@angular/core';
-import { DataService } from '../../../services/data.service'; // DOSTOSUJ TĘ ŚCIEŻKĘ!
+import { DataService } from '../../../services/data.service';
+import { MapService } from '../../../services/map.service';
 import * as L from 'leaflet';
-import { log } from 'console';
-
-// Interfejs (możesz go przenieść do osobnego pliku, jeśli wolisz)
-export interface LocalizationDevice {
-  id?: string;
-  lat: number;
-  lon: number;
-  worker_id: string;
-}
+import { combineLatest, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map-view',
@@ -21,81 +14,19 @@ export class MapViewComponent implements AfterViewInit, OnDestroy {
   @ViewChild('mapContainer') mapContainer!: ElementRef;
   
   private dataService = inject(DataService);
+  private mapService = inject(MapService);
   private map!: L.Map;
+  
   private markers: L.Layer[] = [];
+  private workerMarkersMap = new Map<string, { marker: L.CircleMarker, baseColor: string }>();
+  
+  private subscriptions: Subscription = new Subscription();
 
   ngAfterViewInit() {
     this.initMap();
-    this.loadDevices();
+    this.loadDataAndMarkers();
+    this.setupMapControlSubscriptions();
   }
-
-private loadDevices(): void {
-  this.dataService.getLocalizationDevices().subscribe(devices => {
-    this.markers.forEach(m => this.map.removeLayer(m));
-    this.markers = [];
-
-    devices.forEach(device => {
-      if (device.lat && device.lon) {
-        // 1. Tworzymy domyślny żółty marker (oczekiwanie na dane)
-        const marker = L.circleMarker([device.lat, device.lon], {
-          radius: 8,
-          fillColor: 'yellow',
-          color: '#000',
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 0.8
-        }).addTo(this.map);
-
-        // 2. Pobieramy status, żeby zmienić kolor
-        this.dataService.getWorkerById(device.worker_id.trim()).subscribe(worker => {
-          if (worker) {
-            const color = worker.status === 'active' ? 'green' : 'red';
-            marker.setStyle({ fillColor: color });
-          } else {
-            marker.setStyle({ fillColor: 'yellow' });
-          }
-        });
-
-        // 3. Kliknięcie otwiera szczegóły
-        marker.on('click', () => {
-          this.showWorkerDetails(marker, device.worker_id);
-        });
-        
-        this.markers.push(marker);
-      }
-    });
-  });
-}
-
-private showWorkerDetails(marker: L.Layer, workerId: string): void {
-  // Rzutowanie na CircleMarker, aby uniknąć błędów typu (jeśli marker jest typu L.Layer)
-  const circleMarker = marker as L.CircleMarker;
-
-  circleMarker.bindPopup("Ładowanie danych...").openPopup();
-
-  this.dataService.getWorkerById(workerId.trim()).subscribe(worker => {
-    if (worker) {
-      // Budujemy bardziej rozbudowany HTML z danymi pracownika
-      const popupContent = `
-        <div style="text-align: center; line-height: 1.5;">
-          ${worker.photo ? `<img src="${worker.photo}" style="width:60px; border-radius:50%; margin-bottom:10px;"><br>` : ''}
-          <b style="font-size: 1.1em;">${worker.name || 'Brak imienia'}</b><br>
-          <div style="color: #666; font-size: 0.9em;">${worker.role || ''}</div>
-          <hr style="margin: 8px 0;">
-          <div style="text-align: left; font-size: 0.85em;">
-            <b>Email:</b> ${worker.email || 'N/A'}<br>
-            <b>Telefon:</b> ${worker.phone || 'N/A'}<br>
-            </span>
-          </div>
-        </div>
-      `;
-      
-      circleMarker.setPopupContent(popupContent);
-    } else {
-      circleMarker.setPopupContent("Nie znaleziono szczegółowych danych pracownika.");
-    }
-  });
-}
 
   private initMap(): void {
     this.map = L.map(this.mapContainer.nativeElement).setView([27.9625, -15.594], 11);
@@ -104,7 +35,113 @@ private showWorkerDetails(marker: L.Layer, workerId: string): void {
     }).addTo(this.map);
   }
 
+  private loadDataAndMarkers(): void {
+    const dataSub = combineLatest({
+      devices: this.dataService.getLocalizationDevices(),
+      workers: this.dataService.getWorkers()
+    }).subscribe(({ devices, workers }) => {
+      this.markers.forEach(m => this.map.removeLayer(m));
+      this.markers = [];
+      this.workerMarkersMap.clear();
+
+      const workerLookup = new Map(workers.map(w => [w.id, w]));
+
+      devices.forEach(device => {
+        if (device.lat && device.lon) {
+          const worker = workerLookup.get(device.worker_id.trim());
+          const statusColor = worker ? (worker.status === 'active' ? '#2ecc71' : '#e74c3c') : 'yellow';
+
+          const marker = L.circleMarker([device.lat, device.lon], {
+            radius: 9,
+            fillColor: statusColor,
+            color: '#fff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.9
+          }).addTo(this.map);
+
+          if (worker) {
+            marker.bindTooltip(`<b>${worker.name}</b>`, { direction: 'top', offset: [0, -5] });
+            marker.bindPopup(this.createPopupHtml(worker));
+          }
+
+          this.workerMarkersMap.set(device.worker_id.trim(), { marker, baseColor: statusColor });
+          this.markers.push(marker);
+        }
+      });
+
+      // KLUCZOWY MOMENT: Po narysowaniu wszystkich markerów, sprawdźmy
+      // czy w serwisie już czeka jakieś ID do podświetlenia.
+      const currentlyActiveIds = this.mapService.getActiveWorkerIds(); 
+      if (currentlyActiveIds.length > 0) {
+        this.applyHighlight(currentlyActiveIds);
+      }
+    });
+
+    this.subscriptions.add(dataSub);
+  }
+
+  private setupMapControlSubscriptions(): void {
+    // 1. Focus
+    const focusSub = this.mapService.focusCoords$.subscribe(coords => {
+      if (coords && coords.length > 0 && this.map) {
+        if (coords.length === 1) {
+          this.map.setView([coords[0].lat, coords[0].lon], 19);
+        } else {
+          const bounds = L.latLngBounds(coords.map(c => [c.lat, c.lon]));
+          this.map.fitBounds(bounds, { padding: [50, 50] });
+        }
+      }
+    });
+
+    // 2. Highlight
+    const highlightSub = this.mapService.activeWorkerIds$.subscribe(activeIds => {
+      this.applyHighlight(activeIds);
+    });
+
+    this.subscriptions.add(focusSub);
+    this.subscriptions.add(highlightSub);
+  }
+
+  // Wydzielona logika podświetlania, którą możemy wywołać w dowolnym momencie
+  private applyHighlight(activeIds: string[]): void {
+    if (!this.workerMarkersMap || this.workerMarkersMap.size === 0) return;
+
+    this.workerMarkersMap.forEach((data, workerId) => {
+      if (activeIds.includes(workerId)) {
+        data.marker.setStyle({
+          fillColor: '#3498db',
+          radius: 13,
+          weight: 4
+        });
+        data.marker.bringToFront();
+      } else {
+        data.marker.setStyle({
+          fillColor: data.baseColor,
+          radius: 9,
+          weight: 2
+        });
+      }
+    });
+  }
+
+  private createPopupHtml(worker: any): string {
+    return `
+      <div style="text-align: center; min-width: 150px; font-family: sans-serif;">
+        ${worker.photo ? `<img src="${worker.photo}" style="width:50px; height:50px; border-radius:50%; object-fit: cover; margin-bottom:8px;">` : ''}
+        <div style="font-weight: bold; font-size: 14px;">${worker.name}</div>
+        <div style="font-size: 12px; color: #666; margin-bottom: 5px;">${worker.role || ''}</div>
+        <div style="font-size: 11px; border-top: 1px solid #eee; padding-top: 5px;">
+          📞 ${worker.phone || 'N/A'}<br>
+          ✉️ ${worker.email || 'N/A'}
+        </div>
+      </div>
+    `;
+  }
+
   ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+    this.mapService.clearFocus();
     if (this.map) {
       this.map.remove();
     }

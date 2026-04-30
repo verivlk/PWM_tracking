@@ -4,6 +4,8 @@ import { MapViewComponent } from '../../components/ui/map-view/map-view.componen
 import { WorkerRowComponent } from '../../components/shared/worker-row/worker-row.component';
 import { SearchBar } from '../../components/ui/search-bar/search-bar'; // Import search bara
 import { DataService } from '../../services/data.service';
+import { MapService } from '../../services/map.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,26 +16,49 @@ import { DataService } from '../../services/data.service';
 })
 export class DashboardComponent implements OnInit {
   teams: any[] = [];
-  filteredTeams: any[] = []; // Tablica na przefiltrowane wyniki
+  filteredTeams: any[] = [];
+  workersMap: { [id: string]: any } = {};
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private mapService: MapService) {}
 
   ngOnInit() {
-    this.dataService.getTeams().subscribe(data => {
-  // Dodajemy właściwość isExpanded: false do każdego zespołu
-  this.teams = data.map(team => ({ ...team, isExpanded: false }));
-  this.filteredTeams = this.teams;
-});
+      // Pobieramy zespoły i pracowników jednocześnie
+      combineLatest({
+        teams: this.dataService.getTeams(),
+        workers: this.dataService.getWorkers()
+      }).subscribe(({ teams, workers }) => {
+        console.log('Dane przyszły!', teams, workers); // Sprawdź w konsoli F12 czy to się wyświetla
+        
+        workers.forEach(w => {
+          if (w.id) this.workersMap[w.id] = w;
+        });
+      
+        this.teams = teams.map(team => ({
+          ...team,
+          isExpanded: false,
+          resolvedMembers: (team.workers || []).map((id: string) => this.workersMap[id])
+        }));
+      
+        this.filteredTeams = this.teams;
+      });
+  }
+  toggleDetails(team: any) {
+    team.isExpanded = !team.isExpanded;
+    
+    if (team.isExpanded) {
+    this.dataService.getLocalizationDevices().subscribe(devices => {
+      const teamDevices = devices.filter(d => team.workers?.includes(d.worker_id));
+      const teamCoords = teamDevices.map(d => ({ lat: d.lat, lon: d.lon }));
 
-
+      if (teamCoords.length > 0) {
+        this.mapService.setFocus(teamCoords, team.workers);
+      }
+    });
+  } else {
+    this.mapService.setFocus([], []);
+  }
   }
 
-  // Dodaj funkcję przełączającą stan
-toggleDetails(team: any) {
-  team.isExpanded = !team.isExpanded;
-}
-
-  // Funkcja obsługująca wpisywanie w wyszukiwarkę
   onSearch(query: string) {
     const term = query.toLowerCase().trim();
     
