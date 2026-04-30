@@ -106,6 +106,7 @@
     {
       "label": "Dark Mode",
       "description": "Switch between light and dark theme",
+      "type": "toggle",
       "checked": false
     }
   ],
