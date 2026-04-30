@@ -6,23 +6,23 @@
   ],
 
   "workers": [
-    { 
-      "id": 1, 
-      "name": "John Smith", 
-      "status": "active", 
-      "role": "Lead Driver", 
-      "email": "john@smith.com", 
+    {
+      "id": 1,
+      "name": "John Smith",
+      "status": "active",
+      "role": "Lead Driver",
+      "email": "john@smith.com",
       "phone": "+48 111 222 333",
-      "photo": "https://randomuser.me/api/portraits/men/1.jpg" 
+      "photo": "https://randomuser.me/api/portraits/men/1.jpg"
     },
-    { 
-      "id": 2, 
-      "name": "Emily Clark", 
-      "status": "inactive", 
-      "role": "Logistics Manager", 
-      "email": "emily@clark.com", 
+    {
+      "id": 2,
+      "name": "Emily Clark",
+      "status": "inactive",
+      "role": "Logistics Manager",
+      "email": "emily@clark.com",
       "phone": "+48 555 666 777",
-      "photo": "https://randomuser.me/api/portraits/women/2.jpg" 
+      "photo": "https://randomuser.me/api/portraits/women/2.jpg"
     }
   ],
 
@@ -95,7 +95,9 @@
       "description": "Update your login email address",
       "submitText": "Save",
       "fields": [
+        { "label": "Current Email Address", "type": "email", "placeholder": "Enter current email", "required": true },
         { "label": "New Email Address", "type": "email", "placeholder": "Enter new email", "required": true },
+        { "label": "Confirm New Email", "type": "email", "placeholder": "Confirm new email", "required": true },
         { "label": "Confirm Password", "type": "password", "placeholder": "Confirm your password", "required": true }
       ]
     }
