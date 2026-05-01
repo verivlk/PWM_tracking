@@ -31,6 +31,7 @@ main {
 }
 
 #right-panel h2 {
+
     font-size: 16px;
     font-weight: 900;
     color: var(--text-main);
@@ -69,10 +70,10 @@ main {
     main {
         flex-direction: row;
     }
-    
+
     #left-panel, #right-panel {
         padding: 40px 20px;
-        
+
     }
 
     .settings-box {
@@ -92,11 +93,11 @@ main {
         width: -webkit-fill-available;
         height: 100%;
         z-index: 1000;
-        display: none; 
+        display: none;
         background-color: var(--bg-main);
         padding: 60px 40px;
         overflow-y: auto;
-        -webkit-overflow-scrolling: touch; 
+        -webkit-overflow-scrolling: touch;
     }
 
     #right-panel.show {
@@ -107,11 +108,11 @@ main {
         display: block;
     }
 
-    
+
 
     .right-panel-form {
-        max-width: 100%; 
-        padding-bottom: 40px 20px; 
+        max-width: 100%;
+        padding-bottom: 40px 20px;
     }
 
     #right-panel h2 {

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { WorkerRowComponent } from '../../components/shared/worker-row/worker-row.component';
 import { SearchBar } from '../../components/ui/search-bar/search-bar'; // Import komponentu
 import { DataService } from '../../services/data.service';
+import { Router } from '@angular/router';
+import { MapService } from '../../services/map.service';
 
 @Component({
   selector: 'app-team-detail',
@@ -17,7 +19,11 @@ export class TeamDetailComponent implements OnInit {
   filteredWorkers: any[] = []; // Tablica na wyniki wyszukiwania
   selectedWorker: any = null;
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private mapService: MapService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     // const id = this.route.snapshot.paramMap.get('id');
@@ -45,4 +51,21 @@ export class TeamDetailComponent implements OnInit {
       worker.email?.toLowerCase().includes(term)
     );
   }
+
+  goToWorkerOnMap(workerId: string) {
+  this.dataService.getLocalizationDevices().subscribe(devices => {
+    const device = devices.find(d => d.worker_id.trim() === workerId.trim());
+
+    if (device) {
+      this.mapService.setFocus(
+        [{ lat: device.lat, lon: device.lon }],
+        [workerId.trim()]
+      );
+
+      this.router.navigate(['/map']);
+    } else {
+      alert('Localization not found for this worker');
+    }
+  });
+}
 }

@@ -13,5 +13,13 @@ export class InputFieldComponent {
   @Input() label: string = '';
   @Input() type: string = 'text';
   @Input() placeholder: string = '';
-  @Input() control!: FormControl; // Kluczowe dla naprawy błędów NG8002
+  @Input() control!: FormControl;
+
+  // Variabile per tracciare se la password è visibile
+  isPasswordVisible: boolean = false;
+
+  // Funzione per alternare la visibilità
+  togglePassword() {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
 }

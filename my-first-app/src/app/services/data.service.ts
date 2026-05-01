@@ -4,13 +4,13 @@ import { Observable, map, from, of } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 // Firebase imports
-import { 
-  Firestore, 
-  collection, 
-  collectionData, 
-  doc, 
+import {
+  Firestore,
+  collection,
+  collectionData,
+  doc,
   docData,
-  setDoc, 
+  setDoc,
   addDoc,
   query // <-- Dodaj ten import
 } from '@angular/fire/firestore';
@@ -49,24 +49,14 @@ getTeams(): Observable<any[]> {
 }
 
 // --- USTAWIENIA ---
-getSettings(): Observable<any[]> {
-  if (environment.useFirebase && this.firestore) {
-    const ref = collection(this.firestore, 'settings');
-    const q = query(ref); // <--- Tworzymy jawny obiekt Query
-    return collectionData(q, { idField: 'id' }).pipe( // <--- Przekazujemy Query
-      map(docs => docs.map((doc: any) => ({
-        title: doc.id.toUpperCase(),
-        items: doc.items.map((item: any) => ({
-          ...item,
-          type: doc.id === 'appearance' ? 'toggle' : 'button'
-        }))
-      })))
+  getSettings(): Observable<any[]> {
+    // Rimuoviamo il blocco if(environment.useFirebase) per la UI.
+    // La STRUTTURA della UI (quali campi mostrare nel form) viene letta
+    // sempre e solo dal file locale assets/data.json
+    return this.http.get<any>(this.dataUrl).pipe(
+      map(data => this.mapJsonToSettings(data.pages.settings))
     );
   }
-  return this.http.get<any>(this.dataUrl).pipe(
-    map(data => this.mapJsonToSettings(data.pages.settings))
-  );
-}
 
 // --- URZĄDZENIA LOKALIZACYJNE ---
 getLocalizationDevices(): Observable<any[]> {
@@ -75,7 +65,7 @@ getLocalizationDevices(): Observable<any[]> {
     return collectionData(ref, { idField: 'id' });
   }
   // Fallback dla lokalnego JSON, jeśli potrzebny
-  return of([]); 
+  return of([]);
 }
 
 getWorkerById(workerId: string): Observable<any> {
@@ -93,7 +83,7 @@ getWorkerById(workerId: string): Observable<any> {
     if (environment.useFirebase && this.auth) {
       return from(signInWithEmailAndPassword(this.auth, email, pass));
     }
-    return of({ user: { email, role: 'admin' } }); 
+    return of({ user: { email, role: 'admin' } });
   }
 
   private mapJsonToSettings(settings: any): any[] {
