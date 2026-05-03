@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, effect, inject, OnInit, signal} from '@angular/core';
 import {CommonModule, NgForOf} from "@angular/common";
 import {SearchBar} from "../../components/ui/search-bar/search-bar";
 import {TeamRowComponent} from "../../components/shared/team-row/team-row.component";
@@ -20,7 +20,7 @@ import {Worker} from '../../models/worker.model';
   templateUrl: './workers.component.html',
   styleUrl: './workers.component.css'
 })
-export class WorkersComponent implements OnInit {
+export class WorkersComponent {
   private teamService = inject(TeamService);
   private workerService = inject(WorkerService);
   private authService = inject(AuthService);
@@ -41,25 +41,38 @@ export class WorkersComponent implements OnInit {
     { initialValue: [] }
   );
 
-  filteredWorkers: Worker[] = this.workers();
+  filteredWorkers = signal<Worker[]>([]);
 
+  constructor() {
+    effect(() => {
+      const workers = this.workers();
 
-  ngOnInit() {}
+      if (!workers.length) return;
 
+      // init list for UI
+      this.filteredWorkers.set(workers);
 
-  onSearch(query: string): void {
+    }, { allowSignalWrites: true });
+  }
+
+  onSearch(query: string) {
     const term = query.toLowerCase().trim();
+    const workers = this.workers();
+
     if (!term) {
-      this.filteredWorkers = this.workers();
+      this.filteredWorkers.set(workers);
       return;
     }
 
-    this.filteredWorkers = this.workers().filter(worker =>
-      worker.name.toLowerCase().includes(term) ||
-      worker.role?.toLowerCase().includes(term) ||
-      worker.email?.toLowerCase().includes(term)
+    this.filteredWorkers.set(
+      workers.filter(worker =>
+        worker.name.toLowerCase().includes(term) ||
+        worker.role?.toLowerCase().includes(term) ||
+        worker.email?.toLowerCase().includes(term)      )
     );
   }
+
+
 
 
 }

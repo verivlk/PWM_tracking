@@ -10,7 +10,7 @@
 
     <!-- WORKER LIST -->
     <div class="worker-list">
-      <div *ngFor="let worker of filteredWorkers"
+      <div *ngFor="let worker of filteredWorkers()"
            (click)="selectedWorker = worker"
            class="worker-clickable"
            [class.active-row]="selectedWorker?.id === worker.id">
