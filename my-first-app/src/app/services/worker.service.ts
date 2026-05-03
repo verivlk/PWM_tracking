@@ -1,6 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, collectionData, doc, docData, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
-import { from, Observable } from 'rxjs';
+import { Firestore, collection, collectionData, CollectionReference, doc, docData, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Observable, map, from } from 'rxjs'; // from makes Observable from Promise
+
+import { Worker } from '../models/worker.model'
 
 @Injectable({
   providedIn: 'root'
@@ -8,65 +10,70 @@ import { from, Observable } from 'rxjs';
 export class WorkerService {
   private firestore = inject(Firestore);
 
-  // Nome della collezione in Firebase
-  private collectionName = 'workers';
+  private collectionName = 'workers'; // Firestore collection name
 
-  /**
-   * 1. RECUPERA LA LISTA DI TUTTI I WORKER
-   */
-  getWorkers(): Observable<any[]> {
+  getWorkers(): Observable<Worker[]> {
     const workersRef = collection(this.firestore, this.collectionName);
-    // L'opzione { idField: 'id' } assegna automaticamente l'ID univoco del documento Firebase all'oggetto restituito
-    return collectionData(workersRef, { idField: 'id' });
+    return collectionData(workersRef, { idField: 'id' }) as Observable<Worker[]>;
   }
 
-  // 2. Get one single worker by Id
-  getWorkerById(workerId: string): Observable<any> {
+  getWorkerById(workerId: string): Observable<Worker> {
     const workerDocRef = doc(this.firestore, `${this.collectionName}/${workerId}`);
-    return docData(workerDocRef, { idField: 'id' });
+    return docData(workerDocRef, { idField: 'id' }) as Observable<Worker>;
   }
 
-  // 3. Adds a new worker
-  addWorker(workerData: any): Observable<any> {
+  getWorkersByTeam(teamId: string): Observable<Worker[]> {
+    const ref = collection(this.firestore, 'workers') as CollectionReference<Worker>;
+
+    return collectionData(ref, { idField: 'id' }).pipe(
+      map((workers: Worker[]) =>
+        workers.filter(w => w.teamId === teamId)
+      )
+    );
+  }
+
+  getActiveWorkers(): Observable<Worker[]> {
+    const ref = collection(this.firestore, 'workers') as CollectionReference<Worker>;
+
+    return collectionData(ref, { idField: 'id' }).pipe(
+      map((workers: Worker[]) =>
+        workers.filter(w => w.active)
+      )
+    );
+  }
+
+  addWorker(worker: Worker) {
     const workersRef = collection(this.firestore, this.collectionName);
 
-    const newWorker = {
-      name: workerData.name || '',
-      email: workerData.email || '',
-      role: workerData.role || '',
-      working: workerData.status === 'active',
-      emergency_contact: workerData.phone || '',
-      info: workerData.location || '',
-      team_id: workerData.team_id || null
+    const newWorker: Worker = {
+      name: worker.name || '',
+      role: worker.role || '',
+      email: worker.email || '',
+      phone: worker.phone || '',
+      photo: worker.photo || '',
+      info: worker.info || '',
+      emContact: worker.emContact || '',
+
+      active: worker.active ?? false,
+      statusOk: worker.statusOk ?? true,
+
+      teamId: worker.teamId || ''
     };
 
-    return from(addDoc(workersRef, newWorker));
+    return addDoc(workersRef, newWorker);
   }
 
-  /**
-   * 4. Update an existing worker
-   */
-  updateWorker(workerId: string, formValues: any): Observable<void> {
-    const workerDocRef = doc(this.firestore, `${this.collectionName}/${workerId}`);
+  updateWorker(workerId: string, workerData: Partial<Worker>) {
+    const workerDocRef = doc(
+      this.firestore,
+      `${this.collectionName}/${workerId}`
+    );
 
-    // Costruiamo l'oggetto da aggiornare basandoci sui valori passati dal form
-    const dbData: any = {};
-
-    if (formValues.role !== undefined) dbData.role = formValues.role;
-    if (formValues.email !== undefined) dbData.email = formValues.email;
-    if (formValues.status !== undefined) dbData.working = formValues.status === 'active';
-    if (formValues.phone !== undefined) dbData.emergency_contact = formValues.phone;
-    if (formValues.location !== undefined) dbData.info = formValues.location;
-    if (formValues.team_id !== undefined) dbData.team_id = formValues.team_id;
-
-    return from(updateDoc(workerDocRef, dbData));
+    return from(updateDoc(workerDocRef, workerData));
   }
 
-  /**
-   * 5. ELIMINA UN WORKER
-   */
-  deleteWorker(workerId: string): Observable<void> {
+  deleteWorker(workerId: string) {
     const workerDocRef = doc(this.firestore, `${this.collectionName}/${workerId}`);
-    return from(deleteDoc(workerDocRef));
+    return deleteDoc(workerDocRef);
   }
 }

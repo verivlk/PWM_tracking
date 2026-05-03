@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { combineLatest } from 'rxjs';
+
 import { MapViewComponent } from '../../components/ui/map-view/map-view.component';
 import { WorkerRowComponent } from '../../components/shared/worker-row/worker-row.component';
-import { SearchBar } from '../../components/ui/search-bar/search-bar'; // Import search bara
-import { DataService } from '../../services/data.service';
+import { SearchBar } from '../../components/ui/search-bar/search-bar';
+
 import { MapService } from '../../services/map.service';
-import { combineLatest } from 'rxjs';
+import {TeamService} from '../../services/team.service';
+import {WorkerService} from '../../services/worker.service';
+import {DeviceService} from '../../services/device.service';
+
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MapViewComponent, WorkerRowComponent, SearchBar], // Dodany SearchBar
+  imports: [CommonModule, MapViewComponent, WorkerRowComponent, SearchBar],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -19,34 +24,40 @@ export class DashboardComponent implements OnInit {
   filteredTeams: any[] = [];
   workersMap: { [id: string]: any } = {};
 
-  constructor(private dataService: DataService, private mapService: MapService) {}
+  private teamService: TeamService = inject(TeamService);
+  private workerService = inject(WorkerService);
+  private deviceService = inject(DeviceService);
+  private mapService = inject(MapService);
+
 
   ngOnInit() {
       // Pobieramy zespoły i pracowników jednocześnie
       combineLatest({
-        teams: this.dataService.getTeams(),
-        workers: this.dataService.getWorkers()
+        teams: this.teamService.getTeams(),
+        workers: this.workerService.getWorkers()
       }).subscribe(({ teams, workers }) => {
-        console.log('Dane przyszły!', teams, workers); // Sprawdź w konsoli F12 czy to się wyświetla
-        
+        console.log('Data loaded: ', teams, workers); // TODO remove debug
+
+        const workerById = new Map(workers.map(w => [w.id, w]));
+
         workers.forEach(w => {
           if (w.id) this.workersMap[w.id] = w;
         });
-      
+
         this.teams = teams.map(team => ({
           ...team,
           isExpanded: false,
-          resolvedMembers: (team.workers || []).map((id: string) => this.workersMap[id])
+          // resolvedMembers: (team.workers || []).map((id: string) => this.workersMap[id])
         }));
-      
+
         this.filteredTeams = this.teams;
       });
   }
   toggleDetails(team: any) {
     team.isExpanded = !team.isExpanded;
-    
+
     if (team.isExpanded) {
-    this.dataService.getLocalizationDevices().subscribe(devices => {
+    this.deviceService.getDevices().subscribe(devices => {
       const teamDevices = devices.filter(d => team.workers?.includes(d.worker_id));
       const teamCoords = teamDevices.map(d => ({ lat: d.lat, lon: d.lon }));
 
@@ -61,14 +72,14 @@ export class DashboardComponent implements OnInit {
 
   onSearch(query: string) {
     const term = query.toLowerCase().trim();
-    
+
     if (!term) {
       this.filteredTeams = this.teams;
       return;
     }
 
-    this.filteredTeams = this.teams.filter(team => 
-      team.name.toLowerCase().includes(term) || 
+    this.filteredTeams = this.teams.filter(team =>
+      team.name.toLowerCase().includes(term) ||
       team.project?.toLowerCase().includes(term) ||
       team.members?.some((m: any) => m.name.toLowerCase().includes(term))
     );

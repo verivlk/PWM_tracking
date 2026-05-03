@@ -2,19 +2,12 @@ import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
-import { environment } from '../environments/environment';
 
 // Firebase imports
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideAuth, getAuth } from '@angular/fire/auth';
-
-// Definiujemy tablicę providerów Firebase tylko jeśli flaga jest aktywna
-const firebaseProviders = environment.useFirebase ? [
-  provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-  provideFirestore(() => getFirestore()),
-  provideAuth(() => getAuth())
-] : [];
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +15,10 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    // Rozpakowujemy tablicę tutaj - to naprawia błąd TS2345
-    ...firebaseProviders
+
+    // Firebase
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth())
   ]
 };

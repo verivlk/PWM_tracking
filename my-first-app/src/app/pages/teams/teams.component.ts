@@ -1,3 +1,4 @@
+/*
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WorkerRowComponent } from '../../components/shared/worker-row/worker-row.component';
@@ -67,3 +68,4 @@ export class TeamsComponent implements OnInit {
     );
   }
 }
+*/

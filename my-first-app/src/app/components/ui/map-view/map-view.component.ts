@@ -1,8 +1,10 @@
 import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild, inject } from '@angular/core';
-import { DataService } from '../../../services/data.service';
-import { MapService } from '../../../services/map.service';
 import * as L from 'leaflet';
 import { combineLatest, Subscription } from 'rxjs';
+
+import { MapService } from '../../../services/map.service';
+import { WorkerService } from '../../../services/worker.service';
+import { DeviceService } from '../../../services/device.service';
 
 @Component({
   selector: 'app-map-view',
@@ -12,14 +14,16 @@ import { combineLatest, Subscription } from 'rxjs';
 })
 export class MapViewComponent implements AfterViewInit, OnDestroy {
   @ViewChild('mapContainer') mapContainer!: ElementRef;
-  
-  private dataService = inject(DataService);
+
+  private workerService = inject(WorkerService);
+  private deviceService = inject(DeviceService);
   private mapService = inject(MapService);
+
   private map!: L.Map;
-  
+
   private markers: L.Layer[] = [];
   private workerMarkersMap = new Map<string, { marker: L.CircleMarker, baseColor: string }>();
-  
+
   private subscriptions: Subscription = new Subscription();
 
   ngAfterViewInit() {
@@ -37,8 +41,8 @@ export class MapViewComponent implements AfterViewInit, OnDestroy {
 
   private loadDataAndMarkers(): void {
     const dataSub = combineLatest({
-      devices: this.dataService.getLocalizationDevices(),
-      workers: this.dataService.getWorkers()
+      devices: this.deviceService.getDevices(),
+      workers: this.workerService.getWorkers()
     }).subscribe(({ devices, workers }) => {
       this.markers.forEach(m => this.map.removeLayer(m));
       this.markers = [];
@@ -48,8 +52,8 @@ export class MapViewComponent implements AfterViewInit, OnDestroy {
 
       devices.forEach(device => {
         if (device.lat && device.lon) {
-          const worker = workerLookup.get(device.worker_id.trim());
-          const statusColor = worker ? (worker.status === 'active' ? '#2ecc71' : '#e74c3c') : 'yellow';
+          const worker = workerLookup.get(device.worker_id);
+          const statusColor = worker ? (worker.statusOk ? '#2ecc71' : '#e74c3c') : 'yellow';
 
           const marker = L.circleMarker([device.lat, device.lon], {
             radius: 9,
@@ -65,14 +69,15 @@ export class MapViewComponent implements AfterViewInit, OnDestroy {
             marker.bindPopup(this.createPopupHtml(worker));
           }
 
-          this.workerMarkersMap.set(device.worker_id.trim(), { marker, baseColor: statusColor });
+          this.workerMarkersMap.set(device.worker_id, { marker, baseColor: statusColor });
           this.markers.push(marker);
         }
       });
 
+      // TODO
       // KLUCZOWY MOMENT: Po narysowaniu wszystkich markerów, sprawdźmy
       // czy w serwisie już czeka jakieś ID do podświetlenia.
-      const currentlyActiveIds = this.mapService.getActiveWorkerIds(); 
+      const currentlyActiveIds = this.mapService.getActiveWorkerIds();
       if (currentlyActiveIds.length > 0) {
         this.applyHighlight(currentlyActiveIds);
       }

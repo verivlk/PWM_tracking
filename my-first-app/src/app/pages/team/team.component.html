@@ -1,46 +1,107 @@
 <div class="team-layout">
-    <aside id="workers-panel">
-        <div class="search-wrapper">
-            <app-search-bar (searchChange)="onSearch($event)"></app-search-bar>
-        </div>
 
-        <div class="worker-list">
-            <div *ngFor="let person of filteredWorkers" 
-                 (click)="selectedWorker = person"
-                 class="worker-clickable"
-                 [class.active-row]="selectedWorker?.id === person.id">
-                    
-                <app-worker-row 
-                    [workerData]="person" 
-                    [isActive]="selectedWorker?.id === person.id"> 
-                </app-worker-row>
-            
-            </div>
-        </div>
-    </aside>
+  <!-- LEFT PANEL -->
+  <aside id="workers-panel">
 
-    <section id="details-view">
-        <div *ngIf="selectedWorker" class="big-card">
-            <div class="big-avatar">
-                <img [src]="selectedWorker.photo" *ngIf="selectedWorker.photo" alt="Avatar">
-            </div>
-            <h1>{{ selectedWorker.name }}</h1>
-            <p class="status-label">Status: {{ selectedWorker.status === 'active' ? 'Active' : 'Inactive' }}</p>
+    <!-- SEARCH -->
+    <div class="search-wrapper">
+      <app-search-bar (searchChange)="onSearch($event)"></app-search-bar>
+    </div>
 
-            <div class="info-grid">
-                <div class="info-item"><strong>Role:</strong><br>{{ selectedWorker.role }}</div>
-                <div class="info-item"><strong>Mail:</strong><br>{{ selectedWorker.email }}</div>
-                <div class="info-item"><strong>Phone:</strong><br>{{ selectedWorker.phone || 'Not provided' }}</div>
-                <div class="info-item"><strong>Location:</strong><br>{{ selectedWorker.location || 'Main office' }}</div>
-            </div>
+    <!-- WORKER LIST -->
+    <div class="worker-list">
+      <div *ngFor="let worker of filteredWorkers"
+           (click)="selectedWorker = worker"
+           class="worker-clickable"
+           [class.active-row]="selectedWorker?.id === worker.id">
 
-            <div class="actions-area">
-                <button class="map-btn" (click)="goToWorkerOnMap(selectedWorker.id)">Show on Map</button>
-            </div>
-        </div>
-        
-        <div *ngIf="!selectedWorker" class="placeholder">
-            <p>Wybierz pracownika z listy, aby zobaczyć szczegóły</p>
-        </div>
-    </section>
+        <app-worker-row
+          [workerData]="worker"
+          [isActive]="selectedWorker?.id === worker.id">
+        </app-worker-row>
+      </div>
+    </div>
+  </aside>
+
+  <!-- RIGHT PANEL -->
+  <section id="details-view">
+
+    <!-- NO SELECTION -->
+    <div *ngIf="!selectedWorker" class="placeholder">
+      <p>Select a worker to see details</p>
+    </div>
+
+    <!-- VIEW MODE -->
+    <div *ngIf="selectedWorker && !editMode" class="big-card">
+
+      <div class="big-avatar">
+        <img *ngIf="selectedWorker.photo" [src]="selectedWorker.photo" alt="Avatar">
+      </div>
+
+      <h1>{{ selectedWorker.name }}</h1>
+
+      <p class="status-label">
+        Status: {{ selectedWorker.active ? 'Active' : 'Inactive' }}
+      </p>
+
+      <div class="info-grid">
+        <div class="info-item"><strong>Role:</strong><br>{{ selectedWorker.role || 'Not provided' }}</div>
+        <div class="info-item"><strong>E-mail:</strong><br>{{ selectedWorker.email || 'Not provided' }}</div>
+        <div class="info-item"><strong>Phone:</strong><br>{{ selectedWorker.phone || 'Not provided' }}</div>
+        <div class="info-item"><strong>Info:</strong><br>{{ selectedWorker.info || 'Not provided' }}</div>
+        <div class="info-item"><strong>Emergency contact:</strong><br>{{ selectedWorker.emContact || 'Not provided' }}</div>
+        <!--        <div class="info-item"><strong>Location:</strong><br>{{ selectedWorker.location || 'Main office' }}</div>-->
+      </div>
+
+      <div class="actions-area">
+        <button class="map-btn" (click)="goToWorkerOnMap(selectedWorker.id)">
+          Show on Map
+        </button>
+        <button class="edit-btn" (click)="startEdit()">
+          Edit
+        </button>
+      </div>
+    </div>
+
+    <!-- EDIT MODE -->
+    <div *ngIf="selectedWorker && editMode" class="big-card">
+      <h2>Edit Worker</h2>
+      <div class="edit-form">
+
+        <label>Name</label>
+        <input [(ngModel)]="editWorker.name" />
+
+        <label>Role</label>
+        <input [(ngModel)]="editWorker.role" />
+
+        <label>Email</label>
+        <input [(ngModel)]="editWorker.email" />
+
+        <label>Phone</label>
+        <input [(ngModel)]="editWorker.phone" />
+
+        <label>Info</label>
+        <input [(ngModel)]="editWorker.info" />
+
+        <label>Emergency contact</label>
+        <input [(ngModel)]="editWorker.emContact" />
+
+      </div>
+
+      <div class="actions-area">
+
+        <button class="save-btn" (click)="saveEdit()">
+          Save
+        </button>
+
+        <button class="cancel-btn" (click)="cancelEdit()">
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+
+
+  </section>
 </div>

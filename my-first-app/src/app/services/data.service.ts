@@ -1,3 +1,4 @@
+/*
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, from, of } from 'rxjs';
@@ -103,3 +104,4 @@ getWorkerById(workerId: string): Observable<any> {
     console.log('Dane już są w bazie, nie musisz odpalać ponownie.');
   }
 }
+*/

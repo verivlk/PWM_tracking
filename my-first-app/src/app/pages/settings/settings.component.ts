@@ -2,10 +2,14 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+
 import { SettingItemComponent } from '../../components/shared/setting-item/setting-item';
 import { InputFieldComponent } from '../../components/ui/input-field/input-field';
-import { DataService } from '../../services/data.service';
-import { SettingsService } from '../../services/settings.service'; // <-- Importa il Service
+
+import { AuthService } from '../../services/auth.service'
+import {UserService} from '../../services/user.service';
+
+import { SETTINGS_CONFIG } from '../../config/settings.config';
 
 @Component({
   selector: 'app-settings',
@@ -15,28 +19,34 @@ import { SettingsService } from '../../services/settings.service'; // <-- Import
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  private dataService = inject(DataService);
-  private settingsService = inject(SettingsService); // <-- Inietta il Service
-  private fb = inject(FormBuilder);
-  private auth = inject(Auth);
 
-  // Stato dell'applicazione
+  private authService = inject(AuthService);
+  private userService = inject(UserService);
+
+  private fb = inject(FormBuilder);
+
   sections = signal<any[]>([]);
   selectedItem = signal<any>(null);
   isMobileMenuOpen = signal(false);
-  isDarkMode = signal(localStorage.getItem('darkMode') === 'enabled');
+  isDarkMode = signal(false);
 
   // Form
   settingsForm: FormGroup = this.fb.group({});
 
   ngOnInit() {
-    this.dataService.getSettings().subscribe({
-      next: (data) => {
-        this.sections.set(data);
-        this.applyTheme(this.isDarkMode());
-      },
-      error: (err) => console.error('Data load error:', err)
+    this.sections.set(SETTINGS_CONFIG);
+
+    this.userService.userProfile$.subscribe(user => {
+      if (!user) return;
+
+      const dark = user.darkMode ?? false;
+
+      this.isDarkMode.set(dark);
+      this.applyTheme(dark);
+
+      localStorage.setItem('darkMode', dark ? 'enabled' : 'disabled');
     });
+
   }
 
   getControl(name: string): FormControl {
@@ -48,7 +58,6 @@ export class SettingsComponent implements OnInit {
 
     this.selectedItem.set(item);
 
-    // Generazione dinamica dei form basata su item.fields
     const group: any = {};
     if (item.fields) {
       item.fields.forEach((field: any) => {
@@ -59,21 +68,19 @@ export class SettingsComponent implements OnInit {
     this.isMobileMenuOpen.set(true);
   }
 
-  // --- LOGICA DARK MODE (FIRESTORE) ---
+  // --- DARK MODE (FIRESTORE) ---
   handleToggle(item: any, value: boolean) {
-    if (item.label === 'Dark Mode') {
-      // 1. Aggiorna la UI locale
-      this.isDarkMode.set(value);
-      this.applyTheme(value);
-      localStorage.setItem('darkMode', value ? 'enabled' : 'disabled');
+    if (item.label !== 'Dark Mode')
+      return;
+    this.isDarkMode.set(value);
+    this.applyTheme(value);
+    localStorage.setItem('darkMode', value ? 'enabled' : 'disabled');
 
-      // 2. Aggiorna il database Firestore!
-      // Mappiamo sul campo "darkmode" visto nel tuo ERD in minuscolo
-      this.settingsService.updateUserPreferences({ darkmode: value }).subscribe({
-        next: () => console.log('Dark mode aggiornata in Firestore!'),
-        error: (err) => console.error('Errore Firestore:', err)
-      });
-    }
+    this.userService.updatePreferences({ darkMode: value }).subscribe({
+      next: () => console.log('Dark mode updated in Firestore!'),
+      error: (err) => console.error('Error in Firestore: ', err)
+    });
+
   }
 
   private applyTheme(dark: boolean) {
@@ -84,7 +91,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  // --- LOGICA EMAIL E PASSWORD (FIREBASE AUTH) ---
+  // --- EMAIL AND PASSWORD (FIREBASE AUTH) ---
   saveSettings() {
     if (this.settingsForm.invalid) {
       alert("Please fill all required fields correctly.");
@@ -94,7 +101,7 @@ export class SettingsComponent implements OnInit {
     const currentItem = this.selectedItem();
     const formData = this.settingsForm.value;
 
-    // --- 1. LOGICA CHANGE PASSWORD ---
+    // --- 1. CHANGE PASSWORD ---
     if (currentItem.label === 'Change Password') {
       const newPassword = formData['New Password'];
       const confirmPassword = formData['Confirm New Password'];
@@ -104,7 +111,7 @@ export class SettingsComponent implements OnInit {
         return;
       }
 
-      this.settingsService.updateAccountPassword(newPassword).subscribe({
+      this.authService.updatePassword(newPassword).subscribe({
         next: () => {
           alert('Password updated successfully!');
           this.closePanel();
@@ -113,27 +120,18 @@ export class SettingsComponent implements OnInit {
       });
     }
 
-    // --- 2. LOGICA CHANGE EMAIL ---
+    // --- 2. CHANGE EMAIL ---
     else if (currentItem.label === 'Change Email') {
       const currentEmailInput = formData['Current Email Address'];
       const newEmailInput = formData['New Email Address'];
-      const confirmNewEmailInput = formData['Confirm New Email']; // <-- Peschiamo il nuovo campo
-      const actualUserEmail = this.auth.currentUser?.email;
+      const confirmNewEmailInput = formData['Confirm New Email'];
 
-      // Controllo 1: L'email attuale inserita corrisponde a quella loggata?
-      if (currentEmailInput !== actualUserEmail) {
-        alert("The current email you entered is incorrect.");
-        return;
-      }
-
-      // Controllo 2: Le due nuove email coincidono?
       if (newEmailInput !== confirmNewEmailInput) {
         alert("The new email addresses do not match!");
         return;
       }
 
-      // Tutto corretto: procediamo con il salvataggio
-      this.settingsService.updateAccountEmail(newEmailInput).subscribe({
+      this.authService.updateEmail(newEmailInput).subscribe({
         next: () => {
           alert('Email updated successfully!');
           this.closePanel();
@@ -142,7 +140,7 @@ export class SettingsComponent implements OnInit {
       });
     }
 
-    // --- IGNORA TEMPORANEAMENTE WORKER/ADMIN ---
+    // TODO --- IGNORA TEMPORANEAMENTE WORKER/ADMIN ---
     else {
       alert("This feature is currently disabled in this view.");
       this.closePanel();
