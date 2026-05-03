@@ -1,19 +1,54 @@
+<div id="wrapper">
+  <main>
+
+    <section id="left-panel">
+
+      <h2 class="section-title">Teams</h2>
+
+      <div class="settings-box">
+
+        <div
+          class="setting-item"
+          *ngFor="let team of teams()"
+          (click)="openTeam(team)"
+        >
+          <div class="text-group">
+            <span class="label">{{ team.name }}</span>
+            <span class="description">
+<!--              {{ team.workers?.length || 0 }} members-->
+            </span>
+          </div>
+
+          <button class="arrow-btn">›</button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+
+
+
+<!--
 <h1>Teams</h1>
 
 <div class="teams-container">
 
   <div class="team-card" *ngFor="let team of teamsWithWorkers">
 
-    <!-- Team header -->
+    &lt;!&ndash; Team header &ndash;&gt;
     <h2>{{ team.name }}</h2>
     <p>{{ team.notes }}</p>
 
-    <!-- Info -->
+    &lt;!&ndash; Info &ndash;&gt;
     <p>
       👷 Workers: {{ getWorkerCount(team) }}
     </p>
 
-    <!-- Workers preview -->
+    &lt;!&ndash; Workers preview &ndash;&gt;
     <div class="workers-list">
 
       <div *ngFor="let worker of team.workers" class="worker-item">
@@ -22,7 +57,7 @@
 
     </div>
 
-    <!-- Open team detail -->
+    &lt;!&ndash; Open team detail &ndash;&gt;
     <a [routerLink]="['/team', team.id]">
       Open team →
     </a>
@@ -30,3 +65,4 @@
   </div>
 
 </div>
+-->

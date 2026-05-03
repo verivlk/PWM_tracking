@@ -42,6 +42,7 @@ export class TeamDetailComponent implements OnInit {
 
   ngOnInit() {
     const teamId = this.route.snapshot.paramMap.get('teamId');
+    console.log('teamId: ', teamId);  // TODO debug
     if (!teamId) return;
 
     // load team
@@ -52,6 +53,8 @@ export class TeamDetailComponent implements OnInit {
     this.workerService.getWorkersByTeam(teamId).subscribe(workers => {
       this.workers = workers;
       this.filteredWorkers = workers;
+
+      console.log('workers: ', workers); // TODO debug
 
       // TODO Opcjonalnie: zaznacz pierwszego pracownika na starcie
       if (this.workers.length > 0) {

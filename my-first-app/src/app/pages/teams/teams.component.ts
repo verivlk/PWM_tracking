@@ -1,3 +1,47 @@
+import { Component, OnInit, signal, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import {switchMap, EMPTY, tap} from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+
+import { WorkerRowComponent } from '../../components/shared/worker-row/worker-row.component';
+import { SearchBar } from '../../components/ui/search-bar/search-bar';
+
+import { TeamService } from '../../services/team.service';
+import { AuthService } from '../../services/auth.service';
+
+@Component({
+  selector: 'app-teams',
+  standalone: true,
+  imports: [CommonModule, WorkerRowComponent, SearchBar, RouterLink], // Dodany SearchBar
+  templateUrl: './teams.component.html',
+  styleUrls: ['./teams.component.css']
+})
+export class TeamsComponent implements OnInit {
+
+  private teamService = inject(TeamService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  teams = toSignal(
+    this.authService.user$.pipe(
+      tap(user => console.log('auth user:', user)), // TODO debug
+      switchMap(user => user
+        ? this.teamService.getTeamsByManager(user.uid)
+        : EMPTY
+      ),
+      tap(teams => console.log('teams from API:', teams)) // TODO debug
+    ),
+    { initialValue: [] }
+  );
+
+  ngOnInit() {}
+
+  openTeam(team: any) {
+    this.router.navigate(['/teams', team.id]);
+  }
+}
+
 /*
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
