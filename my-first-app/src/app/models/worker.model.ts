@@ -14,4 +14,5 @@ export interface Worker {
   // status: 'active' | 'inactive';
 
   teamId: string; // each worker is exactly in one team
+  managerId?: string;  // for better filtering
 }

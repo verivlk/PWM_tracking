@@ -1,0 +1,25 @@
+<div class="team-layout">
+
+  <!-- LEFT PANEL -->
+  <aside id="workers-panel">
+
+    <!-- SEARCH -->
+    <div class="search-wrapper">
+      <app-search-bar (searchChange)="onSearch($event)"></app-search-bar>
+    </div>
+
+    <!-- WORKER LIST -->
+    <div class="worker-list">
+      <div *ngFor="let worker of filteredWorkers"
+           (click)="selectedWorker = worker"
+           class="worker-clickable"
+           [class.active-row]="selectedWorker?.id === worker.id">
+
+        <app-worker-row
+          [workerData]="worker"
+          [statusOk]="selectedWorker?.id === worker.id">
+        </app-worker-row>
+      </div>
+    </div>
+  </aside>
+</div>

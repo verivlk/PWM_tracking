@@ -10,14 +10,14 @@
 
     <!-- TEAM LIST -->
     <div class="team-list">
-      <div *ngFor="let team of filteredTeams"
+      <div *ngFor="let team of filteredTeams()"
            (click)="selectedTeam = team"
            class="team-clickable"
            [class.active-row]="selectedTeam?.id === team.id">
 
         <app-team-row
           [teamData]="team"
-          [statusOk]="teamStatuses[team.id] ?? false"
+          [statusOk]="team.id ? (teamStatuses[team.id] ?? false) : false"
           [active]="selectedTeam?.id === team.id">
         </app-team-row>
       </div>

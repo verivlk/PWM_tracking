@@ -20,14 +20,13 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './teams.component.html',
   styleUrls: ['./teams.component.css']
 })
-export class TeamsComponent implements OnInit {
+export class TeamsComponent {
 
   private teamService = inject(TeamService);
   private workerService = inject(WorkerService);
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  filteredTeams: any[] = []; // Tablica na wyniki wyszukiwania  // TODO
   selectedTeam: any = null; // TODO
   teamStatuses: Record<string, boolean | undefined> = {};
 
@@ -43,16 +42,23 @@ export class TeamsComponent implements OnInit {
     { initialValue: [] }
   );
 
-  ngOnInit() {
-    this.teamService.getTeams().subscribe(teams => {
-      // this.teams = workers;
-      this.filteredTeams = teams;
-      this.preloadStatuses();
+  filteredTeams = signal<Team[]>([]);
 
-      console.log('teams: ', this.filteredTeams); // TODO debug
-    });
+  // --- SEARCH ---
+  searchTerm = signal('');
 
+  constructor() {
+    effect(() => {
+      const teams = this.teams();
 
+      if (!teams.length) return;
+
+      // init list for UI
+      this.filteredTeams.set(teams);
+
+      // preload only once per change
+      this.preloadStatuses(teams);
+    }, { allowSignalWrites: true });
   }
 
   isTeamOk(team: Team): Observable<boolean> {
@@ -68,27 +74,34 @@ export class TeamsComponent implements OnInit {
     );
   }
 
-  preloadStatuses(): void {
-    for (const team of this.filteredTeams) {
+
+  preloadStatuses(teams: Team[]) {
+    this.teamStatuses = {};
+
+    for (const team of teams) {
+      if (!team.id) continue;
+      const teamId = team.id;
       this.isTeamOk(team).subscribe(status => {
-        this.teamStatuses[team.id] = status;
+        this.teamStatuses[teamId] = status;
       });
     }
-    console.log("statuses: ", this.teamStatuses); // TODO debug
-
   }
 
 
   onSearch(query: string) {
     const term = query.toLowerCase().trim();
+    const teams = this.teams();
+
     if (!term) {
-      this.filteredTeams = this.teams();
+      this.filteredTeams.set(teams);
       return;
     }
 
-    this.filteredTeams = this.teams().filter(team =>
-      team.name.toLowerCase().includes(term) ||
-      team.description?.toLowerCase().includes(term)
+    this.filteredTeams.set(
+      teams.filter(team =>
+        team.name.toLowerCase().includes(term) ||
+        team.description?.toLowerCase().includes(term)
+      )
     );
   }
 
