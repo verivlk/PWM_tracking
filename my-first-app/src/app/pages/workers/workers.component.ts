@@ -72,6 +72,15 @@ export class WorkersComponent {
     );
   }
 
+  openWorker(worker: Worker) {
+    console.log("clicked"); // TODO debug
+    this.router.navigate(['/team', worker.teamId], {
+      queryParams: {
+        worker: worker.id
+      }
+    });
+  }
+
 
 
 

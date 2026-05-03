@@ -6,7 +6,6 @@ import {FormsModule} from '@angular/forms';
 import {WorkerRowComponent} from '../../components/shared/worker-row/worker-row.component';
 import {SearchBar} from '../../components/ui/search-bar/search-bar';
 
-// import { DataService } from '../../services/data.service';
 import {MapService} from '../../services/map.service';
 import {WorkerService} from '../../services/worker.service';
 import {DeviceService} from '../../services/device.service';
@@ -49,6 +48,9 @@ export class TeamDetailComponent implements OnInit {
     console.log('teamId: ', teamId);  // TODO debug
     if (!teamId) return;
 
+    const workerId = this.route.snapshot.queryParamMap.get('worker');
+    console.log('workerId: ', workerId);  // TODO debug
+
     // load team
     this.teamService.getTeamById(teamId).subscribe(team => {
       this.team = team;
@@ -60,6 +62,10 @@ export class TeamDetailComponent implements OnInit {
 
       console.log('workers: ', workers); // TODO debug
 
+      if (this.workers.length > 0 && workerId) {
+        this.selectedWorker =
+          workers.find(w => w.id === workerId) ?? null;
+      }
 /*
       // TODO Opcjonalnie: zaznacz pierwszego pracownika na starcie
       if (this.workers.length > 0) {
