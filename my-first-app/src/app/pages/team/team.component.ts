@@ -73,12 +73,21 @@ export class TeamDetailComponent implements OnInit {
       }
 */
     });
+
   }
 
   // select worker
   selectWorker(worker: Worker) {
     this.selectedWorker = worker;
     this.editMode = false;
+    if (!this.selectedWorker.id) {
+      return;
+    }
+    this.deviceService.getDeviceByWorkerId(this.selectedWorker.id)
+      .subscribe(device => {
+        this.currentDeviceId = device?.id ?? null;
+        this.selectedDeviceId = device?.id ?? null;
+      });
   }
 
   onSearch(query: string): void {

@@ -11,7 +11,7 @@
     <!-- WORKER LIST -->
     <div class="worker-list">
       <div *ngFor="let worker of filteredWorkers"
-           (click)="selectedWorker = worker"
+           (click)="selectWorker(worker)"
            class="worker-clickable"
            [class.active-row]="selectedWorker?.id === worker.id">
 
@@ -120,9 +120,9 @@
         <!-- DEVICE -->
         <div class="info-item">
           <strong>Location device:</strong><br>
-          <ng-container *ngIf="!editMode; else locEdit">
-            {{ currentDeviceId || 'Not assigned' }}
-          </ng-container>
+            <ng-container *ngIf="!editMode; else locEdit">
+              {{ currentDeviceId || 'Not assigned' }}
+            </ng-container>
           <ng-template #locEdit>
             <select class="styled-input" [(ngModel)]="selectedDeviceId">
               <!-- EMPTY OPTION -->
