@@ -29,6 +29,7 @@ export class TeamsComponent implements OnInit {
 
   filteredTeams: any[] = []; // Tablica na wyniki wyszukiwania  // TODO
   selectedTeam: any = null; // TODO
+  teamStatuses: Record<string, boolean | undefined> = {};
 
   teams = toSignal(
     this.authService.user$.pipe(
@@ -46,9 +47,11 @@ export class TeamsComponent implements OnInit {
     this.teamService.getTeams().subscribe(teams => {
       // this.teams = workers;
       this.filteredTeams = teams;
+      this.preloadStatuses();
 
       console.log('teams: ', this.filteredTeams); // TODO debug
     });
+
 
   }
 
@@ -62,9 +65,15 @@ export class TeamsComponent implements OnInit {
     );
   }
 
-  openTeam(team: any) {
-    this.router.navigate(['/teams', team.id]);
+  preloadStatuses(): void {
+    for (const team of this.filteredTeams) {
+      this.isTeamOk(team).subscribe(status => {
+        this.teamStatuses[team.id] = status;
+      });
+    }
+
   }
+
 
   onSearch(query: string) {
     const term = query.toLowerCase().trim();

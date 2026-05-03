@@ -120,13 +120,13 @@
 }
 
 /* STYL DLA LISTY */
-.worker-clickable {
+.team-clickable {
     cursor: pointer;
     border-bottom: 1px solid var(--border-color);
     transition: all 0.2s;
 }
 
-.worker-clickable:hover {
+.team-clickable:hover {
     background: var(--bg-secondary);
 }
 

@@ -12,12 +12,12 @@
     <div class="team-list">
       <div *ngFor="let team of filteredTeams"
            (click)="selectedTeam = team"
-           class="worker-clickable"
+           class="team-clickable"
            [class.active-row]="selectedTeam?.id === team.id">
 
         <app-team-row
           [teamData]="team"
-          [statusOk]="(isTeamOk(team) | async) ?? false">
+          [statusOk]="teamStatuses[team.id] ?? false">
         </app-team-row>
       </div>
     </div>
