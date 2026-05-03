@@ -1,15 +1,16 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { SettingItemComponent } from '../../components/shared/setting-item/setting-item';
 import { InputFieldComponent } from '../../components/ui/input-field/input-field';
 
 import { AuthService } from '../../services/auth.service'
-import {UserService} from '../../services/user.service';
+import { UserService } from '../../services/user.service';
 
 import { SETTINGS_CONFIG } from '../../config/settings.config';
+import {switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -61,7 +62,7 @@ export class SettingsComponent implements OnInit {
     const group: any = {};
     if (item.fields) {
       item.fields.forEach((field: any) => {
-        group[field.label] = new FormControl('', field.required ? [] : []);
+        group[field.label] = new FormControl('', field.validators ?? []);
       });
     }
     this.settingsForm = new FormGroup(group);
@@ -94,6 +95,7 @@ export class SettingsComponent implements OnInit {
   // --- EMAIL AND PASSWORD (FIREBASE AUTH) ---
   saveSettings() {
     if (this.settingsForm.invalid) {
+      this.settingsForm.markAllAsTouched();
       alert("Please fill all required fields correctly.");
       return;
     }
@@ -102,7 +104,8 @@ export class SettingsComponent implements OnInit {
     const formData = this.settingsForm.value;
 
     // --- 1. CHANGE PASSWORD ---
-    if (currentItem.label === 'Change Password') {
+    if (currentItem.id === 'password') {
+      const currentPassword = formData.currentPassword;
       const newPassword = formData['New Password'];
       const confirmPassword = formData['Confirm New Password'];
 
@@ -111,34 +114,40 @@ export class SettingsComponent implements OnInit {
         return;
       }
 
-      this.authService.updatePassword(newPassword).subscribe({
+      this.authService.reauthenticate(currentPassword).pipe(
+        switchMap(() => this.authService.updatePassword(newPassword))
+      ).subscribe({
         next: () => {
-          alert('Password updated successfully!');
+          alert('Password successfully updated!');
           this.closePanel();
         },
-        error: (err) => alert('Error updating password: ' + err.message)
+        error: (err) => alert(this.authService.mapAuthError(err))
       });
     }
 
     // --- 2. CHANGE EMAIL ---
     else if (currentItem.label === 'Change Email') {
-      const currentEmailInput = formData['Current Email Address'];
-      const newEmailInput = formData['New Email Address'];
-      const confirmNewEmailInput = formData['Confirm New Email'];
+      const currentPassword = formData['Current Password'];
+      const newEmail = formData['New Email Address'];
+      const confirmNewEmail = formData['Confirm New Email'];
 
-      if (newEmailInput !== confirmNewEmailInput) {
+      if (newEmail !== confirmNewEmail) {
         alert("The new email addresses do not match!");
         return;
       }
 
-      this.authService.updateEmail(newEmailInput).subscribe({
+      this.authService.reauthenticate(currentPassword).pipe(
+        switchMap(() => this.authService.updateEmail(newEmail))
+      ).subscribe({
         next: () => {
-          alert('Email updated successfully!');
+          alert('E-mail successfully updated!');
           this.closePanel();
         },
-        error: (err) => alert('Error updating email: ' + err.message)
+        error: (err) => alert(this.authService.mapAuthError(err))
       });
+
     }
+
 
     // TODO --- IGNORA TEMPORANEAMENTE WORKER/ADMIN ---
     else {

@@ -29,9 +29,7 @@ export class UserService {
     }
 
     const ref = doc(this.firestore, `users/${user.uid}`);
-    return from(updateDoc(ref, {
-      ...data
-    }));
+    return from(setDoc(ref, data, { merge: true }));
   }
 
 /*  // TODO
