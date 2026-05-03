@@ -34,7 +34,7 @@
     <div *ngIf="selectedWorker" class="big-card">
 
       <div class="big-avatar">
-        <img [src]="selectedWorker.photo || 'assets/profile_default.jpg'" alt="profile pic" />
+        <img [src]="selectedWorker.photo || 'assets/profile_default.jpg'" alt="profile pic"/>
       </div>
 
       <h1>
@@ -42,15 +42,15 @@
           {{ selectedWorker.name }}
         </ng-container>
         <ng-template #editName>
-          <input class="styled-input" [(ngModel)]="editWorker.name" />
+          <input class="styled-input" [(ngModel)]="editWorker.name"/>
         </ng-template>
       </h1>
 
       <p class="status-label">
         Status:
         <span *ngIf="!editMode">
-      {{ selectedWorker.active ? 'Working' : 'Not at work' }}
-    </span>
+          {{ selectedWorker.active ? 'Working' : 'Not at work' }}
+        </span>
 
         <ng-container *ngIf="editMode">
           <select class="styled-input" [(ngModel)]="editWorker.active">
@@ -69,7 +69,7 @@
             {{ selectedWorker.role || 'Not provided' }}
           </ng-container>
           <ng-template #roleEdit>
-            <input class="styled-input" [(ngModel)]="editWorker.role" />
+            <input class="styled-input" [(ngModel)]="editWorker.role"/>
           </ng-template>
         </div>
 
@@ -80,7 +80,7 @@
             {{ selectedWorker.email || 'Not provided' }}
           </ng-container>
           <ng-template #emailEdit>
-            <input class="styled-input" [(ngModel)]="editWorker.email" />
+            <input class="styled-input" [(ngModel)]="editWorker.email"/>
           </ng-template>
         </div>
 
@@ -91,7 +91,7 @@
             {{ selectedWorker.phone || 'Not provided' }}
           </ng-container>
           <ng-template #phoneEdit>
-            <input class="styled-input" [(ngModel)]="editWorker.phone" />
+            <input class="styled-input" [(ngModel)]="editWorker.phone"/>
           </ng-template>
         </div>
 
@@ -102,7 +102,7 @@
             {{ selectedWorker.info || 'Not provided' }}
           </ng-container>
           <ng-template #infoEdit>
-            <input class="styled-input" [(ngModel)]="editWorker.info" />
+            <input class="styled-input" [(ngModel)]="editWorker.info"/>
           </ng-template>
         </div>
 
@@ -113,7 +113,26 @@
             {{ selectedWorker.emContact || 'Not provided' }}
           </ng-container>
           <ng-template #emEdit>
-            <input class="styled-input" [(ngModel)]="editWorker.emContact" />
+            <input class="styled-input" [(ngModel)]="editWorker.emContact"/>
+          </ng-template>
+        </div>
+
+        <!-- DEVICE -->
+        <div class="info-item">
+          <strong>Location device:</strong><br>
+          <ng-container *ngIf="!editMode; else locEdit">
+            {{ currentDeviceId || 'Not assigned' }}
+          </ng-container>
+          <ng-template #locEdit>
+            <select class="styled-input" [(ngModel)]="selectedDeviceId">
+              <!-- EMPTY OPTION -->
+              <option [ngValue]="null">— Unassign —</option>
+
+              <!-- DEVICES -->
+              <option *ngFor="let d of availableDevices" [ngValue]="d.id">
+                {{ d.id }}
+              </option>
+            </select>
           </ng-template>
         </div>
 

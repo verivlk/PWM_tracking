@@ -52,7 +52,10 @@ export class MapViewComponent implements AfterViewInit, OnDestroy {
 
       devices.forEach(device => {
         if (device.lat && device.lon) {
-          const worker = workerLookup.get(device.worker_id);
+          // const worker = workerLookup.get(device.assignedWorkerId);
+          const worker = device.assignedWorkerId
+            ? workerLookup.get(device.assignedWorkerId)
+            : undefined;
           const statusColor = worker ? (worker.statusOk ? '#2ecc71' : '#e74c3c') : 'yellow';
 
           const marker = L.circleMarker([device.lat, device.lon], {
@@ -69,7 +72,13 @@ export class MapViewComponent implements AfterViewInit, OnDestroy {
             marker.bindPopup(this.createPopupHtml(worker));
           }
 
-          this.workerMarkersMap.set(device.worker_id, { marker, baseColor: statusColor });
+          if (device.assignedWorkerId) {  // check if worker has localizator
+            this.workerMarkersMap.set(device.assignedWorkerId, {
+              marker,
+              baseColor: statusColor
+            });
+          }
+          // this.workerMarkersMap.set(device.assignedWorkerId, { marker, baseColor: statusColor });
           this.markers.push(marker);
         }
       });

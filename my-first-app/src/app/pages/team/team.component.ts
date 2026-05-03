@@ -14,6 +14,7 @@ import {DeviceService} from '../../services/device.service';
 import {Team} from '../../models/team.model';
 import {Worker} from '../../models/worker.model';
 import {TeamService} from '../../services/team.service';
+import {LocalizationDevice} from '../../models/device.model';
 
 @Component({
   selector: 'app-team-detail',
@@ -27,6 +28,7 @@ export class TeamDetailComponent implements OnInit {
   workers: Worker[] = [];
   filteredWorkers: Worker[] = [];
   selectedWorker: Worker | null = null;
+  availableDevices: LocalizationDevice[] = [];
 
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -39,6 +41,8 @@ export class TeamDetailComponent implements OnInit {
   // edit state
   editMode = false;
   editWorker: Partial<Worker> = {};
+  selectedDeviceId: string | null = null;
+  currentDeviceId: string | null = null;
 
   ngOnInit() {
     const teamId = this.route.snapshot.paramMap.get('teamId');
@@ -110,10 +114,24 @@ export class TeamDetailComponent implements OnInit {
 
   // EDIT MODE
   startEdit() {
-    if (!this.selectedWorker) return;
+    if (!this.selectedWorker?.id) return;
 
     this.editMode = true;
     this.editWorker = { ...this.selectedWorker };     // clone object
+
+    // load currently assigned device
+    this.deviceService.getDeviceByWorkerId(this.selectedWorker.id)
+      .subscribe(device => {
+
+        this.currentDeviceId = device?.id ?? null;
+        this.selectedDeviceId = device?.id ?? null;
+
+        this.deviceService
+          .getAssignableDevicesForWorker(this.selectedWorker!.id)
+          .subscribe(devices => {
+            this.availableDevices = devices;
+          });
+      });
   }
 
   cancelEdit() {
@@ -123,6 +141,23 @@ export class TeamDetailComponent implements OnInit {
 
   saveEdit() {
     if (!this.selectedWorker?.id) return;
+
+    // DEVICE CHANGED?
+    if (this.currentDeviceId !== this.selectedDeviceId) {
+
+      // unassign old
+      if (this.currentDeviceId) {
+        this.deviceService.unassign(this.currentDeviceId);
+      }
+
+      // assign new
+      if (this.selectedDeviceId) {
+        this.deviceService.assignToWorker(
+          this.selectedDeviceId,
+          this.selectedWorker.id
+        );
+      }
+    }
 
     this.workerService.updateWorker(
       this.selectedWorker.id,

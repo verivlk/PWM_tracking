@@ -1,5 +1,16 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, collectionData, doc, docData, addDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  collectionData,
+  doc,
+  docData,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  where,
+  query
+} from '@angular/fire/firestore';
 import { Observable, map, from } from 'rxjs'; // from makes Observable from Promise
 import { LocalizationDevice } from '../models/device.model';
 
@@ -26,7 +37,26 @@ export class DeviceService {
   getDeviceByWorkerId(workerId: string): Observable<LocalizationDevice | undefined> {
     return this.getDevices().pipe(
       map((devices: LocalizationDevice[]) =>
-        devices.find(d => d.worker_id === workerId)
+        devices.find(d => d.assignedWorkerId === workerId)
+      )
+    );
+  }
+
+  getFreeDevices(): Observable<LocalizationDevice[]> {
+    const ref = collection(this.firestore, this.collectionName);
+
+    const q = query(ref, where('assignedWorkerId', '==', null));
+
+    return collectionData(q, { idField: 'id' }) as Observable<LocalizationDevice[]>;
+  }
+
+  getAssignableDevicesForWorker(workerId?: string): Observable<LocalizationDevice[]> {
+    return this.getDevices().pipe(
+      map(devices =>
+        devices.filter(d =>
+          !d.assignedWorkerId ||
+          d.assignedWorkerId === workerId
+        )
       )
     );
   }
@@ -47,6 +77,22 @@ export class DeviceService {
   deleteDevice(id: string) {
     const ref = doc(this.firestore, `${this.collectionName}/${id}`);
     return deleteDoc(ref);
+  }
+
+  assignToWorker(deviceId: string, workerId: string) {
+    const ref = doc(this.firestore, `${this.collectionName}/${deviceId}`);
+
+    return updateDoc(ref, {
+      assignedWorkerId: workerId
+    });
+  }
+
+  unassign(deviceId: string) {
+    const ref = doc(this.firestore, `${this.collectionName}/${deviceId}`);
+
+    return updateDoc(ref, {
+      assignedWorkerId: null
+    });
   }
 
 }

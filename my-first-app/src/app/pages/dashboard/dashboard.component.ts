@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
 
     if (team.isExpanded) {
     this.deviceService.getDevices().subscribe(devices => {
-      const teamDevices = devices.filter(d => team.workers?.includes(d.worker_id));
+      const teamDevices = devices.filter(d => team.workers?.includes(d.assignedWorkerId));
       const teamCoords = teamDevices.map(d => ({ lat: d.lat, lon: d.lon }));
 
       if (teamCoords.length > 0) {
