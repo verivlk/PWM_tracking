@@ -32,6 +32,9 @@
     --btn-bg: #000000;
     --btn-text: #ffffff;
     --btn-hover: #555555;
+
+    --status-ok: #2ecc71;     /* green */
+    --status-bad: #e74c3c;    /* red */
 }
 
 /* =========================================
@@ -297,7 +300,7 @@ footer#main_footer {
 
     .page-change-menu {
         display: grid !important;
-        grid-template-columns: 1fr 1fr; 
+        grid-template-columns: 1fr 1fr;
         width: 100%;
         padding: 0;
         margin: 0;
@@ -315,7 +318,7 @@ footer#main_footer {
         align-items: center;
         justify-content: center;
         width: 100%;
-        height: 30px;               
+        height: 30px;
         border-radius: 0px !important;
         font-size: 13px !important;
         text-align: center;
@@ -325,7 +328,7 @@ footer#main_footer {
     .login-button{
         display: none;
     }
-    
+
     .login-button-footer{
         display: block;
     }

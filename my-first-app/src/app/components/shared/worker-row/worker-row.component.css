@@ -33,8 +33,9 @@ mark.status {
     background: none;
 }
 
-mark.active { color: #27ae60; }
-mark.inactive { color: #e74c3c; }
+/*red is default*/
+mark { color: var(--status-bad); }
+mark.active { color: var(--status-ok); }
 
 /* Przycisk rozwijania */
 button.expand {

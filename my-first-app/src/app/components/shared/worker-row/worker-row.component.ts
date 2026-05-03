@@ -11,5 +11,5 @@ import { CommonModule } from '@angular/common';
 })
 export class WorkerRowComponent {
   @Input() workerData: any; // Tu wpadną dane z pętli let person of teams
-  @Input() isActive: boolean = false; // Dodaj to
+  @Input() statusOk: boolean = false; // Dodaj to
 }

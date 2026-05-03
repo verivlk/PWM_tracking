@@ -17,7 +17,7 @@
 
         <app-worker-row
           [workerData]="worker"
-          [isActive]="selectedWorker?.id === worker.id">
+          [statusOk]="selectedWorker?.id === worker.id">
         </app-worker-row>
       </div>
     </div>
@@ -31,77 +31,124 @@
       <p>Select a worker to see details</p>
     </div>
 
-    <!-- VIEW MODE -->
-    <div *ngIf="selectedWorker && !editMode" class="big-card">
+    <div *ngIf="selectedWorker" class="big-card">
 
       <div class="big-avatar">
-        <img *ngIf="selectedWorker.photo" [src]="selectedWorker.photo" alt="Avatar">
+        <img [src]="selectedWorker.photo || 'assets/profile_default.jpg'" alt="profile pic" />
       </div>
 
-      <h1>{{ selectedWorker.name }}</h1>
+      <h1>
+        <ng-container *ngIf="!editMode; else editName">
+          {{ selectedWorker.name }}
+        </ng-container>
+        <ng-template #editName>
+          <input class="styled-input" [(ngModel)]="editWorker.name" />
+        </ng-template>
+      </h1>
 
       <p class="status-label">
-        Status: {{ selectedWorker.active ? 'Active' : 'Inactive' }}
+        Status:
+        <span *ngIf="!editMode">
+      {{ selectedWorker.active ? 'Working' : 'Not at work' }}
+    </span>
+
+        <ng-container *ngIf="editMode">
+          <select class="styled-input" [(ngModel)]="editWorker.active">
+            <option [ngValue]="true">Working</option>
+            <option [ngValue]="false">Not at work</option>
+          </select>
+        </ng-container>
       </p>
 
       <div class="info-grid">
-        <div class="info-item"><strong>Role:</strong><br>{{ selectedWorker.role || 'Not provided' }}</div>
-        <div class="info-item"><strong>E-mail:</strong><br>{{ selectedWorker.email || 'Not provided' }}</div>
-        <div class="info-item"><strong>Phone:</strong><br>{{ selectedWorker.phone || 'Not provided' }}</div>
-        <div class="info-item"><strong>Info:</strong><br>{{ selectedWorker.info || 'Not provided' }}</div>
-        <div class="info-item"><strong>Emergency contact:</strong><br>{{ selectedWorker.emContact || 'Not provided' }}</div>
-        <!--        <div class="info-item"><strong>Location:</strong><br>{{ selectedWorker.location || 'Main office' }}</div>-->
+
+        <!-- ROLE -->
+        <div class="info-item">
+          <strong>Role:</strong><br>
+          <ng-container *ngIf="!editMode; else roleEdit">
+            {{ selectedWorker.role || 'Not provided' }}
+          </ng-container>
+          <ng-template #roleEdit>
+            <input class="styled-input" [(ngModel)]="editWorker.role" />
+          </ng-template>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="info-item">
+          <strong>Email:</strong><br>
+          <ng-container *ngIf="!editMode; else emailEdit">
+            {{ selectedWorker.email || 'Not provided' }}
+          </ng-container>
+          <ng-template #emailEdit>
+            <input class="styled-input" [(ngModel)]="editWorker.email" />
+          </ng-template>
+        </div>
+
+        <!-- PHONE -->
+        <div class="info-item">
+          <strong>Phone:</strong><br>
+          <ng-container *ngIf="!editMode; else phoneEdit">
+            {{ selectedWorker.phone || 'Not provided' }}
+          </ng-container>
+          <ng-template #phoneEdit>
+            <input class="styled-input" [(ngModel)]="editWorker.phone" />
+          </ng-template>
+        </div>
+
+        <!-- INFO -->
+        <div class="info-item">
+          <strong>Info:</strong><br>
+          <ng-container *ngIf="!editMode; else infoEdit">
+            {{ selectedWorker.info || 'Not provided' }}
+          </ng-container>
+          <ng-template #infoEdit>
+            <input class="styled-input" [(ngModel)]="editWorker.info" />
+          </ng-template>
+        </div>
+
+        <!-- EMERGENCY -->
+        <div class="info-item">
+          <strong>Emergency contact:</strong><br>
+          <ng-container *ngIf="!editMode; else emEdit">
+            {{ selectedWorker.emContact || 'Not provided' }}
+          </ng-container>
+          <ng-template #emEdit>
+            <input class="styled-input" [(ngModel)]="editWorker.emContact" />
+          </ng-template>
+        </div>
+
       </div>
 
+      <!-- BUTTONS -->
       <div class="actions-area">
-        <button class="map-btn" (click)="goToWorkerOnMap(selectedWorker.id)">
-          Show on Map
-        </button>
-        <button class="edit-btn" (click)="startEdit()">
-          Edit
-        </button>
-      </div>
-    </div>
 
-    <!-- EDIT MODE -->
-    <div *ngIf="selectedWorker && editMode" class="big-card">
-      <h2>Edit Worker</h2>
-      <div class="edit-form">
+        <ng-container *ngIf="!editMode; else editButtons">
 
-        <label>Name</label>
-        <input [(ngModel)]="editWorker.name" />
+          <button class="map-btn" (click)="goToWorkerOnMap(selectedWorker.id)">
+            Show on Map
+          </button>
 
-        <label>Role</label>
-        <input [(ngModel)]="editWorker.role" />
+          <button class="edit-btn" (click)="startEdit()">
+            Edit
+          </button>
 
-        <label>Email</label>
-        <input [(ngModel)]="editWorker.email" />
+        </ng-container>
 
-        <label>Phone</label>
-        <input [(ngModel)]="editWorker.phone" />
+        <ng-template #editButtons>
 
-        <label>Info</label>
-        <input [(ngModel)]="editWorker.info" />
+          <button class="save-btn" (click)="saveEdit()">
+            Save
+          </button>
 
-        <label>Emergency contact</label>
-        <input [(ngModel)]="editWorker.emContact" />
+          <button class="cancel-btn" (click)="cancelEdit()">
+            Cancel
+          </button>
 
-      </div>
-
-      <div class="actions-area">
-
-        <button class="save-btn" (click)="saveEdit()">
-          Save
-        </button>
-
-        <button class="cancel-btn" (click)="cancelEdit()">
-          Cancel
-        </button>
+        </ng-template>
 
       </div>
 
     </div>
-
 
   </section>
 </div>

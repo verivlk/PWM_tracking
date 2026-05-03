@@ -1,8 +1,8 @@
-<div class="worker-wrapper" [class.open]="isActive">
+<div class="worker-wrapper" [class.open]="statusOk">
     <article class="worker-row">
         <h3>{{ workerData.name }}</h3>
-        <mark class="status" [class.active]="workerData.status === 'active'">
-            {{ workerData.status === 'active' ? '●' : '○' }}
+        <mark class="status" [class.active]="workerData.statusOk">
+            {{ workerData.active ? '●' : '○' }}
         </mark>
     </article>
 </div>

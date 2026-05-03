@@ -56,10 +56,12 @@ export class TeamDetailComponent implements OnInit {
 
       console.log('workers: ', workers); // TODO debug
 
+/*
       // TODO Opcjonalnie: zaznacz pierwszego pracownika na starcie
       if (this.workers.length > 0) {
         this.selectedWorker = this.workers[0];
       }
+*/
     });
   }
 
