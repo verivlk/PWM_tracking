@@ -53,11 +53,13 @@ export class TeamsComponent {
 
       if (!teams.length) return;
 
-      // init list for UI
-      this.filteredTeams.set(teams);
 
       // preload only once per change
       this.preloadStatuses(teams);
+
+      // init list for UI
+      this.filteredTeams.set(teams);
+
     }, { allowSignalWrites: true });
   }
 
@@ -83,10 +85,26 @@ export class TeamsComponent {
       const teamId = team.id;
       this.isTeamOk(team).subscribe(status => {
         this.teamStatuses[teamId] = status;
+
+        // re-sort every time a status arrives
+        this.applyTeamSort(teams);
       });
     }
   }
 
+  applyTeamSort(teams: Team[]) {
+    const sorted = [...teams].sort((a, b) => {
+      if (!a.id || !b.id) {
+        return 0;
+      }
+      const aStatus = this.teamStatuses[a.id] ?? false;
+      const bStatus = this.teamStatuses[b.id] ?? false;
+
+      return Number(aStatus) - Number(bStatus);
+    });
+
+    this.filteredTeams.set(sorted);
+  }
 
   onSearch(query: string) {
     const term = query.toLowerCase().trim();
