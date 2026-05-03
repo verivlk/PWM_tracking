@@ -17,7 +17,7 @@
 
         <app-worker-row
           [workerData]="worker"
-          [statusOk]="selectedWorker?.id === worker.id">
+          [statusOk]="selectedWorker?.statusOk ?? false">
         </app-worker-row>
       </div>
     </div>

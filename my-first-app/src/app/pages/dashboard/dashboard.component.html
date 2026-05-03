@@ -5,25 +5,29 @@
     </div>
 
     <div class="worker-list">
-      <div *ngFor="let team of filteredTeams" class="worker-wrapper">
-        
-        <div (click)="toggleDetails(team)" class="team-header">
-          <app-worker-row [workerData]="{ name: team.name, status: 'active' }"></app-worker-row>
-        </div>
+      <div *ngFor="let worker of filteredWorkers()"
+           (click)="toggleWorker(worker)"
+           class="worker-clickable"
+           [class.active-row]="selectedWorker?.id === worker.id">
 
-        <div class="details-content" *ngIf="team.isExpanded">
-          <p><strong>Project:</strong> {{ team.project || 'No Project' }}</p>
-          <p class="members-title">Team:</p>
-          <ul>
-            <li *ngFor="let m of team.resolvedMembers">
-              <span class="member-dot">•</span> 
-              {{ m?.name || 'Uknown worker (' + m?.id + ')' }}
-            </li>
-          </ul>
+        <app-worker-row
+          [workerData]="worker"
+          [statusOk]="selectedWorker?.statusOk ?? false">
+        </app-worker-row>
+
+        <div class="details-content" *ngIf="worker.id && expandedWorkers[worker.id]">
+<!--          <p><strong>Team:</strong> {{ 'No Project' }}</p>-->
+          <button
+            class="btn btn-sm btn-primary"
+            (click)="openWorker(worker)">
+            Detail
+          </button>
         </div>
 
       </div>
+
     </div>
+
   </aside>
 
   <section id="map-container">
