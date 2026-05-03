@@ -32,14 +32,27 @@
     overflow-y: auto; /* Tylko lista ma scrollbar */
 }
 
+.team-header {
+  display: block;
+  width: 100%;
+  margin: 20px;
+}
+
+.team-info {
+  margin: 10px 0;
+}
+
+
 #details-view {
-    flex: 1;
-    background: var(--bg-article);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 60px;
-    overflow-y: auto;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start; /* top */
+  align-items: center;
+  text-align: center;
+  background: var(--bg-article);
+  display: flex;
+  padding: 60px;
+  overflow-y: auto;
 }
 
 .no-results {

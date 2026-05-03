@@ -25,8 +25,16 @@
 
   <!-- RIGHT PANEL -->
   <section id="details-view">
+    <div class="team-header">
+      <h1> {{ team?.name }} </h1>
+    </div>
 
     <!-- NO SELECTION -->
+    <div *ngIf="!selectedWorker" class="team-info">
+      <h2>Team description:</h2>
+      <p>{{ team?.description ?? 'not provided' }}</p>
+    </div>
+
     <div *ngIf="!selectedWorker" class="placeholder">
       <p>Select a worker to see details</p>
     </div>

@@ -40,6 +40,18 @@ export class WorkerService {
     return collectionData(q, { idField: 'id' });
   }
 
+  getActiveWorkersByManager(managerId: string): Observable<Worker[]> {
+    const ref = collection(this.firestore, 'workers') as CollectionReference<Worker>;
+
+    const q = query(ref, where('managerId', '==', managerId));
+
+    return collectionData(q, { idField: 'id' }).pipe(
+      map((workers: Worker[]) =>
+        workers.filter(w => w.active)
+      )
+    );
+  }
+
   getActiveWorkers(): Observable<Worker[]> {
     const ref = collection(this.firestore, 'workers') as CollectionReference<Worker>;
 
