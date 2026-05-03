@@ -59,8 +59,13 @@ export class DashboardComponent {
 
       if (!workers.length) return;
 
+      const sorted = [...workers].sort((a, b) => {
+        return Number(a.statusOk) - Number(b.statusOk);
+        // false (0) comes before true (1)
+      });
+
       // init list for UI
-      this.filteredWorkers.set(workers);
+      this.filteredWorkers.set(sorted);
 
     }, {allowSignalWrites: true});
   }

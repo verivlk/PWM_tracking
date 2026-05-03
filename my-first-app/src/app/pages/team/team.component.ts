@@ -65,6 +65,9 @@ export class TeamDetailComponent implements OnInit {
       if (this.workers.length > 0 && workerId) {
         this.selectedWorker =
           workers.find(w => w.id === workerId) ?? null;
+        if (this.selectedWorker) {
+          this.selectWorker(this.selectedWorker);
+        }
       }
 /*
       // TODO Opcjonalnie: zaznacz pierwszego pracownika na starcie
