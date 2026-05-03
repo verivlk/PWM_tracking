@@ -1,7 +1,7 @@
 <div class="team-layout">
 
   <!-- LEFT PANEL -->
-  <aside id="workers-panel">
+  <aside id="teams-panel">
 
     <!-- SEARCH -->
     <div class="search-wrapper">
@@ -17,7 +17,8 @@
 
         <app-team-row
           [teamData]="team"
-          [statusOk]="teamStatuses[team.id] ?? false">
+          [statusOk]="teamStatuses[team.id] ?? false"
+          [active]="selectedTeam?.id === team.id">
         </app-team-row>
       </div>
     </div>

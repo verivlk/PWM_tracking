@@ -12,7 +12,8 @@ import {Router} from '@angular/router';
 })
 export class TeamRowComponent {
   @Input() teamData: any;
-  @Input() statusOk: boolean = false;
+  @Input() statusOk: boolean  | null = false;
+  @Input() active: boolean = false;
 
   private router = inject(Router);
 

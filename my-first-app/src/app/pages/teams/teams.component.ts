@@ -61,7 +61,10 @@ export class TeamsComponent implements OnInit {
       map(workers =>
         workers.length > 0 &&
         workers.every(w => w.statusOk)
-      )
+      ),
+      tap(status => {
+        console.log("team id:", team.id, "status:", status);
+      })
     );
   }
 
@@ -71,6 +74,7 @@ export class TeamsComponent implements OnInit {
         this.teamStatuses[team.id] = status;
       });
     }
+    console.log("statuses: ", this.teamStatuses); // TODO debug
 
   }
 

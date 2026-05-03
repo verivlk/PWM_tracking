@@ -1,8 +1,8 @@
-<div class="worker-wrapper" [class.open]="statusOk">
-    <article class="worker-row">
+<div class="team-wrapper" [class.open]="statusOk" [class.active]="active">
+    <article class="team-row">
       <h3>{{ teamData.name }}</h3>
-      <mark class="status" [class.active]="teamData.statusOk">
-        {{ teamData.active ? '●' : '○' }}
+      <mark class="status" [class.active]="statusOk">
+        ●
       </mark>
       <button
         class="btn btn-sm btn-primary"
