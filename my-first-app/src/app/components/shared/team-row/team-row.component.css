@@ -1,0 +1,119 @@
+/* Kontener główny komponentu */
+.worker-wrapper {
+    width: 100%;
+    margin-bottom: 4px;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Wiersz z podstawowymi danymi */
+article.team-row {
+    display: flex;
+    align-items: center;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    padding: 14px 16px;
+    gap: 8px;
+    transition: background 0.2s, border-radius 0.2s;
+}
+
+article.team-row h3 {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: normal;
+    color: var(--text-main);
+    margin: 0;
+}
+
+/* Status kropka */
+mark.status {
+    font-size: 1.25rem;
+    width: 24px;
+    text-align: center;
+    background: none;
+}
+
+/*red is default*/
+mark { color: var(--status-bad); }
+mark.active { color: var(--status-ok); }
+
+/* Przycisk rozwijania */
+button.expand {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    color: var(--text-main);
+    font-size: 0.8rem;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+/* Sekcja detali (rozwijana) */
+.team-details {
+    max-height: 0;
+    overflow: hidden;
+    background: var(--bg-tertiary);
+    transition: max-height 0.3s ease-in-out;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.details-content {
+    padding: 0px 20px;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+/* --- LOGIKA ROZWINIĘCIA (KLASA .open) --- */
+
+.worker-wrapper.open .worker-details {
+    max-height: 500px; /* Wystarczająco dużo by pomieścić treść */
+    padding-bottom: 15px;
+}
+
+.worker-wrapper.open .worker-row {
+    background: var(--bg-tertiary);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.worker-wrapper.open .expand {
+    transform: rotate(180deg);
+}
+
+/* --- RESPONSYWNOŚĆ I SMART VIEW (900px+) --- */
+
+@media (min-width: 900px) {
+    /* Jeśli komponent jest wewnątrz elementu z ID #details-view (tryb dwukolumnowy) */
+    :host-context(main:has(#details-view)) .worker-wrapper.open .worker-details {
+        max-height: 0 !important;
+        padding-bottom: 0;
+    }
+
+    :host-context(main:has(#details-view)) .worker-wrapper.open article.worker-row {
+        background: var(--primary-background-color);
+        border-radius: 4px !important;
+        color: var(--text-light);
+    }
+
+    :host-context(main:has(#details-view)) .worker-wrapper.open h3,
+    :host-context(main:has(#details-view)) .worker-wrapper.open .expand {
+        color: var(--text-light);
+    }
+
+    :host-context(main:has(#details-view)) .worker-wrapper.open mark.status {
+        filter: brightness(0) invert(1); /* Zmienia kolor kropki na biały na niebieskim tle */
+    }
+
+    /* Standardowe zachowanie gdy nie ma widoku detali obok */
+    :host-context(main:not(:has(#details-view))) .worker-wrapper.open article.worker-row {
+        background: var(--bg-tertiary);
+    }
+}

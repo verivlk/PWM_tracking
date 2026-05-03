@@ -1,27 +1,34 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import {switchMap, EMPTY, tap} from 'rxjs';
+import { Observable, switchMap, EMPTY, tap, map, of } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { WorkerRowComponent } from '../../components/shared/worker-row/worker-row.component';
 import { SearchBar } from '../../components/ui/search-bar/search-bar';
+import { TeamRowComponent } from '../../components/shared/team-row/team-row.component';
+import { Team } from '../../models/team.model';
+
 
 import { TeamService } from '../../services/team.service';
+import { WorkerService } from '../../services/worker.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-teams',
   standalone: true,
-  imports: [CommonModule, WorkerRowComponent, SearchBar, RouterLink], // Dodany SearchBar
+  imports: [CommonModule, TeamRowComponent, SearchBar, RouterLink], // Dodany SearchBar
   templateUrl: './teams.component.html',
   styleUrls: ['./teams.component.css']
 })
 export class TeamsComponent implements OnInit {
 
   private teamService = inject(TeamService);
+  private workerService = inject(WorkerService);
   private authService = inject(AuthService);
   private router = inject(Router);
+
+  filteredTeams: any[] = []; // Tablica na wyniki wyszukiwania  // TODO
+  selectedTeam: any = null; // TODO
 
   teams = toSignal(
     this.authService.user$.pipe(
@@ -35,11 +42,43 @@ export class TeamsComponent implements OnInit {
     { initialValue: [] }
   );
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.teamService.getTeams().subscribe(teams => {
+      // this.teams = workers;
+      this.filteredTeams = teams;
+
+      console.log('teams: ', this.filteredTeams); // TODO debug
+    });
+
+  }
+
+  isTeamOk(team: Team): Observable<boolean> {
+    if (!team.id) return of(false);
+    return this.workerService.getWorkersByTeam(team.id).pipe(
+      map(workers =>
+        workers.length > 0 &&
+        workers.every(w => w.statusOk)
+      )
+    );
+  }
 
   openTeam(team: any) {
     this.router.navigate(['/teams', team.id]);
   }
+
+  onSearch(query: string) {
+    const term = query.toLowerCase().trim();
+    if (!term) {
+      this.filteredTeams = this.teams();
+      return;
+    }
+
+    this.filteredTeams = this.teams().filter(team =>
+      team.name.toLowerCase().includes(term) ||
+      team.description?.toLowerCase().includes(term)
+    );
+  }
+
 }
 
 /*

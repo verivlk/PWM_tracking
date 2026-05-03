@@ -50,7 +50,7 @@
     background: var(--bg-tertiary);
 }
 
-.worker-list {
+.team-list {
     flex: 1;
     overflow-y: auto; /* Tylko lista ma scrollbar */
 }
