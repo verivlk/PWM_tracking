@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>New Supervisor Setup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="header-text">
+    <h2>Create Account</h2>
+    <p>Register to monitor your team in the field.</p>
+  </div>
+
+  <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+
+    <ion-item>
+      <ion-input label="Name" labelPlacement="floating" type="text" name="name" ngModel required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Surname" labelPlacement="floating" type="text" name="surname" ngModel required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Email" labelPlacement="floating" type="email" name="email" ngModel required email></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Password" labelPlacement="floating" type="password" name="password" ngModel required minlength="6"></ion-input>
+    </ion-item>
+
+    <!-- Native File Input for the Profile Image -->
+    <ion-item lines="none" class="ion-margin-top">
+      <ion-label position="stacked">Profile Image</ion-label>
+      <input type="file" (change)="onFileSelected($event)" accept="image/*" required>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="registerForm.invalid || !imageFile">
+      Register Securely
+    </ion-button>
+
+    <ion-button expand="block" fill="clear" routerLink="/login">
+      Already have an account? Log In
+    </ion-button>
+
+  </form>
+</ion-content>
