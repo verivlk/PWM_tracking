@@ -1,0 +1,50 @@
+// Replaces your old :host wrapper to work natively inside Ionic
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%; // Takes up the full height of the mobile view
+  padding: 20px;
+}
+
+// Your exact custom card design
+.login-box {
+  background: #ffffff; // Forced white background
+  padding: 40px 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 24px;
+    color: #000000; // Forced black text (removed the var() fallback)
+  }
+
+  .subtitle {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+    color: #333333; // Forced dark grey text
+  }
+}
+
+// Target the Ionic input components specifically
+ion-input {
+  --color: #000000 !important; // Forces the text you type to be black
+  --placeholder-color: #666666; // Forces the floating label/placeholder to be dark grey
+}
+
+// Rest of your CSS...
+ion-item {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+}
+
+ion-button {
+  margin-top: 15px;
+}

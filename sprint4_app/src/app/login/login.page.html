@@ -1,0 +1,44 @@
+<ion-content color="light">
+  <div class="login-container">
+    <div class="login-box">
+
+      <h2>Login</h2>
+      <p class="subtitle">Enter your credentials to access the tracking dashboard.</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-input
+            label="Email"
+            labelPlacement="floating"
+            type="email"
+            formControlName="email"
+            placeholder="Enter email"
+            errorText="Valid email is required.">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="full" class="ion-margin-bottom">
+          <ion-input
+            label="Password"
+            labelPlacement="floating"
+            type="password"
+            formControlName="password"
+            placeholder="Enter password"
+            errorText="Password is required (min 6 chars).">
+          </ion-input>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" class="ion-margin-top">
+          Submit
+        </ion-button>
+
+        <ion-button expand="block" fill="clear" routerLink="/register">
+          Don't have an account? Register
+        </ion-button>
+
+      </form>
+
+    </div>
+  </div>
+</ion-content>
