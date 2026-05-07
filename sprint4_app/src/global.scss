@@ -10,6 +10,7 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
+
 @import "@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
@@ -24,7 +25,7 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-
+@import 'leaflet/dist/leaflet.css';
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
@@ -35,3 +36,11 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+/* Ensures Leaflet maps can calculate 100% height correctly in Ionic */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}

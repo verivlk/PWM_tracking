@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+
+  <div *ngFor="let section of sections()">
+
+    <ion-list-header>
+      <ion-label color="medium">{{ section.title | uppercase }}</ion-label>
+    </ion-list-header>
+
+    <ion-list inset="true">
+      <app-setting-item
+        *ngFor="let item of section.items"
+        [label]="item.label"
+        [description]="item.description"
+        [type]="item.type"
+        [isActive]="selectedItem()?.id === item.id"
+        [toggleValue]="item.type === 'toggle' && item.label === 'Dark Mode' ? isDarkMode() : false"
+        (itemClick)="selectItem(item)"
+        (toggleChange)="handleToggle(item, $event)">
+      </app-setting-item>
+    </ion-list>
+  </div>
+
+  <ion-modal [isOpen]="isModalOpen()" (didDismiss)="closePanel()">
+    <ng-template>
+
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button color="medium" (click)="closePanel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>{{ selectedItem()?.label }}</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <div class="ion-margin-bottom" *ngIf="selectedItem()?.description">
+          <p class="ion-text-color-medium">{{ selectedItem()?.description }}</p>
+        </div>
+
+        <form [formGroup]="settingsForm" (ngSubmit)="saveSettings()" *ngIf="selectedItem()?.fields">
+          <div *ngFor="let field of selectedItem()?.fields">
+            <app-input-field
+              [label]="field.label"
+              [type]="field.type"
+              [placeholder]="field.placeholder || ''"
+              [control]="getControl(field.label)">
+            </app-input-field>
+          </div>
+
+          <ion-button expand="block" type="submit" class="ion-margin-top">
+            {{ selectedItem()?.submitText || 'Save Changes' }}
+          </ion-button>
+        </form>
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

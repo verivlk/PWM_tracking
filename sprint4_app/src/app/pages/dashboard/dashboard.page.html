@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Tracking Dashboard</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button routerLink="/map">
+        <ion-icon slot="icon-only" name="map-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button routerLink="/settings">
+        <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-searchbar (ionInput)="onSearch($event)" placeholder="Search names, roles..."></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+
+  <ion-list [inset]="true" *ngIf="filteredWorkers().length > 0">
+
+    <ion-item *ngFor="let worker of filteredWorkers()" [button]="true" (click)="openWorker(worker)" [detail]="true">
+
+      <app-worker-row
+        [workerData]="worker"
+        [statusOk]="worker.statusOk">
+      </app-worker-row>
+
+      <ion-icon
+        *ngIf="isFavorite(worker.id)"
+        name="star"
+        color="warning"
+        slot="end">
+      </ion-icon>
+
+    </ion-item>
+
+  </ion-list>
+
+  <div class="empty-state" *ngIf="filteredWorkers().length === 0">
+    <ion-icon name="people-outline"></ion-icon>
+    <h3>No Workers Found</h3>
+    <p>Try adjusting your search or assign workers to your team.</p>
+  </div>
+
+</ion-content>

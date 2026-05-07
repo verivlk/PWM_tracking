@@ -1,0 +1,12 @@
+<div class="row-container">
+  <ion-label>
+    <h2>{{ workerData?.name }}</h2>
+    <p>{{ workerData?.role || 'Field Worker' }}</p>
+  </ion-label>
+
+  <ion-icon
+    [name]="workerData?.active ? 'radio-button-on' : 'radio-button-off'"
+    [color]="statusOk ? 'success' : 'danger'"
+    class="status-icon">
+  </ion-icon>
+</div>

@@ -1,0 +1,12 @@
+<div class="row-container">
+  <ion-label>
+    <h2>{{ teamData?.name }}</h2>
+  </ion-label>
+
+  <div class="actions">
+    <ion-icon name="ellipse" [color]="statusOk ? 'success' : 'danger'"></ion-icon>
+    <ion-button fill="clear" size="small" (click)="teamDetail($event)">
+      Detail
+    </ion-button>
+  </div>
+</div>

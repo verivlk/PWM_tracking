@@ -4,7 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 // Make sure this path points correctly to where you pasted your AuthService
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',

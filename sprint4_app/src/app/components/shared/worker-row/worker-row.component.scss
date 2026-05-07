@@ -1,0 +1,25 @@
+.row-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 0; // Ionic items have their own padding, so keep this minimal
+}
+
+ion-label {
+  h2 {
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  p {
+    font-size: 0.85rem;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+.status-icon {
+  font-size: 1.5rem;
+  margin-left: 10px;
+}

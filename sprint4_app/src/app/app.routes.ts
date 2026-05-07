@@ -3,23 +3,31 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'welcome', // Forces the app to start at Welcome
+    redirectTo: 'welcome',
     pathMatch: 'full',
   },
   {
     path: 'welcome',
-    loadComponent: () => import('./welcome/welcome.page').then( m => m.WelcomePage)
+    loadComponent: () => import('./pages/welcome/welcome.page').then(m => m.WelcomePage)
   },
   {
     path: 'login',
-    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
+    loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage)
   },
   {
     path: 'register',
-    loadComponent: () => import('./register/register.page').then( m => m.RegisterPage)
+    loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
   },
   {
-    path: 'welcome',
-    loadComponent: () => import('./welcome/welcome.page').then( m => m.WelcomePage)
+    path: 'dashboard',
+    loadComponent: () => import('./pages/dashboard/dashboard.page').then(m => m.DashboardPage)
+  },
+  {
+    path: 'map',
+    loadComponent: () => import('./pages/map-page/map-page.page').then(m => m.MapPage)
+  },
+  {
+    path: 'settings',
+    loadComponent: () => import('./pages/settings/settings.page').then( m => m.SettingsPage)
   }
 ];

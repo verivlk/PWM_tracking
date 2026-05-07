@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -45,7 +45,7 @@ export class LoginPage {
           await toast.present();
 
           // Redirect to the new Sprint 4 Favorites/List screen
-          this.router.navigate(['/favorites']);
+          this.router.navigate(['/dashboard']);
         },
         error: async (err) => {
           console.error('Entry Denied:', err);
