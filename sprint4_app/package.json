@@ -29,6 +29,8 @@
     "@capacitor/keyboard": "8.0.3",
     "@capacitor/status-bar": "8.0.2",
     "@ionic/angular": "^8.0.0",
+    "@ionic/storage-angular": "^4.0.0",
+    "cordova-sqlite-storage": "^7.0.0",
     "firebase": "^11.10.0",
     "ionicons": "^7.0.0",
     "leaflet": "^1.9.4",

@@ -35,12 +35,18 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
 
+:root {
+  /* Updated Primary to match the specific deep blue from design */
+  --ion-color-primary: #0a4ef5;
+  --ion-color-primary-rgb: 10,78,245;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255,255,255;
+  --ion-color-primary-shade: #0945d8;
+  --ion-color-primary-tint: #2360f6;
 
-/* Ensures Leaflet maps can calculate 100% height correctly in Ionic */
-html, body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
+  /* Colori specifici del design */
+  --app-header-blue: #0945d8;
+  --app-black-button: #000000;
+  --app-bg-gray: #f4f5f8;
 }

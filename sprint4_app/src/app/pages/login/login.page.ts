@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicModule, ToastController } from '@ionic/angular';
-import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { IonicModule, NavController, LoadingController, ToastController } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -10,57 +10,45 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  // Make sure ReactiveFormsModule and RouterModule are imported here!
-  imports: [IonicModule, CommonModule, ReactiveFormsModule, RouterModule]
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule]
 })
 export class LoginPage {
-  loginForm: FormGroup;
+  email = '';
+  password = '';
 
-  // Modern dependency injection
   private authService = inject(AuthService);
-  private router = inject(Router);
-  private toastController = inject(ToastController);
-  private fb = inject(FormBuilder);
+  private navCtrl = inject(NavController);
+  private loadingCtrl = inject(LoadingController);
+  private toastCtrl = inject(ToastController);
 
-  constructor() {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+  async login() {
+    if (!this.email || !this.password) {
+      this.showToast('Please enter both email and password.');
+      return;
+    }
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Logging in...',
     });
+    await loading.present();
+
+    try {
+      await this.authService.login(this.email, this.password);
+      await loading.dismiss();
+      this.navCtrl.navigateRoot('/courses-dashboard');
+    } catch (error: any) {
+      await loading.dismiss();
+      this.showToast(error.message || 'Login failed. Please try again.');
+    }
   }
 
-  async onSubmit() {
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-
-      // Call the Bouncer (AuthService) [cite: 14]
-      this.authService.login(email, password).subscribe({
-        next: async () => {
-          const toast = await this.toastController.create({
-            message: 'Login successful!',
-            duration: 2000,
-            color: 'success',
-            position: 'bottom'
-          });
-          await toast.present();
-
-          // Redirect to the new Sprint 4 Favorites/List screen
-          this.router.navigate(['/dashboard']);
-        },
-        error: async (err) => {
-          console.error('Entry Denied:', err);
-          const toast = await this.toastController.create({
-            message: 'Invalid email or password. Please try again.',
-            duration: 3000,
-            color: 'danger',
-            position: 'bottom'
-          });
-          await toast.present();
-        }
-      });
-    } else {
-      // If they click submit with an invalid form, mark all as touched to show errors
-      this.loginForm.markAllAsTouched();
-    }
+  async showToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'bottom',
+      color: 'dark'
+    });
+    await toast.present();
   }
 }

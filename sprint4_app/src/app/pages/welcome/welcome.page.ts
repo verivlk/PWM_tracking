@@ -1,18 +1,20 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.page.html',
   styleUrls: ['./welcome.page.scss'],
   standalone: true,
-  // RouterModule is required here so the HTML routerLink buttons function!
-  imports: [IonicModule, CommonModule, RouterModule]
+  imports: [IonicModule, RouterModule]
 })
-export class WelcomePage {
+export class WelcomePage implements OnInit {
+  private authService = inject(AuthService);
 
-  constructor() {}
-
+  // Esegue il logout automatico appena la pagina Welcome viene caricata
+  async ngOnInit() {
+    await this.authService.logout();
+  }
 }

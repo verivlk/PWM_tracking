@@ -1,44 +1,25 @@
-<ion-content color="light">
-  <div class="login-container">
-    <div class="login-box">
+<ion-content class="blue-content ion-no-padding">
+  <div class="top-header">
+    <h1>Hey,<br>Welcome Back!</h1>
+  </div>
 
-      <h2>Login</h2>
-      <p class="subtitle">Enter your credentials to access the tracking dashboard.</p>
+  <div class="form-container">
+    <div class="input-group">
+      <ion-label>Email</ion-label>
+      <ion-input type="email" placeholder="Enter email" [(ngModel)]="email" class="blue-input"></ion-input>
+    </div>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="input-group">
+      <ion-label>Password</ion-label>
+      <ion-input type="password" placeholder="Enter password" [(ngModel)]="password" class="blue-input"></ion-input>
+    </div>
 
-        <ion-item lines="full" class="ion-margin-bottom">
-          <ion-input
-            label="Email"
-            labelPlacement="floating"
-            type="email"
-            formControlName="email"
-            placeholder="Enter email"
-            errorText="Valid email is required.">
-          </ion-input>
-        </ion-item>
+    <ion-button expand="block" shape="round" class="black-btn" (click)="login()">
+      Login
+    </ion-button>
 
-        <ion-item lines="full" class="ion-margin-bottom">
-          <ion-input
-            label="Password"
-            labelPlacement="floating"
-            type="password"
-            formControlName="password"
-            placeholder="Enter password"
-            errorText="Password is required (min 6 chars).">
-          </ion-input>
-        </ion-item>
-
-        <ion-button expand="block" type="submit" class="ion-margin-top">
-          Submit
-        </ion-button>
-
-        <ion-button expand="block" fill="clear" routerLink="/register">
-          Don't have an account? Register
-        </ion-button>
-
-      </form>
-
+    <div class="footer-text">
+      <span>New here? <a routerLink="/register">Register</a></span>
     </div>
   </div>
 </ion-content>

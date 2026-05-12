@@ -1,0 +1,39 @@
+<ion-content class="blue-background">
+  <div class="top-nav-bar">
+    <div class="search-container">
+      <ion-input placeholder="Search for a course..." [(ngModel)]="searchQuery"></ion-input>
+      <ion-icon name="search-outline"></ion-icon>
+    </div>
+    <div class="profile-icon" (click)="goToProfile()">
+      <ion-icon name="person-circle"></ion-icon>
+    </div>
+  </div>
+
+  <div class="segment-container">
+    <ion-segment [(ngModel)]="selectedSegment" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="all">
+        <ion-label>All</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        <ion-label>Favorites</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div class="courses-list">
+    <div class="course-card" *ngFor="let course of getFilteredCourses()" (click)="goToDetail(course.id)">
+      <h3>{{ course.acronym }}</h3>
+
+      <ion-icon
+        [name]="course.isFavorite ? 'star' : 'star-outline'"
+        class="favorite-icon"
+        [class.active]="course.isFavorite"
+        (click)="toggleFavorite(course, $event)">
+      </ion-icon>
+    </div>
+
+    <div class="empty-state" *ngIf="getFilteredCourses().length === 0">
+      <p>Nessun corso trovato.</p>
+    </div>
+  </div>
+</ion-content>

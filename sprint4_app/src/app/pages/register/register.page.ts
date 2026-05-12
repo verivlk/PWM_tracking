@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { IonicModule, ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
-// Make sure this path points correctly to where you pasted your AuthService
+import { FormsModule } from '@angular/forms';
+import { IonicModule, NavController, LoadingController, ToastController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
+// 1. IMPORTA ADDICONS E L'ICONA
+import { addIcons } from 'ionicons';
+import { arrowBackOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-register',
@@ -14,50 +15,91 @@ import { AuthService } from '../../services/auth.service';
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class RegisterPage {
-  imageFile: File | null = null;
+  constructor() {
+    addIcons({ arrowBackOutline });
+  }
+  step = 1;
+  confirmPassword = '';
 
+  userData = {
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+    profileImageUrl: ''
+  };
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private toastController: ToastController
-  ) {}
+  private authService = inject(AuthService);
+  private navCtrl = inject(NavController);
+  private loadingCtrl = inject(LoadingController);
+  private toastCtrl = inject(ToastController);
 
-  // Triggered when the user selects an image file
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.imageFile = file;
+  nextStep() {
+    if (!this.userData.name || !this.userData.surname || !this.userData.email) {
+      this.showToast('Please fill in all the fields before continuing.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.userData.email)) {
+      this.showToast('Please enter a valid email address.');
+      return;
+    }
+
+    this.step = 2;
+  }
+
+  goBack() {
+    if (this.step === 2) {
+      this.step = 1;
+    } else {
+      this.navCtrl.back();
     }
   }
 
-  async onRegister(form: NgForm) {
-    if (form.invalid || !this.imageFile) return;
+  uploadProfileImage() {
+    this.userData.profileImageUrl = 'https://ionicframework.com/docs/img/demos/avatar.svg';
+    this.showToast('Profile image selected successfully.');
+  }
 
-    const { email, password, name, surname } = form.value;
+  async register() {
+    if (!this.userData.password || !this.confirmPassword) {
+      this.showToast('Please enter and confirm your password.');
+      return;
+    }
+
+    if (this.userData.password !== this.confirmPassword) {
+      this.showToast('Passwords do not match. Please try again.');
+      return;
+    }
+
+    if (this.userData.password.length < 6) {
+      this.showToast('Password should be at least 6 characters long.');
+      return;
+    }
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Creating your account...',
+    });
+    await loading.present();
 
     try {
-      // 1. You will need to ensure your AuthService handles the new parameters
-      // specifically passing the name, surname, and the imageFile.
-      await this.authService.registerNewSupervisor(email, password, name, surname, this.imageFile);
-
-      this.presentToast('Registration successful! Welcome.', 'success');
-      form.reset();
-      this.router.navigate(['/favorites']); // Route to Screen 3
-
+      await this.authService.register(this.userData);
+      await loading.dismiss();
+      this.navCtrl.navigateRoot('/courses-dashboard');
     } catch (error: any) {
-      this.presentToast('Error: ' + error.message, 'danger');
+      await loading.dismiss();
+      this.showToast(error.message || 'Registration failed. Please try again.');
     }
   }
 
-  // Helper to show a quick native-looking popup message
-  async presentToast(message: string, color: 'success' | 'danger') {
-    const toast = await this.toastController.create({
+  async showToast(message: string) {
+    const toast = await this.toastCtrl.create({
       message: message,
       duration: 3000,
-      color: color,
-      position: 'bottom'
+      position: 'bottom',
+      color: 'dark'
     });
-    toast.present();
+    await toast.present();
   }
 }

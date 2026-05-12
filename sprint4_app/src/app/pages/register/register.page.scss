@@ -1,0 +1,65 @@
+// Page background setting
+.blue-content {
+  --background: var(--ion-color-primary);
+}
+
+.header-nav {
+  padding: 20px;
+  color: white;
+  font-size: 28px;
+}
+
+// Progress Pill Header structure
+.top-header-pill {
+  background-color: var(--app-header-blue);
+  color: white;
+  text-align: center;
+  margin: 0 30px 20px 30px;
+  padding: 20px;
+  border-radius: 40px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  h2 { font-weight: bold; margin: 0; font-size: 28px; line-height: 1.2; }
+}
+
+.form-container {
+  padding: 20px 30px;
+
+  .input-group {
+    margin-bottom: 20px;
+    ion-label { color: white; font-size: 14px; margin-bottom: 5px; display: block; }
+
+    // Consistent custom blue input
+    ion-input.blue-input {
+      --background: rgba(255, 255, 255, 0.1);
+      --color: white;
+      --placeholder-color: rgba(255, 255, 255, 0.7);
+      --padding-start: 15px;
+      border-radius: 15px;
+      height: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  // Links on blue background
+  .link-text {
+    text-align: center;
+    margin: 20px 0;
+    a {
+      color: white;
+      text-decoration: underline;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+
+  // Design-specified black button
+  .black-btn {
+    --background: var(--app-black-button);
+    --color: white;
+    margin-top: 20px;
+    height: 50px;
+    font-weight: bold;
+    text-transform: none;
+    font-size: 16px;
+  }
+}

@@ -1,24 +1,29 @@
-<ion-content color="light">
-  <div class="welcome-container">
-
-    <div class="logo-placeholder">
-      <ion-icon name="shield-checkmark-outline"></ion-icon>
-    </div>
-
-    <div class="text-section">
-      <h1>Employee Tracker</h1>
-      <p>Safety & Location Monitoring System for Field Supervisors.</p>
-    </div>
-
-    <div class="action-buttons">
-      <ion-button expand="block" color="primary" routerLink="/login" class="ion-margin-bottom">
-        Login to Dashboard
-      </ion-button>
-
-      <ion-button expand="block" fill="outline" color="primary" routerLink="/register">
-        Register New Account
-      </ion-button>
-    </div>
-
+<ion-content class="ion-no-padding">
+  <div class="top-header">
+    <h1>Hey,<br>Welcome!</h1>
   </div>
+
+  <div class="logo-container">
+    <div class="circle-logo">
+      <div class="inner-circle"></div>
+    </div>
+  </div>
+
+  <div class="info-text">
+    <p>Find information about your degree course and save your favorites!</p>
+  </div>
+
+  <div class="action-buttons">
+    <ion-button expand="block" shape="round" class="black-btn" routerLink="/login">
+      Login
+    </ion-button>
+    <ion-button expand="block" shape="round" class="black-btn" routerLink="/register">
+      Register
+    </ion-button>
+  </div>
+  <div class="guest-access">
+    <a routerLink="/courses-dashboard">Explore as a Guest</a>
+  </div>
+
+  <div class="bottom-footer"></div>
 </ion-content>

@@ -1,6 +1,7 @@
-export interface AppUser {
-  id?: string;  // Firebase auth uid; email is part of it
+export interface User {
+  uid: string;
+  email: string;
   name: string;
-  role: 'admin' | 'manager';
-  darkMode: boolean; // settings
+  surname: string;
+  profileImageUrl: string;
 }

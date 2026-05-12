@@ -1,50 +1,54 @@
-// Replaces your old :host wrapper to work natively inside Ionic
-.login-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100%; // Takes up the full height of the mobile view
-  padding: 20px;
+// Setting the main background of the page
+.blue-content {
+  --background: var(--ion-color-primary);
 }
 
-// Your exact custom card design
-.login-box {
-  background: #ffffff; // Forced white background
-  padding: 40px 30px;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+.top-header {
+  color: white;
+  padding: 60px 30px 40px 30px;
+  h1 { font-size: 32px; font-weight: bold; margin: 0; line-height: 1.2; }
+}
 
-  h2 {
-    text-align: center;
-    margin-bottom: 5px;
-    font-size: 24px;
-    color: #000000; // Forced black text (removed the var() fallback)
+.form-container {
+  padding: 0 30px 30px 30px;
+
+  .input-group {
+    margin-bottom: 20px;
+    ion-label { color: white; font-size: 14px; margin-bottom: 5px; display: block; }
+
+    // Custom blue input aesthetic
+    ion-input.blue-input {
+      --background: rgba(255, 255, 255, 0.1);
+      --color: white;
+      --placeholder-color: rgba(255, 255, 255, 0.7);
+      --padding-start: 15px;
+      border-radius: 15px;
+      height: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
   }
 
-  .subtitle {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 0.9rem;
-    color: #333333; // Forced dark grey text
+  // Black button from design
+  .black-btn {
+    --background: var(--app-black-button);
+    --background-hover: #333;
+    --color: white;
+    margin-top: 30px;
+    height: 50px;
+    font-weight: bold;
+    text-transform: none;
+    font-size: 16px;
   }
-}
 
-// Target the Ionic input components specifically
-ion-input {
-  --color: #000000 !important; // Forces the text you type to be black
-  --placeholder-color: #666666; // Forces the floating label/placeholder to be dark grey
-}
-
-// Rest of your CSS...
-ion-item {
-  --background: transparent;
-  --padding-start: 0;
-  --inner-padding-end: 0;
-}
-
-ion-button {
-  margin-top: 15px;
+  .footer-text {
+    text-align: center;
+    color: white;
+    margin-top: 30px;
+    font-size: 16px;
+    a {
+      color: white;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+  }
 }

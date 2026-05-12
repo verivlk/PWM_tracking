@@ -8,26 +8,30 @@ export const routes: Routes = [
   },
   {
     path: 'welcome',
-    loadComponent: () => import('./pages/welcome/welcome.page').then(m => m.WelcomePage)
+    loadComponent: () => import('./pages/welcome/welcome.page').then( m => m.WelcomePage)
   },
   {
     path: 'login',
-    loadComponent: () => import('./pages/login/login.page').then(m => m.LoginPage)
+    loadComponent: () => import('./pages/login/login.page').then( m => m.LoginPage)
   },
   {
     path: 'register',
-    loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
+    loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage)
   },
   {
-    path: 'dashboard',
-    loadComponent: () => import('./pages/dashboard/dashboard.page').then(m => m.DashboardPage)
+    path: 'courses-dashboard',
+    loadComponent: () => import('./pages/courses-dashboard/courses-dashboard.page').then( m => m.CoursesDashboardPage)
   },
   {
-    path: 'map',
-    loadComponent: () => import('./pages/map-page/map-page.page').then(m => m.MapPage)
+    path: 'course-info',
+    loadComponent: () => import('./pages/course-info/course-info.page').then( m => m.CourseInfoPage)
   },
   {
-    path: 'settings',
-    loadComponent: () => import('./pages/settings/settings.page').then( m => m.SettingsPage)
+    path: 'account',
+    loadComponent: () => import('./pages/account/account.page').then( m => m.AccountPage)
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage)
   }
 ];
